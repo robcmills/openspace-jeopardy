@@ -1,3 +1,18 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -5,38 +20,42 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.app {
+  align-items: start;
+  display: grid;
+  gap: 0.5rem;
+  grid-auto-flow: column;
+  justify-content: center;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.column {
+  display: grid;
+  gap: 0.5rem;
+  place-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.tile {
+  background-color: rgb(0, 30, 155);
+  cursor: pointer;
+  display: grid;
+  font-weight: bold;
+  height: 5rem;
+  place-items: center;
+  text-transform: uppercase;
+  transition: transform 1s;
+  width: 8rem;
 }
 
-.card {
-  padding: 2em;
+.money {
+  color: rgb(254, 199, 95);
+  font-size: 2rem;
 }
 
-.read-the-docs {
-  color: #888;
+.answer {
+  font-size: 0.4rem;
+  padding: 0.5rem;
+}
+
+.blank {
+  transition: none;
 }
