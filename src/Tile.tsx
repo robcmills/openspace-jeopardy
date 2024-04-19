@@ -32,7 +32,7 @@ export function Tile({ index, item }: TileProps) {
   if (state === 'answer') {
     style.transform = [
       getCenterTransform(tileRef.current!),
-      'scale(6)'
+      'scale(7)'
     ].join(' ')
   }
 
