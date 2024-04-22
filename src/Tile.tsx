@@ -1,10 +1,10 @@
 import { CSSProperties, useRef, useState } from 'react';
-import { columns } from './columns'
+import { singleJeopardy } from './clues'
 import { getCenterTransform } from './getCenterTransform';
 
 interface TileProps {
   index: number;
-  item: typeof columns[0]['items'][0];
+  item: typeof singleJeopardy[0]['items'][0];
 }
 
 export function Tile({ index, item }: TileProps) {

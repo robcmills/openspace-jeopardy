@@ -1,8 +1,8 @@
 import { Tile } from './Tile';
-import { columns } from './columns'
+import { singleJeopardy } from './clues'
 
 interface ColumnProps {
-  column: typeof columns[0];
+  column: typeof singleJeopardy[0];
 }
 
 export function Column({ column }: ColumnProps) {

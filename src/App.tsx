@@ -1,15 +1,15 @@
 import './App.css'
 import { Column } from './Column'
-import { columns } from './columns'
+import { doubleJeopardy } from './clues'
 
 export function App() {
-  const columnsNodes = columns.map((column) => {
+  const columnNodes = doubleJeopardy.map((column) => {
     return <Column column={column} key={column.category} />
   })
 
   return (
     <div className='app'>
-      {columnsNodes}
+      {columnNodes}
     </div>
   )
 }

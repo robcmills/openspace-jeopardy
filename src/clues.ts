@@ -1,4 +1,4 @@
-export const columns = [{
+export const singleJeopardy = [{
   category: 'JavaScript',
   items: [{
     answer: 'One iterates over the keys of an object, the other iterates over the values.',
@@ -111,32 +111,84 @@ export const columns = [{
 export const doubleJeopardy = [{
   category: 'HTML',
   items: [{
-    answer: '',
-    question: 'What it Flux',
+    answer: 'This type of element may have attributes, but it can take no content, no children and it may not have an end tag.',
+    question: 'What is empty',
+  }, {
+    answer: 'This element encloses a list of groups of terms and descriptions. Common uses are to implement a glossary or display metadata (a list of key-value pairs).',
+    question: 'What is a description list',
+  }, {
+    answer: 'This global attribute provides semantic meaning to content, allowing screen readers and other tools to support interaction consistent with user expectations.',
+    question: 'What is an ARIA role',
+  }, {
+    answer: 'This img attribute defers loading until it reaches a calculated distance from the viewport, in order to conserve network bandwidth.',
+    question: 'What is loading=lazy',
+  }, {
+    answer: 'This iframe attribute specifies a Permissions Policy, that defines what features are available (for example, access to the microphone, camera, battery, web-share, etc.) based on the origin of the request.',
+    question: 'What is allow',
   }],
 }, {
-  category: 'Abstract Syntax Trees',
+  category: 'DOM',
   items: [{
-    answer: '',
-    question: 'What it Flux',
+    answer: 'This attribute returns the loading status of the document.',
+    question: 'What is readyState',
+  }, {
+    answer: 'This interface represents a minimal document object that has no parent. A common use is to create one, assemble a DOM subtree within it, then append or insert it into the DOM.',
+    question: 'What is a DocumentFragment',
+  }, {
+    answer: 'Setting the value of this element attribute is a security risk if the string to be inserted might contain potentially malicious content.',
+    question: 'What is innerHTML',
+  }, {
+    answer: 'This object represents the nodes of a document subtree and a position within them. It has methods for traversal, such as parentNode(), firstChild() and nextSibling()',
+    question: 'What is a TreeWalker',
+  }, {
+    answer: 'These are the two ways of propagating events that occur in nested elements, when both elements have registered a handler for that event. These event propagation modes determine the order in which elements receive the event.',
+    question: 'What are bubble and capture',
+    dailyDouble: true,
   }],
 }, {
   category: 'Client State',
   items: [{
     answer: "This architecture features actions which are sent through a central dispatcher to a store, and changes to the store are propagated back to the view. Many implementations exist, perhaps the most well-known being Redux.",
     question: 'What it Flux',
+  }, {
+    answer: '.',
+    question: '',
   }],
 }, {
-  category: 'Web Browsers',
+  category: 'Browsers',
   items: [{
-    answer: '',
-    question: 'What it Flux',
+    answer: "Chrome's original rendering engine was WebKit, but Google eventually forked it to create this engine. Now all Chrome variants except iOS use it as of 2017.",
+    question: 'What is Blink',
+  }, {
+    answer: 'Released in 2004 as the spiritual successor to Netscape Navigator, this browser saw its usage share grow to a peak of 32% in November of 2009, overtaking Internet Explorer 7.',
+    question: 'What is Firefox',
+  }, {
+    answer: 'In May of 2020, an update to Microsoft Edge added this browser game, accessible from the offline error page. Its gameplay has been compared to the 1991 game SkiFree.',
+    question: 'What is Surf',
+  }, {
+    answer: 'This browser engine is used by the PlayStation consoles starting with the PS3, the Amazon Kindle e-book reader, Nintendo consoles starting with the 3DS Internet Browser, and the discontinued BlackBerry Browser.',
+    question: 'What is WebKit',
+  }, {
+    answer: 'As of 2024, this customizable, text-based, terminal web browser is the oldest browser still being maintained, having started in 1992.',
+    question: 'What is Lynx',
   }],
 }, {
-  category: 'WebGL',
+  category: 'Bash',
   items: [{
-    answer: '',
-    question: 'What it Flux',
+    answer: "Bash is an acronym and pun on the name of this shell that it replaces.",
+    question: 'What is Bourne',
+  }, {
+    answer: 'This command can be used to end a process prematurely, by sending a signal to the provided job id.',
+    question: 'What is kill',
+  }, {
+    answer: 'A command can be executed in the background by using this symbol after the command.',
+    question: 'What is an ampersand',
+  }, {
+    answer: 'For all commands the exit status is stored in this special variable.',
+    question: 'What is $?',
+  }, {
+    answer: 'In 2014, Stéphane Chazelas, discovered this severe security bug in bash, that allowed hackers to execute arbitrary code on millions of devices.',
+    question: 'What is Shellshock',
   }],
 }]
 
