@@ -20,7 +20,7 @@
   text-align: center;
 }
 
-.app {
+.board {
   align-items: start;
   display: grid;
   gap: 0.5rem;
@@ -59,4 +59,18 @@
 
 .blank {
   transition: none;
+}
+
+.fullscreen {
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
+
+img.logo {
+  object-fit: contain;
 }

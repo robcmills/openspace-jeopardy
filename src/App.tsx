@@ -1,15 +1,20 @@
+import { useState } from 'react'
 import './App.css'
-import { Column } from './Column'
-import { doubleJeopardy } from './clues'
+import { GameState } from './GameState'
+import { Logo } from './Logo'
+import { Intro } from './Intro'
 
 export function App() {
-  const columnNodes = doubleJeopardy.map((column) => {
-    return <Column column={column} key={column.category} />
-  })
+  const [state, setState] = useState<GameState>(GameState.Intro)
+
+  const content = {
+    [GameState.Intro]: <Intro setState={setState} />,
+    [GameState.Logo]: <Logo />,
+  }[state]
 
   return (
     <div className='app'>
-      {columnNodes}
+      {content}
     </div>
   )
 }

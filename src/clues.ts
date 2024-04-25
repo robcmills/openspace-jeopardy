@@ -146,13 +146,22 @@ export const doubleJeopardy = [{
     dailyDouble: true,
   }],
 }, {
-  category: 'Client State',
+  category: 'Cypress',
   items: [{
-    answer: "This architecture features actions which are sent through a central dispatcher to a store, and changes to the store are propagated back to the view. Many implementations exist, perhaps the most well-known being Redux.",
-    question: 'What it Flux',
+    answer: 'Cypress commands are asynchronous and get queued for execution at a later time. As such, they do not return their subjects, they instead do this.',
+    question: 'What is yield',
   }, {
-    answer: '.',
-    question: '',
+    answer: "This library makes it easy to write readable assertions with excellent error messages and comes bundled with Cypress. It is typically used with the .should() command.",
+    question: 'What is Chai',
+  }, {
+    answer: 'This technical term means a function is "retry-safe". In other words, it can be run many times with the same result because it is free from side effects.',
+    question: 'What is idempotent',
+  }, {
+    answer: 'Some commands will fail if their target is not actionable unless you pass this argument.',
+    question: 'What is force',
+  }, {
+    answer: 'This command overrides native global functions related to time allowing them to be controlled synchronously via cy.tick() or the yielded object. This includes controlling: setTimeout, setInterval, and Date Objects',
+    question: 'What is cy.clock()',
   }],
 }, {
   category: 'Browsers',
@@ -189,6 +198,24 @@ export const doubleJeopardy = [{
   }, {
     answer: 'In 2014, Stéphane Chazelas, discovered this severe security bug in bash, that allowed hackers to execute arbitrary code on millions of devices.',
     question: 'What is Shellshock',
+  }],
+}, {
+  category: 'Design Patterns',
+  items: [{
+    answer: 'This pattern ensures a class has only one instance, and provides a global point of access to it.',
+    question: 'What is singleton',
+  }, {
+    answer: 'This behavioral pattern provides a way to access the elements of an aggregate object sequentially without exposing its underlying representation.',
+    question: 'What is an iterator',
+  }, {
+    answer: 'This pattern defines a one-to-many dependency where a state change in one object results in all its dependents being notified and updated automatically.',
+    question: 'What is observer or publish/subscribe',
+  }, {
+    answer: 'This creational pattern ensures resources are properly released by tying them to the lifespan of suitable objects.',
+    question: 'What is resource acquisition is initialization',
+  }, {
+    answer: 'Design patterns gained popularity in computer science after the book Design Patterns: Elements of Reusable Object-Oriented Software was published in 1994 by this group.',
+    question: 'What is the Gang of Four',
   }],
 }]
 
