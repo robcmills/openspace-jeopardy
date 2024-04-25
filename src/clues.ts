@@ -1,4 +1,4 @@
-export const singleJeopardy = [{
+export const jeopardy = [{
   category: 'JavaScript',
   items: [{
     answer: 'One iterates over the keys of an object, the other iterates over the values.',
