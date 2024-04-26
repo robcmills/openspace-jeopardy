@@ -1,26 +1,31 @@
 import { CSSProperties, useRef, useState } from 'react';
-import { singleJeopardy } from './clues'
+import { jeopardy } from './clues'
 import { getCenterTransform } from './getCenterTransform';
+import { Round } from './Round';
+import { LogoImage } from './LogoImage';
 
 interface TileProps {
   index: number;
-  item: typeof singleJeopardy[0]['items'][0];
+  item: typeof jeopardy[0]['items'][0];
+  round: Round;
 }
 
-export function Tile({ index, item }: TileProps) {
+export function Tile({ index, item, round }: TileProps) {
   const tileRef = useRef<HTMLDivElement>(null)
-  const [state, setState] = useState<'money' | 'answer' | 'blank'>('money')
+  const [state, setState] = useState<'logo' | 'money' | 'answer' | 'blank'>('logo')
 
   const cycle = () =>
     setState(({
+      logo: 'money',
       money: 'answer',
       answer: 'blank',
-      blank: 'money',
+      blank: 'logo',
     } as const)[state])
 
-  const money = `$${(index + 1) * 200}`
+  const money = `$${(index + 1) * 200 * round}`
 
   const node = {
+    logo: <LogoImage />,
     money: money,
     answer: item.answer,
     blank: '',
@@ -28,7 +33,10 @@ export function Tile({ index, item }: TileProps) {
 
   const className = [state, 'tile'].join(' ')
 
-  const style: CSSProperties = {}
+  const style: CSSProperties = {
+    position: 'relative',
+    zIndex: state === 'answer' ? 1 : 0,
+  }
   if (state === 'answer') {
     style.transform = [
       getCenterTransform(tileRef.current!),

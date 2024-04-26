@@ -1,13 +1,15 @@
+import { Round } from './Round';
 import { Tile } from './Tile';
-import { singleJeopardy } from './clues'
+import { jeopardy } from './clues'
 
 interface ColumnProps {
-  column: typeof singleJeopardy[0];
+  column: typeof jeopardy[0];
+  round: Round;
 }
 
-export function Column({ column }: ColumnProps) {
+export function Column({ column, round }: ColumnProps) {
   const tiles = column.items.map((item, index) => 
-    <Tile key={index} index={index} item={item} />)
+    <Tile key={index} index={index} item={item} round={round} />)
 
   return (
     <div className='column'>

@@ -41,11 +41,11 @@
   cursor: pointer;
   display: grid;
   font-weight: bold;
-  height: 5rem;
+  height: 80px;
   place-items: center;
   text-transform: uppercase;
   transition: transform 1s;
-  width: 8rem;
+  width: 142px;
 }
 
 .money {
