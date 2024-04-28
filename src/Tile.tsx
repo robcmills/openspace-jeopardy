@@ -1,18 +1,23 @@
-import { CSSProperties, useRef, useState } from 'react';
+import { CSSProperties, useRef } from 'react';
 import { jeopardy } from './clues'
 import { getCenterTransform } from './getCenterTransform';
 import { Round } from './Round';
 import { LogoImage } from './LogoImage';
+import { tilesAtoms } from './tilesAtoms';
+import { useAtom } from 'jotai';
 
 interface TileProps {
-  index: number;
+  column: number;
   item: typeof jeopardy[0]['items'][0];
   round: Round;
+  row: number;
 }
 
-export function Tile({ index, item, round }: TileProps) {
+export function Tile({ column, item, round, row }: TileProps) {
   const tileRef = useRef<HTMLDivElement>(null)
-  const [state, setState] = useState<'logo' | 'money' | 'answer' | 'blank'>('logo')
+
+  const tileStateAtom = tilesAtoms[column][row]
+  const [state, setState] = useAtom(tileStateAtom)
 
   const cycle = () =>
     setState(({
@@ -22,7 +27,7 @@ export function Tile({ index, item, round }: TileProps) {
       blank: 'logo',
     } as const)[state])
 
-  const money = `$${(index + 1) * 200 * round}`
+  const money = `$${(row + 1) * 200 * round}`
 
   const node = {
     logo: <LogoImage />,

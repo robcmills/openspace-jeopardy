@@ -8,8 +8,8 @@ interface BoardProps {
 }
 
 export function Board({ columns, round }: BoardProps) {
-  const columnNodes = columns.map((column) => {
-    return <Column column={column} key={column.category} round={round} />
+  const columnNodes = columns.map((column, index) => {
+    return <Column column={column} index={index} key={column.category} round={round} />
   })
 
   return (
