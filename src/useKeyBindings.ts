@@ -2,6 +2,9 @@ import { useCallback, useEffect } from 'react'
 import { GameState } from './GameState'
 import { revealTiles } from './revealTiles'
 import { resetTiles } from './resetTiles';
+import fill from './assets/board-fill.mp3'
+
+const audio = new Audio(fill);
 
 interface UseKeyBindingsArgs {
   state: GameState;
@@ -17,6 +20,7 @@ export function useKeyBindings({ state, setState }: UseKeyBindingsArgs) {
       resetTiles()
       setState(Math.max(state - 1, 0))
     } else if (event.keyCode === 32) { // Space
+      audio.play()
       revealTiles()
     }
   }, [state])

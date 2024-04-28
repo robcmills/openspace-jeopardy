@@ -1,7 +1,7 @@
 import { PrimitiveAtom } from 'jotai';
 import { TileState, tilesAtoms, tilesStore } from './tilesAtoms';
 
-const REVEAL_INTERVAL = 100
+const REVEAL_INTERVAL = 120
 
 function removeRandomItem<T>(array: T[]): T | undefined {
   if (array.length === 0) return
