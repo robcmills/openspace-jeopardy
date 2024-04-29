@@ -1,3 +1,4 @@
+import { CategoryTile } from './CategoryTile';
 import { Round } from './Round';
 import { Tile } from './Tile';
 import { jeopardy } from './clues'
@@ -14,7 +15,7 @@ export function Column({ column, index, round }: ColumnProps) {
 
   return (
     <div className='column'>
-      <div className='category tile'>{column.category}</div>
+      <CategoryTile category={column.category} />
       {tiles}
     </div>
   )

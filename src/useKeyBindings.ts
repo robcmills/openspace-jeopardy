@@ -3,6 +3,7 @@ import { GameState } from './GameState'
 import { revealTiles } from './revealTiles'
 import { resetTiles } from './resetTiles';
 import fill from './assets/board-fill.mp3'
+import { zoomInCategories, zoomOutCategories } from './zoomCategories';
 
 const audio = new Audio(fill);
 
@@ -22,6 +23,10 @@ export function useKeyBindings({ state, setState }: UseKeyBindingsArgs) {
     } else if (event.keyCode === 32) { // Space
       audio.play()
       revealTiles()
+    } else if (event.key === 'c') {
+      zoomInCategories()
+    } else if (event.key === 'C') {
+      zoomOutCategories()
     }
   }, [state])
 
