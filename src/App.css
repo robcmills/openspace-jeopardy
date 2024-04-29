@@ -31,7 +31,7 @@ body {
   gap: 0.5rem;
   grid-auto-flow: column;
   justify-content: center;
-  transition: transform 2s;
+  transition: transform 1s;
 }
 
 .column {

@@ -4,6 +4,7 @@ import { revealTiles } from './revealTiles'
 import { resetTiles } from './resetTiles';
 import fill from './assets/board-fill.mp3'
 import { zoomInCategories, zoomOutCategories } from './zoomCategories';
+import { panCategories } from './panCategories';
 
 const audio = new Audio(fill);
 
@@ -14,6 +15,8 @@ interface UseKeyBindingsArgs {
 
 export function useKeyBindings({ state, setState }: UseKeyBindingsArgs) {
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    event.preventDefault()
+    console.log(event.key, event.keyCode)
     if (event.key === 'n') {
       resetTiles()
       setState(Math.min(state + 1, Object.keys(GameState).length / 2 - 1))
@@ -27,6 +30,8 @@ export function useKeyBindings({ state, setState }: UseKeyBindingsArgs) {
       zoomInCategories()
     } else if (event.key === 'C') {
       zoomOutCategories()
+    } else if (event.key === 'ArrowRight') {
+      panCategories()
     }
   }, [state])
 
