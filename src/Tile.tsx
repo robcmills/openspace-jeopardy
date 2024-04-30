@@ -2,9 +2,9 @@ import { CSSProperties, useRef } from 'react';
 import { jeopardy } from './clues'
 import { getCenterTransform } from './getCenterTransform';
 import { Round } from './Round';
-import { LogoImage } from './LogoImage';
 import { tilesAtoms } from './tilesAtoms';
 import { useAtom } from 'jotai';
+import { LogoBackground } from './LogoBackground';
 
 interface TileProps {
   column: number;
@@ -30,7 +30,7 @@ export function Tile({ column, item, round, row }: TileProps) {
   const money = `$${(row + 1) * 200 * round}`
 
   const node = {
-    logo: <LogoImage />,
+    logo: <LogoBackground column={column} row={row} />,
     money: money,
     answer: item.answer,
     blank: '',
