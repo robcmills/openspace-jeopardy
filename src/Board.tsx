@@ -13,7 +13,7 @@ export function Board({ columns, round }: BoardProps) {
   })
 
   return (
-    <div className='board'>
+    <div className='board' id='Board'>
       {columnNodes}
     </div>
   )

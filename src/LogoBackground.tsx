@@ -4,9 +4,10 @@ import logo from './assets/openspace-jeopardy.jpg'
 interface LogoBackgroundProps {
   column: number;
   row: number;
+  tileWidth: number;
 }
 
-export function LogoBackground({ column, row }: LogoBackgroundProps) {
+export function LogoBackground({ column, row, tileWidth }: LogoBackgroundProps) {
   const [backgroundPosition, setBackgroundPosition] = useState('0 0')
   const [backgroundSize, setBackgroundSize] = useState('0 0')
 
@@ -33,7 +34,7 @@ export function LogoBackground({ column, row }: LogoBackgroundProps) {
     const distanceY = secondRowRect.top - firstRect.top
     const positionY = distanceY * row
     setBackgroundPosition(`-${positionX}px -${positionY}px`)
-  }, [])
+  }, [tileWidth])
 
   const style = {
     backgroundImage: `url(${logo})`,

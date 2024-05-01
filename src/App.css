@@ -21,15 +21,16 @@ body {
 .board {
   align-items: start;
   display: grid;
-  gap: 0.5rem;
+  gap: 8px;
   grid-auto-flow: column;
   justify-content: center;
   transition: transform 1s;
+  width: 100%;
 }
 
 .column {
   display: grid;
-  gap: 0.5rem;
+  gap: 8px;
   place-items: center;
 }
 

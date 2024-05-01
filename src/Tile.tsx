@@ -1,10 +1,11 @@
 import { CSSProperties, useRef } from 'react';
-import { jeopardy } from './clues'
+import { jeopardy } from './clues';
 import { getCenterTransform } from './getCenterTransform';
 import { Round } from './Round';
 import { tilesAtoms } from './tilesAtoms';
 import { useAtom } from 'jotai';
 import { LogoBackground } from './LogoBackground';
+import { tileAspect, useTileWidth } from './useTileWidth';
 
 interface TileProps {
   column: number;
@@ -15,6 +16,8 @@ interface TileProps {
 
 export function Tile({ column, item, round, row }: TileProps) {
   const tileRef = useRef<HTMLDivElement>(null)
+
+  const width = useTileWidth()
 
   const tileStateAtom = tilesAtoms[column][row]
   const [state, setState] = useAtom(tileStateAtom)
@@ -30,7 +33,7 @@ export function Tile({ column, item, round, row }: TileProps) {
   const money = `$${(row + 1) * 200 * round}`
 
   const node = {
-    logo: <LogoBackground column={column} row={row} />,
+    logo: <LogoBackground column={column} row={row} tileWidth={width} />,
     money: money,
     answer: item.answer,
     blank: '',
@@ -39,9 +42,12 @@ export function Tile({ column, item, round, row }: TileProps) {
   const className = [state, 'tile'].join(' ')
 
   const style: CSSProperties = {
+    height: width / tileAspect,
     position: 'relative',
+    width,
     zIndex: state === 'answer' ? 1 : 0,
   }
+
   if (state === 'answer') {
     style.transform = [
       getCenterTransform(tileRef.current!),
