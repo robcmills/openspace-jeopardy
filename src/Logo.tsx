@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { CSSProperties, useEffect, useRef, useState } from 'react'
 import logo from './assets/openspace-jeopardy.jpg'
 import theme from './assets/theme.mp3'
 
@@ -15,15 +15,20 @@ export function Logo() {
     setScale(1)
   }, [])
 
-  const style = {
+  const imgStyle: CSSProperties = {
     transition: 'transform 1s',
     transform: `scale(${scale})`,
   }
 
+  const audioStyle: CSSProperties = {
+    position: 'absolute',
+    bottom: '2rem',
+  }
+
   return (
     <>
-      <img className='fullscreen logo' src={logo} style={style} />
-      <audio id="theme" controls ref={audioRef}>
+      <img className='fullscreen logo' src={logo} style={imgStyle} />
+      <audio id="theme" controls ref={audioRef} style={audioStyle}>
       	<source src={theme} type="audio/mpeg" />
       </audio>
     </>

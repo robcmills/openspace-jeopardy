@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { CSSProperties, useState } from 'react'
 import './App.css'
 import { GameState } from './GameState'
 import { Logo } from './Logo'
@@ -6,6 +6,7 @@ import { Intro } from './Intro'
 import { Jeopardy } from './Jeopardy'
 import { FinalJeopardy } from './FinalJeopardy'
 import { useKeyBindings } from './useKeyBindings'
+import { absoluteFill, gridCenter } from './styles'
 
 export function App() {
   const [state, setState] = useState<GameState>(GameState.Intro)
@@ -19,8 +20,13 @@ export function App() {
     [GameState.FinalJeopardy]: <FinalJeopardy />,
   }[state]
 
+  const style: CSSProperties = {
+    ...absoluteFill,
+    ...gridCenter,
+  }
+
   return (
-    <div className='app'>
+    <div id='App' style={style}>
       {content}
     </div>
   )
