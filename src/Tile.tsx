@@ -6,6 +6,7 @@ import { tilesAtoms } from './tilesAtoms';
 import { useAtom } from 'jotai';
 import { LogoBackground } from './LogoBackground';
 import { tileAspect, useTileWidth } from './useTileWidth';
+import { getScaleTransform } from './getScaleTransform';
 
 interface TileProps {
   column: number;
@@ -48,10 +49,10 @@ export function Tile({ column, item, round, row }: TileProps) {
     zIndex: state === 'answer' ? 1 : 0,
   }
 
-  if (state === 'answer') {
+  if (state === 'answer' && tileRef.current) {
     style.transform = [
-      getCenterTransform(tileRef.current!),
-      'scale(7)'
+      getCenterTransform(tileRef.current),
+      getScaleTransform(tileRef.current)
     ].join(' ')
   }
 
