@@ -6,7 +6,7 @@ import { Intro } from './Intro'
 import { Jeopardy } from './Jeopardy'
 import { FinalJeopardy } from './FinalJeopardy'
 import { useKeyBindings } from './useKeyBindings'
-import { absoluteFill, gridCenter } from './styles'
+import { absoluteFill } from './styles'
 
 export function App() {
   const [state, setState] = useState<GameState>(GameState.Intro)
@@ -22,7 +22,8 @@ export function App() {
 
   const style: CSSProperties = {
     ...absoluteFill,
-    ...gridCenter,
+    alignItems: 'center',
+    display: 'grid',
   }
 
   return (
