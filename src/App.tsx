@@ -22,7 +22,8 @@ export function App() {
 
   const style: CSSProperties = {
     ...absoluteFill,
-    alignItems: 'center',
+    placeContent: 'center',
+    placeItems: 'center',
     display: 'grid',
   }
 
