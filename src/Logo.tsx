@@ -21,8 +21,9 @@ export function Logo() {
   }
 
   const audioStyle: CSSProperties = {
-    position: 'absolute',
     bottom: '2rem',
+    left: '2rem',
+    position: 'absolute',
   }
 
   return (

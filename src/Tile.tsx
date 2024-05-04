@@ -7,6 +7,8 @@ import { useAtom } from 'jotai';
 import { LogoBackground } from './LogoBackground';
 import { tileAspect, useTileWidth } from './useTileWidth';
 import { getScaleTransform } from './getScaleTransform';
+import { getFullScreenScaleTransform } from './getFullScreenScaleTransform';
+import { BLUE_BACKGROUND } from './colors';
 
 interface TileProps {
   column: number;
@@ -42,10 +44,22 @@ export function Tile({ column, item, round, row }: TileProps) {
 
   const className = [state, 'tile'].join(' ')
 
-  const style: CSSProperties = {
+  const containerStyle: CSSProperties = {
     height: width / tileAspect,
     position: 'relative',
     width,
+  }
+
+  const style: CSSProperties = {
+    inset: 0,
+    position: 'absolute',
+    zIndex: state === 'answer' ? 2 : 0,
+  }
+
+  const backdropStyle: CSSProperties = {
+    background: BLUE_BACKGROUND,
+    inset: 0,
+    position: 'absolute',
     zIndex: state === 'answer' ? 1 : 0,
   }
 
@@ -54,11 +68,18 @@ export function Tile({ column, item, round, row }: TileProps) {
       getCenterTransform(tileRef.current),
       getScaleTransform(tileRef.current)
     ].join(' ')
+    backdropStyle.transform = [
+      getCenterTransform(tileRef.current),
+      getFullScreenScaleTransform(tileRef.current)
+    ].join(' ')
   }
 
   return (
-    <div className={className} onClick={cycle} ref={tileRef} style={style}>
-      {node}
+    <div style={containerStyle} onClick={cycle} ref={tileRef}>
+      <div className={className} style={backdropStyle} />
+      <div className={className} style={style}>
+        {node}
+      </div>
     </div>
   )
 }

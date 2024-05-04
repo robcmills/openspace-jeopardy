@@ -40,12 +40,10 @@ body {
   cursor: pointer;
   display: grid;
   font-weight: bold;
-  height: 80px;
   place-items: center;
   position: relative;
   text-transform: uppercase;
   transition: transform 1s;
-  width: 142px;
 }
 
 .money {
