@@ -5,22 +5,21 @@ import { Round } from './Round';
 import { tilesAtoms } from './tilesAtoms';
 import { useAtom } from 'jotai';
 import { LogoBackground } from './LogoBackground';
-import { tileAspect, useTileWidth } from './useTileWidth';
 import { getScaleTransform } from './getScaleTransform';
 import { getFullScreenScaleTransform } from './getFullScreenScaleTransform';
 import { BLUE_BACKGROUND } from './colors';
 
 interface TileProps {
   column: number;
+  height: number;
   item: typeof jeopardy[0]['items'][0];
   round: Round;
   row: number;
+  width: number;
 }
 
-export function Tile({ column, item, round, row }: TileProps) {
+export function Tile({ column, height, item, round, row, width }: TileProps) {
   const tileRef = useRef<HTMLDivElement>(null)
-
-  const width = useTileWidth()
 
   const tileStateAtom = tilesAtoms[column][row]
   const [state, setState] = useAtom(tileStateAtom)
@@ -45,7 +44,7 @@ export function Tile({ column, item, round, row }: TileProps) {
   const className = [state, 'tile'].join(' ')
 
   const containerStyle: CSSProperties = {
-    height: width / tileAspect,
+    height,
     position: 'relative',
     width,
   }
