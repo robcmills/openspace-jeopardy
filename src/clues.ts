@@ -1,3 +1,5 @@
+import { DailyDouble } from './DailyDouble'
+
 export const jeopardy = [{
   category: 'JavaScript',
   items: [{
@@ -48,6 +50,7 @@ export const jeopardy = [{
   }, {
     answer: "The process by which React creates an in-memory data-structure cache, computes the resulting differences, and then updates the browser's displayed DOM efficiently.",
     question: 'What is reconciliation',
+    dailyDouble: true,
   }, {
     answer: 'In 2017, Facebook announced this new architecture that enabled incremental rendering. It was a major improvement over the previous architecture which processed updates synchronously in a single, uninterrupted transaction.',
     question: 'What it Fiber',
@@ -168,6 +171,7 @@ export const doubleJeopardy = [{
   items: [{
     answer: "Chrome's original rendering engine was WebKit, but Google eventually forked it to create this engine. Now all Chrome variants except iOS use it as of 2017.",
     question: 'What is Blink',
+    dailyDouble: true,
   }, {
     answer: 'Released in 2004 as the spiritual successor to Netscape Navigator, this browser saw its usage share grow to a peak of 32% in November of 2009, overtaking Internet Explorer 7.',
     question: 'What is Firefox',

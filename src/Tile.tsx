@@ -1,18 +1,19 @@
-import { CSSProperties, useRef } from 'react';
-import { jeopardy } from './clues';
-import { getCenterTransform } from './getCenterTransform';
-import { Round } from './Round';
-import { tilesAtoms } from './tilesAtoms';
-import { useAtom } from 'jotai';
-import { LogoBackground } from './LogoBackground';
-import { getScaleTransform } from './getScaleTransform';
-import { getFullScreenScaleTransform } from './getFullScreenScaleTransform';
-import { BLUE_BACKGROUND } from './colors';
+import { CSSProperties, useRef } from 'react'
+import { jeopardy } from './clues'
+import { getCenterTransform } from './getCenterTransform'
+import { Round } from './Round'
+import { tilesAtoms } from './tilesAtoms'
+import { useAtom } from 'jotai'
+import { LogoBackground } from './LogoBackground'
+import { getScaleTransform } from './getScaleTransform'
+import { getFullScreenScaleTransform } from './getFullScreenScaleTransform'
+import { BLUE_BACKGROUND } from './colors'
+import { DailyDouble } from './DailyDouble'
 
 interface TileProps {
   column: number;
   height: number;
-  item: typeof jeopardy[0]['items'][0];
+  item: typeof jeopardy[number]['items'][number];
   round: Round;
   row: number;
   width: number;
@@ -27,7 +28,8 @@ export function Tile({ column, height, item, round, row, width }: TileProps) {
   const cycle = () =>
     setState(({
       logo: 'money',
-      money: 'answer',
+      money: item.dailyDouble ? 'dailyDouble' : 'answer',
+      dailyDouble: 'answer',
       answer: 'blank',
       blank: 'logo',
     } as const)[state])
@@ -38,6 +40,7 @@ export function Tile({ column, height, item, round, row, width }: TileProps) {
     logo: <LogoBackground column={column} row={row} tileWidth={width} />,
     money: money,
     answer: item.answer,
+    dailyDouble: <DailyDouble />,
     blank: '',
   }[state]
 
@@ -48,21 +51,22 @@ export function Tile({ column, height, item, round, row, width }: TileProps) {
     position: 'relative',
     width,
   }
+  const shouldZoom = ['answer', 'dailyDouble'].includes(state)
 
   const style: CSSProperties = {
     inset: 0,
     position: 'absolute',
-    zIndex: state === 'answer' ? 2 : 0,
+    zIndex: shouldZoom ? 2 : 0,
   }
 
   const backdropStyle: CSSProperties = {
     background: BLUE_BACKGROUND,
     inset: 0,
     position: 'absolute',
-    zIndex: state === 'answer' ? 1 : 0,
+    zIndex: shouldZoom ? 1 : 0,
   }
 
-  if (state === 'answer' && tileRef.current) {
+  if (shouldZoom && tileRef.current) {
     style.transform = [
       getCenterTransform(tileRef.current),
       getScaleTransform(tileRef.current)

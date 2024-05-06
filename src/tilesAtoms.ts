@@ -1,6 +1,6 @@
 import { PrimitiveAtom, atom, createStore } from 'jotai'
 
-export type TileState = 'logo' | 'money' | 'answer' | 'blank'
+export type TileState = 'logo' | 'money' | 'answer' | 'dailyDouble' | 'blank'
 
 const initialTileState = 'logo' as TileState
 

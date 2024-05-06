@@ -1,5 +1,5 @@
-import { CSSProperties, useState } from 'react';
-import { LogoImage } from './LogoImage';
+import { CSSProperties, useState } from 'react'
+import { LogoImage } from './LogoImage'
 
 type CategoryTileState = 'logo' | 'category'
 
