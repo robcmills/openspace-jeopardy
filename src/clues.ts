@@ -223,16 +223,24 @@ export const doubleJeopardy = [{
   }],
 }]
 
-export const finalJeopardy = [{
-  category: 'Web Browser History',
-  answer: 'The first popular web browser with a graphical user interface, Mosaic, was released in 1993. Accessible to non-technical people, it played a prominent role in the rapid growth of the early World Wide Web. A year later, the lead developers of Mosaic released this more polished browser, which quickly became the most-used browser until Microsoft debuted Internet Explorer in 1995, starting the browser wars.',
-  question: 'What is Netscape Navigator',
-}, {
+export const finalJeopardy = {
   category: 'JavaScript History',
-  answer: 'Originally formed in 1961, Ecma International is a nonprofit standards organization for information and communication systems headquarterd in Geneva, Switzerland and responsible for several standards, most notably ECMAScript. Though the name is no longer considered an ancronym, this is what is used to stand for.',
+  answer: 'ECMAScript is no longer considered an ancronym, but this is what it used to stand for.',
   question: 'What is the European Computer Manufacturers Association',
-}, {
-  category: 'JavaScript History',
-  answer: 'The JavaScript trademark was originally issued to Sun Microsystems in 1997, and was then transferred to this corporation when they acquired Sun in 2009.',
-  question: 'What is Oracle Corporation',
-}]
+}
+
+  // answer: 'Originally formed in 1961, Ecma International is a nonprofit standards organization for information and communication systems headquarterd in Geneva, Switzerland and responsible for several standards, most notably ECMAScript. Though the name is no longer considered an ancronym, this is what is used to stand for.',
+
+// export const finalJeopardy = [{
+//   category: 'Web Browser History',
+//   answer: 'The first popular web browser with a graphical user interface, Mosaic, was released in 1993. Accessible to non-technical people, it played a prominent role in the rapid growth of the early World Wide Web. A year later, the lead developers of Mosaic released this more polished browser, which quickly became the most-used browser until Microsoft debuted Internet Explorer in 1995, starting the browser wars.',
+//   question: 'What is Netscape Navigator',
+// }, {
+//   category: 'JavaScript History',
+//   answer: 'Originally formed in 1961, Ecma International is a nonprofit standards organization for information and communication systems headquarterd in Geneva, Switzerland and responsible for several standards, most notably ECMAScript. Though the name is no longer considered an ancronym, this is what is used to stand for.',
+//   question: 'What is the European Computer Manufacturers Association',
+// }, {
+//   category: 'JavaScript History',
+//   answer: 'The JavaScript trademark was originally issued to Sun Microsystems in 1997, and was then transferred to this corporation when they acquired Sun in 2009.',
+//   question: 'What is Oracle Corporation',
+// }]
