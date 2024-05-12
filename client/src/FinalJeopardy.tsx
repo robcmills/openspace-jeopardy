@@ -22,6 +22,8 @@ export function FinalJeopardy() {
     width: '100%',
   }
 
+  const logo = <img src={finalJeopardySrc} style={imgStyle} />
+
   const style: CSSProperties = {
     background: BLUE_BACKGROUND,
     color: 'white',
@@ -37,14 +39,20 @@ export function FinalJeopardy() {
     textTransform: 'uppercase',
   }
 
+  const category = (
+    <div style={style}>
+      {finalJeopardy.category}
+    </div>
+  )
+
   const audioStyle: CSSProperties = {
     bottom: '4rem',
     position: 'absolute',
   }
 
-  const category = (
+  const answer = (
     <div style={style}>
-      {finalJeopardy.category}
+      {finalJeopardy.answer}
       <audio id="theme" controls style={audioStyle}>
         <source src={finalJeopardyTheme} type="audio/mpeg" />
       </audio>
@@ -52,9 +60,9 @@ export function FinalJeopardy() {
   )
 
   const node = {
-    logo: <img src={finalJeopardySrc} style={imgStyle} />,
+    logo,
     category,
-    answer: <div style={style}>{finalJeopardy.answer}</div>,
+    answer, 
   }[state]
 
   return (

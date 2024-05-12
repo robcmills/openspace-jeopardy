@@ -225,11 +225,11 @@ export const doubleJeopardy = [{
 
 export const finalJeopardy = {
   category: 'JavaScript History',
-  answer: 'ECMAScript is no longer considered an ancronym, but this is what it used to stand for.',
+  answer: 'Formed in 1961, Ecma International is a nonprofit organization responsible for several standards, most notably ECMAScript. Though the name is no longer considered an acronym, this is what is used to stand for.',
   question: 'What is the European Computer Manufacturers Association',
 }
 
-  // answer: 'Originally formed in 1961, Ecma International is a nonprofit standards organization for information and communication systems headquarterd in Geneva, Switzerland and responsible for several standards, most notably ECMAScript. Though the name is no longer considered an ancronym, this is what is used to stand for.',
+  // answer: 'Originally formed in 1961, Ecma International is a nonprofit standards organization for information and communication systems headquarterd in Geneva, Switzerland and responsible for several standards, most notably ECMAScript. Though the name is no longer considered an acronym, this is what is used to stand for.',
 
 // export const finalJeopardy = [{
 //   category: 'Web Browser History',
@@ -237,7 +237,7 @@ export const finalJeopardy = {
 //   question: 'What is Netscape Navigator',
 // }, {
 //   category: 'JavaScript History',
-//   answer: 'Originally formed in 1961, Ecma International is a nonprofit standards organization for information and communication systems headquarterd in Geneva, Switzerland and responsible for several standards, most notably ECMAScript. Though the name is no longer considered an ancronym, this is what is used to stand for.',
+//   answer: 'Originally formed in 1961, Ecma International is a nonprofit standards organization for information and communication systems headquarterd in Geneva, Switzerland and responsible for several standards, most notably ECMAScript. Though the name is no longer considered an acronym, this is what is used to stand for.',
 //   question: 'What is the European Computer Manufacturers Association',
 // }, {
 //   category: 'JavaScript History',
