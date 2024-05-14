@@ -1,5 +1,6 @@
 import { PrimitiveAtom } from 'jotai';
-import { TileState, tilesAtoms, tilesStore } from './tilesAtoms';
+import { TileState, tilesAtoms } from './tilesAtoms';
+import { jotaiStore } from './jotaiStore';
 
 const REVEAL_INTERVAL = 120
 
@@ -11,7 +12,7 @@ function removeRandomItem<T>(array: T[]): T | undefined {
 
 function revealRandomTile(atoms: PrimitiveAtom<TileState>[]) {
   const atom = removeRandomItem(atoms)
-  if (atom) tilesStore.set(atom, 'money' as TileState)
+  if (atom) jotaiStore.set(atom, 'money' as TileState)
   if (atoms.length) {
     setTimeout(() => {
       revealRandomTile(atoms)

@@ -1,5 +1,3 @@
-import { DailyDouble } from './DailyDouble'
-
 export const jeopardy = [{
   category: 'JavaScript',
   items: [{

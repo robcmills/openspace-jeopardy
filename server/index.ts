@@ -8,12 +8,17 @@ const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer, {})
 
-app.get('/', (req, res) => {
-  res.send('<h1>Hello world</h1>');
+app.get('/hello', (req, res) => {
+  res.send('<h1>Hello world</h1>')
 });
 
+app.use(express.static('../client/dist'))
+
 io.on('connection', (socket) => {
-  console.log('on connection', socket)
+  console.log('connection')
+  socket.on('disconnect', () => {
+    console.log('disconnect')
+  })
 })
 
 httpServer.listen(PORT, () => {

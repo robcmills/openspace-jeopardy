@@ -1,4 +1,5 @@
 // Experimental
+/*
 export const MyApp = () =>
   div(
     div(
@@ -20,3 +21,4 @@ export const MyApp = () =>
       'Click on the Vite and React logos to learn more'
     )
   )
+*/

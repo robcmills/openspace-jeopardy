@@ -2,12 +2,12 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import { App } from './App'
-import { tilesStore } from './tilesAtoms'
 import { Provider } from 'jotai'
+import { jotaiStore } from './jotaiStore'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store={tilesStore}>
+    <Provider store={jotaiStore}>
       <App />
     </Provider>
   </StrictMode>,

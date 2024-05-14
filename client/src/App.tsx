@@ -7,12 +7,14 @@ import { Jeopardy } from './Jeopardy'
 import { FinalJeopardy } from './FinalJeopardy'
 import { useKeyBindings } from './useKeyBindings'
 import { absoluteFill } from './styles'
+import { Login } from './Login'
 
 export function App() {
-  const [state, setState] = useState<GameState>(GameState.Intro)
+  const [state, setState] = useState<GameState>(GameState.Login)
   useKeyBindings({ state, setState })
 
   const content = {
+    [GameState.Login]: <Login />,
     [GameState.Intro]: <Intro setState={setState} />,
     [GameState.Logo]: <Logo />,
     [GameState.Jeopardy]: <Jeopardy />,

@@ -1,4 +1,4 @@
-import { PrimitiveAtom, atom, createStore } from 'jotai'
+import { PrimitiveAtom, atom } from 'jotai'
 
 export type TileState = 'logo' | 'money' | 'answer' | 'dailyDouble' | 'blank'
 
@@ -13,5 +13,3 @@ for (let columnIndex = 0; columnIndex < 6; columnIndex++) {
   }
   tilesAtoms.push(column)
 }
-
-export const tilesStore = createStore()
