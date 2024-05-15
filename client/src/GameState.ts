@@ -1,5 +1,5 @@
 export enum GameState {
-  Login,
+  Lobby,
   Intro,
   Logo,
   Jeopardy,
