@@ -9,20 +9,20 @@ import { panCategories } from './panCategories';
 const audio = new Audio(fill);
 
 interface UseKeyBindingsArgs {
-  state: GameState;
-  setState: (gameState: GameState) => void;
+  gameState: GameState;
+  setGameState: (gameState: GameState) => void;
 }
 
-export function useKeyBindings({ state, setState }: UseKeyBindingsArgs) {
+export function useKeyBindings({ gameState, setGameState }: UseKeyBindingsArgs) {
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     event.preventDefault()
     console.log(event.key, event.keyCode)
     if (event.key === 'n') {
       resetTiles()
-      setState(Math.min(state + 1, Object.keys(GameState).length / 2 - 1))
+      setGameState(Math.min(gameState + 1, Object.keys(GameState).length / 2 - 1))
     } else if (event.key === 'p') {
       resetTiles()
-      setState(Math.max(state - 1, 0))
+      setGameState(Math.max(gameState - 1, 0))
     } else if (event.keyCode === 32) { // Space
       audio.play()
       revealTiles()
@@ -33,9 +33,10 @@ export function useKeyBindings({ state, setState }: UseKeyBindingsArgs) {
     } else if (event.key === 'ArrowRight') {
       panCategories()
     }
-  }, [state])
+  }, [gameState])
 
   useEffect(() => {
+    if (gameState === GameState.Lobby) return
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])

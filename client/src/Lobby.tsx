@@ -1,21 +1,19 @@
-import { useAtomValue } from 'jotai';
-// import { GameState } from './GameState';
-import { socketAtom } from './socketAtom';
 import { socket } from './socket';
-import { ConnectionStatusCharacter } from './ConnectionStatusCharacter';
-
-// interface LoginProps {
-//   setState: (state: GameState) => void;
-// }
+import { ConnectionStatus } from './ConnectionStatus';
+import { UsernameForm } from './UsernameForm';
+import { useAtomValue } from 'jotai';
+import { socketAtom } from './socketAtom';
 
 export function Lobby() {
-  const { isConnected } = useAtomValue(socketAtom)
+  const { username } = useAtomValue(socketAtom)
+  if (!username) return <UsernameForm />
   return (
-    <div>
+    <main>
       <h3>Lobby</h3>
-      <p><ConnectionStatusCharacter /> You are {isConnected ? 'connected to' : 'disconnected from'} the server.</p>
+      <p><ConnectionStatus /></p>
       <button onClick={() => { socket.connect() }}>Connect</button>
+      &nbsp; &nbsp;
       <button onClick={() => { socket.disconnect() }}>Disconnect</button>
-    </div>
+    </main>
   )
 }
