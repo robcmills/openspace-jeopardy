@@ -12,8 +12,8 @@ if (sessionId) {
   socket.connect();
 }
 
-socket.on('session', ({ sessionId, userId }) => {
-  console.log('session', { sessionId, userId })
+socket.on('session', ({ sessionId, userId, username }) => {
+  console.log('session', { sessionId, userId, username })
   // attach the session ID to the next reconnection attempts
   socket.auth = { sessionId }
   localStorage.setItem('sessionId', sessionId)
@@ -24,6 +24,7 @@ socket.on('session', ({ sessionId, userId }) => {
     isConnectionError: false,
     sessionId,
     userId,
+    username,
   }))
 });
 
