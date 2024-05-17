@@ -3,6 +3,7 @@ import { ConnectionStatus } from './ConnectionStatus';
 import { UsernameForm } from './UsernameForm';
 import { useAtomValue } from 'jotai';
 import { socketAtom } from './socketAtom';
+import { ConnectedUsers } from './ConnectedUsers';
 
 export function Lobby() {
   const { username } = useAtomValue(socketAtom)
@@ -14,6 +15,7 @@ export function Lobby() {
       <button onClick={() => { socket.connect() }}>Connect</button>
       &nbsp; &nbsp;
       <button onClick={() => { socket.disconnect() }}>Disconnect</button>
+      <ConnectedUsers />
     </main>
   )
 }

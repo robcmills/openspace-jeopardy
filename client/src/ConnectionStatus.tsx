@@ -10,7 +10,8 @@ export function ConnectionStatus() {
     <>
       {character}
       {isConnected ? ' Connected ' : ' Not connected '}
-      to server as {username}
+      to server
+      {isConnected ? ` as ${username}` : ''}
     </>
   )
 }

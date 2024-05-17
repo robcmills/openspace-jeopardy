@@ -70,7 +70,8 @@ io.on('connection', (socket) => {
   socket.emit('users', sessionStore
     .getAll()
     .map(session => ({
-      userId: session.userId,
+      connected: session.connected,
+      id: session.userId,
       username: session.username,
     }))
   );
@@ -78,7 +79,7 @@ io.on('connection', (socket) => {
   // Broadcast user connection
   socket.broadcast.emit('user connected', {
     connected: true,
-    userId: socket.data.userId,
+    id: socket.data.userId,
     username: socket.data.username,
   })
 

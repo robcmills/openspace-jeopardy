@@ -78,3 +78,4 @@ watch(CLIENT_WATCH_PATH, { recursive: true }, (eventType, filename) => {
   }
 });
 
+rebuildClient()
