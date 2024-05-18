@@ -12,10 +12,29 @@ export function ConnectedUsers() {
       </div>
     ))
 
+  const containerStyle = {
+    border: '1px solid gray',
+    margin: '1rem 0',
+  }
+
+  const headerStyle = {
+    backgroundColor: 'darkgreen',
+    borderBottom: '1px solid gray',
+    lineHeight: 1,
+    margin: 0,
+    padding: '0.5rem',
+  }
+
+  const usersStyle = {
+    padding: '0.5rem',
+  }
+
   return (
-    <div>
-      <h3>Connected Users</h3>
-      {users}
+    <div style={containerStyle}>
+      <h3 style={headerStyle}>Connected Users</h3>
+      <div style={usersStyle}>
+        {users}
+      </div>
     </div>
   )
 }

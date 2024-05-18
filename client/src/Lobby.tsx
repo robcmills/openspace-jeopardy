@@ -10,7 +10,7 @@ export function Lobby() {
   if (!username) return <UsernameForm />
   return (
     <main>
-      <h3>Lobby</h3>
+      <h1>Lobby</h1>
       <p><ConnectionStatus /></p>
       <button onClick={() => { socket.connect() }}>Connect</button>
       &nbsp; &nbsp;
