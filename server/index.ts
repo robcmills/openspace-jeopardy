@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
 
   // Persist session
   sessionStore.set(socket.data.sessionId, {
-    connected: true,
+    isConnected: true,
     sessionId: socket.data.sessionId,
     userId: socket.data.userId,
     username: socket.data.username,
@@ -70,7 +70,7 @@ io.on('connection', (socket) => {
   socket.emit('users', sessionStore
     .getAll()
     .map(session => ({
-      connected: session.connected,
+      isConnected: session.isConnected,
       id: session.userId,
       username: session.username,
     }))
@@ -78,7 +78,7 @@ io.on('connection', (socket) => {
 
   // Broadcast user connection
   socket.broadcast.emit('user connected', {
-    connected: true,
+    isConnected: true,
     id: socket.data.userId,
     username: socket.data.username,
   })

@@ -6,7 +6,7 @@ import { socketAtom } from './socketAtom';
 import { ConnectedUsers } from './ConnectedUsers';
 
 export function Lobby() {
-  const { username } = useAtomValue(socketAtom)
+  const { isConnected, username } = useAtomValue(socketAtom)
   if (!username) return <UsernameForm />
   return (
     <main>
@@ -15,7 +15,7 @@ export function Lobby() {
       <button onClick={() => { socket.connect() }}>Connect</button>
       &nbsp; &nbsp;
       <button onClick={() => { socket.disconnect() }}>Disconnect</button>
-      <ConnectedUsers />
+      {isConnected && <ConnectedUsers />}
     </main>
   )
 }

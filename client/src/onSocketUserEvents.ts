@@ -7,7 +7,7 @@ export function onSocketUserEvents(socket: Socket) {
   socket.on('users', (users: UserState[]) => {
     console.log('users', users)
     const usersById = users.reduce((acc, user) => {
-      acc[user.id] = { ...user, isConnected: true }
+      acc[user.id] = user
       return acc
     }, {} as Record<string, UserState>)
     console.log('usersById', usersById)
@@ -24,7 +24,7 @@ export function onSocketUserEvents(socket: Socket) {
       ...state,
       usersById: {
         ...state.usersById,
-        [user.id]: { ...user, isConnected: true }
+        [user.id]: user,
       }
     }))
   })

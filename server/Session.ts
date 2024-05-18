@@ -1,5 +1,5 @@
 export interface Session {
-  connected: boolean;
+  isConnected: boolean;
   sessionId: string;
   userId: string;
   username: string;
