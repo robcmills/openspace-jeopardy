@@ -14,7 +14,6 @@ export function ConnectedUsers() {
 
   const containerStyle = {
     border: '1px solid gray',
-    margin: '1rem 0',
   }
 
   const headerStyle = {
@@ -26,7 +25,9 @@ export function ConnectedUsers() {
   }
 
   const usersStyle = {
-    padding: '0.5rem',
+    display: 'grid',
+    gap: '0.75rem',
+    padding: '0.75rem',
   }
 
   return (
