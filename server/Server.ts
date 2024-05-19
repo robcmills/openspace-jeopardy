@@ -1,14 +1,14 @@
-import type { Server } from 'socket.io'
+import type { Server as IoServer } from 'socket.io'
 import type {
-  ServerToClientEvents,
   ClientToServerEvents,
   InterServerEvents,
+  ServerToClientEvents,
   SocketData,
 } from './socket-types'
 
-export type SocketServer = Server<
-  ServerToClientEvents,
+export type Server = IoServer<
   ClientToServerEvents,
+  ServerToClientEvents,
   InterServerEvents,
   SocketData
 >

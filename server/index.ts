@@ -1,7 +1,6 @@
 import express from 'express'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
-import { sessionStore } from './sessionStore'
 import type {
   ClientToServerEvents,
   InterServerEvents,
@@ -9,6 +8,7 @@ import type {
   SocketData,
 } from './socket-types'
 import { useSessionMiddleware } from './useSessionMiddleware'
+import { onConnection } from './onConnection'
 
 const PORT = 3000
 
@@ -31,52 +31,7 @@ useSessionMiddleware(io)
 
 io.on('connection', (socket) => {
   console.log(`${socket.data.username} connected`)
-
-  // Persist session
-  sessionStore.set(socket.data.sessionId, {
-    isConnected: true,
-    sessionId: socket.data.sessionId,
-    userId: socket.data.userId,
-    username: socket.data.username,
-  });
-
-  // Emit session details
-  socket.emit('session', {
-    sessionId: socket.data.sessionId,
-    userId: socket.data.userId,
-    username: socket.data.username,
-  });
-
-  // Emit users
-  socket.emit('users', sessionStore
-    .getAll()
-    .map(session => ({
-      isConnected: session.isConnected,
-      id: session.userId,
-      username: session.username,
-    }))
-  );
-
-  // Broadcast user connection
-  socket.broadcast.emit('userConnected', {
-    isConnected: true,
-    id: socket.data.userId,
-    username: socket.data.username,
-  })
-
-  socket.on('disconnect', async () => {
-    console.log(`${socket.data.username} disconnected`)
-    const matchingSockets = await io.in(socket.data.userId).allSockets();
-    const isDisconnected = matchingSockets.size === 0;
-    if (!isDisconnected) return;
-    socket.broadcast.emit('userDisconnected', socket.data.userId);
-    sessionStore.set(socket.data.sessionId, {
-      userId: socket.data.userId,
-      username: socket.data.username,
-      isConnected: false,
-      sessionId: socket.data.sessionId,
-    });
-  })
+  onConnection(socket)
 })
 
 httpServer.listen(PORT, () => {
