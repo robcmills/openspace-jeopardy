@@ -1,7 +1,6 @@
 import express from 'express'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
-import { randomId } from './randomId'
 import { sessionStore } from './sessionStore'
 import type {
   ClientToServerEvents,
@@ -9,14 +8,15 @@ import type {
   ServerToClientEvents,
   SocketData,
 } from './socket-types'
+import { useSessionMiddleware } from './useSessionMiddleware'
 
 const PORT = 3000
 
 const app = express()
 const httpServer = createServer(app)
 const io = new Server<
-  ServerToClientEvents,
   ClientToServerEvents,
+  ServerToClientEvents,
   InterServerEvents,
   SocketData
 >(httpServer, {});
@@ -27,26 +27,7 @@ app.get('/hello', (_, res) => {
 
 app.use(express.static('../client/dist'))
 
-io.use((socket, next) => {
-  const sessionId = socket.handshake.auth.sessionId;
-  if (sessionId) {
-    const session = sessionStore.get(sessionId);
-    if (session) {
-      socket.data.sessionId = sessionId;
-      socket.data.userId = session.userId;
-      socket.data.username = session.username;
-      return next();
-    }
-  }
-  const username = socket.handshake.auth.username;
-  if (!username) {
-    return next(new Error('Invalid username'));
-  }
-  socket.data.sessionId = randomId();
-  socket.data.userId = randomId();
-  socket.data.username = username;
-  next();
-});
+useSessionMiddleware(io)
 
 io.on('connection', (socket) => {
   console.log(`${socket.data.username} connected`)
@@ -77,7 +58,7 @@ io.on('connection', (socket) => {
   );
 
   // Broadcast user connection
-  socket.broadcast.emit('user connected', {
+  socket.broadcast.emit('userConnected', {
     isConnected: true,
     id: socket.data.userId,
     username: socket.data.username,
@@ -88,11 +69,11 @@ io.on('connection', (socket) => {
     const matchingSockets = await io.in(socket.data.userId).allSockets();
     const isDisconnected = matchingSockets.size === 0;
     if (!isDisconnected) return;
-    socket.broadcast.emit('user disconnected', socket.data.userId);
+    socket.broadcast.emit('userDisconnected', socket.data.userId);
     sessionStore.set(socket.data.sessionId, {
       userId: socket.data.userId,
       username: socket.data.username,
-      connected: false,
+      isConnected: false,
       sessionId: socket.data.sessionId,
     });
   })

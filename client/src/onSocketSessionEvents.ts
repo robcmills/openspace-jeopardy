@@ -1,9 +1,8 @@
-import type { Socket } from 'socket.io-client';
+import { SocketClient } from './SocketClient';
 import { jotaiStore } from './jotaiStore';
 import { socketAtom } from './socketAtom';
 
-export function onSocketSessionEvents(socket: Socket) {
-  console.log('onSocketSessionEvents')
+export function onSocketSessionEvents(socket: SocketClient) {
   const sessionId = localStorage.getItem('sessionId');
 
   if (sessionId) {

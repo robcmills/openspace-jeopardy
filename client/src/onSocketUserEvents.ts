@@ -1,9 +1,9 @@
-import type { Socket } from 'socket.io-client';
 import { jotaiStore } from './jotaiStore';
 import { UserState } from './UserState';
 import { usersAtom } from './usersAtom';
+import { SocketClient } from './SocketClient';
 
-export function onSocketUserEvents(socket: Socket) {
+export function onSocketUserEvents(socket: SocketClient) {
   socket.on('users', (users: UserState[]) => {
     console.log('users', users)
     const usersById = users.reduce((acc, user) => {
@@ -18,7 +18,7 @@ export function onSocketUserEvents(socket: Socket) {
     }))
   })
 
-  socket.on('user connected', (user: UserState) => {
+  socket.on('userConnected', (user: UserState) => {
     console.log('user connected', user)
     jotaiStore.set(usersAtom, state => ({
       ...state,
@@ -29,7 +29,7 @@ export function onSocketUserEvents(socket: Socket) {
     }))
   })
 
-  socket.on('user disconnected', (userId: string) => {
+  socket.on('userDisconnected', (userId: string) => {
     console.log('user disconnected', userId)
     jotaiStore.set(usersAtom, state => {
       return state.usersById[userId] 

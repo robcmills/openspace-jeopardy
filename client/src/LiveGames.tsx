@@ -1,3 +1,5 @@
+import { hostNewGame } from './hostNewGame'
+
 export function LiveGames() {
   const joinStyle = {
     margin: '0 1rem',
@@ -12,7 +14,7 @@ export function LiveGames() {
     ))
     .concat([(
       <div key='new'>
-        <button>Host new</button>
+        <button onClick={hostNewGame}>Host new</button>
       </div>
     )])
 
