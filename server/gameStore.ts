@@ -6,10 +6,11 @@ export const gameStore = {
   gamesById: new Map<string, Game>(),
   indexByHostUserId: new Map<string, string>(),
 
-  new(hostUserId: string): Game {
+  new({ hostUserId, name }): Game {
     const newGame: Game = {
       id: randomId(),
       hostUserId,
+      name,
       state: GameState.Intro,
     }
     this.set(newGame)

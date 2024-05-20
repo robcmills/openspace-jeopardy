@@ -5,6 +5,7 @@ import { Game } from '../../server/Game';
 const initialGame: Game = {
   id: '',
   hostUserId: '',
+  name: '',
   state: GameState.Lobby,
 }
 

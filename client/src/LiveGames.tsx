@@ -1,11 +1,14 @@
+import { useAtomValue } from 'jotai'
 import { HostNewGameButton } from './HostNewGameButton'
+import { gamesAtom } from './gamesAtom'
 
 export function LiveGames() {
+  const games = useAtomValue(gamesAtom)
   const joinStyle = {
     margin: '0 1rem',
   }
 
-  const games = [{ id: 1, name: 'OpenSpace Frontend Jeopardy' }]
+  const gamesItems = games
     .map(({ id, name }) => (
       <div key={id}>
         {name}
@@ -40,7 +43,7 @@ export function LiveGames() {
     <div style={containerStyle}>
       <h3 style={headerStyle}>Live Games</h3>
       <div style={gamesStyle}>
-        {games}
+        {gamesItems}
       </div>
     </div>
   )

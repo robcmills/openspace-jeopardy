@@ -1,4 +1,5 @@
 import type { Socket } from './Socket'
+import { gameStore } from './gameStore'
 import { sessionStore } from './sessionStore'
 
 export function onConnection(socket: Socket) {
@@ -8,14 +9,14 @@ export function onConnection(socket: Socket) {
     sessionId: socket.data.sessionId,
     userId: socket.data.userId,
     username: socket.data.username,
-  });
+  })
 
   // Emit session details
   socket.emit('session', {
     sessionId: socket.data.sessionId,
     userId: socket.data.userId,
     username: socket.data.username,
-  });
+  })
 
   // Emit users
   socket.emit('users', sessionStore
@@ -25,9 +26,10 @@ export function onConnection(socket: Socket) {
       id: session.userId,
       username: session.username,
     }))
-  );
+  )
 
-  // Todo: Emit live games
+  // Emit live games
+  socket.emit('games', gameStore.getAll())
 
   // Broadcast user connection
   socket.broadcast.emit('userConnected', {
@@ -38,15 +40,15 @@ export function onConnection(socket: Socket) {
 
   socket.on('disconnect', async () => {
     console.log(`${socket.data.username} disconnected`)
-    const matchingSockets = await socket.in(socket.data.userId).allSockets();
-    const isDisconnected = matchingSockets.size === 0;
-    if (!isDisconnected) return;
-    socket.broadcast.emit('userDisconnected', socket.data.userId);
+    const matchingSockets = await socket.in(socket.data.userId).allSockets()
+    const isDisconnected = matchingSockets.size === 0
+    if (!isDisconnected) return
+    socket.broadcast.emit('userDisconnected', socket.data.userId)
     sessionStore.set(socket.data.sessionId, {
       userId: socket.data.userId,
       username: socket.data.username,
       isConnected: false,
       sessionId: socket.data.sessionId,
-    });
+    })
   })
 }

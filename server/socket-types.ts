@@ -4,6 +4,7 @@ import type { Game } from './Game';
 export interface ServerToClientEvents {
   basicEmit: (a: number, b: string, c: Buffer) => void;
   gameCreated: (game: Game) => void;
+  games: (games: Game[]) => void;
   noArg: () => void;
   session: (data: SocketData) => void;
   userConnected: (data: UserState) => void;
@@ -14,7 +15,7 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   hello: () => void;
-  hostNewGame: () => void;
+  hostNewGame: (gameName: string) => void;
 }
 
 export interface InterServerEvents {
