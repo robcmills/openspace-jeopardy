@@ -9,6 +9,7 @@ import type {
 } from './socket-types'
 import { useSessionMiddleware } from './useSessionMiddleware'
 import { onConnection } from './onConnection'
+import { onGameEvents } from './onGameEvents'
 
 const PORT = 3000
 
@@ -32,6 +33,7 @@ useSessionMiddleware(io)
 io.on('connection', (socket) => {
   console.log(`${socket.data.username} connected`)
   onConnection(socket)
+  onGameEvents(socket)
 })
 
 httpServer.listen(PORT, () => {

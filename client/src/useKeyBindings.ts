@@ -6,6 +6,8 @@ import fill from './assets/board-fill.mp3'
 import { zoomInCategories, zoomOutCategories } from './zoomCategories';
 import { panCategories } from './panCategories';
 
+const SPACE_KEY_CODE = 32
+
 const audio = new Audio(fill);
 
 interface UseKeyBindingsArgs {
@@ -23,7 +25,11 @@ export function useKeyBindings({ gameState, setGameState }: UseKeyBindingsArgs) 
     } else if (event.key === 'p') {
       resetTiles()
       setGameState(Math.max(gameState - 1, 0))
-    } else if (event.keyCode === 32) { // Space
+    } else if (
+      event.keyCode === SPACE_KEY_CODE &&
+      [GameState.Jeopardy, GameState.FinalJeopardy]
+        .includes(gameState)
+    ) {
       audio.play()
       revealTiles()
     } else if (event.key === 'c') {
