@@ -6,7 +6,7 @@ const initialGame: Game = {
   id: '',
   hostUserId: '',
   name: '',
-  state: GameState.Lobby,
+  state: GameState.Intro,
 }
 
 export const gameAtom = atom<Game>(initialGame)

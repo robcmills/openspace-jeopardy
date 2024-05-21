@@ -4,10 +4,10 @@ import { gameStore } from './gameStore';
 export function onGameEvents(socket: Socket) {
   socket.on('hostNewGame', (name: string) => {
     console.log('hostNewGame')
-    const newGame = gameStore.new({
+    const newGame = gameStore.new(
+      socket.data.userId,
       name,
-      hostUserId: socket.data.userId
-    })
+    )
     socket.emit('gameCreated', newGame)
   });
 }

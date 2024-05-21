@@ -10,6 +10,7 @@ import type {
 import { useSessionMiddleware } from './useSessionMiddleware'
 import { onConnection } from './onConnection'
 import { onGameEvents } from './onGameEvents'
+import { join } from 'path'
 
 const PORT = 3000
 
@@ -27,6 +28,16 @@ app.get('/hello', (_, res) => {
 });
 
 app.use(express.static('../client/dist'))
+
+// Catch-all route to serve index.html for client-side routing
+const CLIENT_INDEX_HTML = join(
+  __dirname,
+  '../client/dist',
+  'index.html'
+)
+app.get('*', (_, res) => {
+  res.sendFile(CLIENT_INDEX_HTML)
+});
 
 useSessionMiddleware(io)
 

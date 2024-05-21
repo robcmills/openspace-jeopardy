@@ -6,7 +6,7 @@ export const gameStore = {
   gamesById: new Map<string, Game>(),
   indexByHostUserId: new Map<string, string>(),
 
-  new({ hostUserId, name }): Game {
+  new(hostUserId: string, name: string): Game {
     const newGame: Game = {
       id: randomId(),
       hostUserId,
