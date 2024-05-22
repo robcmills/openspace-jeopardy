@@ -7,7 +7,7 @@ import { useGameKeyBindings } from './useGameKeyBindings';
 
 export function Game() {
   useGameKeyBindings()
-  const gameState = useGameState()
+  const { gameState } = useGameState()
 
   return ({
     intro: <Intro />,

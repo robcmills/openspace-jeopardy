@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 import intro from './assets/intro.mp4'
 import { GameState } from './GameState'
-import { useSetGameState } from './useSetGameState'
+import { useGameState } from './useGameState'
 
 export function Intro() {
-  const { setGameState } = useSetGameState()
+  const { setGameState } = useGameState()
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {

@@ -5,7 +5,6 @@ import { resetTiles } from './resetTiles';
 import fill from './assets/board-fill.mp3'
 import { zoomInCategories, zoomOutCategories } from './zoomCategories';
 import { panCategories } from './panCategories';
-import { useSetGameState } from './useSetGameState';
 import { getNextGameState } from './getNextGameState';
 import { useGameState } from './useGameState';
 import { getPreviousGameState } from './getPreviousGameState';
@@ -15,8 +14,7 @@ const SPACE_KEY_CODE = 32
 const audio = new Audio(fill);
 
 export function useGameKeyBindings() {
-  const gameState = useGameState()
-  const { setGameState } = useSetGameState()
+  const { gameState, setGameState } = useGameState()
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     event.preventDefault()
