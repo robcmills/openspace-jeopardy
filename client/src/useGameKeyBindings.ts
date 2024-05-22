@@ -14,7 +14,7 @@ const SPACE_KEY_CODE = 32
 
 const audio = new Audio(fill);
 
-export function useKeyBindings() {
+export function useGameKeyBindings() {
   const gameState = useGameState()
   const { setGameState } = useSetGameState()
 

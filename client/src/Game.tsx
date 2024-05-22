@@ -3,16 +3,16 @@ import { Intro } from './Intro';
 import { Jeopardy } from './Jeopardy';
 import { Logo } from './Logo';
 import { useGameState } from './useGameState';
-import { useKeyBindings } from './useKeyBindings';
+import { useGameKeyBindings } from './useGameKeyBindings';
 
 export function Game() {
-  useKeyBindings()
+  useGameKeyBindings()
   const gameState = useGameState()
 
   return ({
     intro: <Intro />,
     logo: <Logo />,
-    jeopardy: <Jeopardy />,
+    jeopardy: <Jeopardy round={1} />,
     doubleJeopardy: <Jeopardy round={2} />,
     finalJeopardy: <FinalJeopardy />,
   })[gameState]
