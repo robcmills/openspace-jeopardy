@@ -1,6 +1,8 @@
 import { useAtomValue } from 'jotai'
 import { HostNewGameButton } from './HostNewGameButton'
 import { gamesAtom } from './gamesAtom'
+import { Link } from 'react-router-dom'
+import { getGamePath } from './getGamePath'
 
 export function LiveGames() {
   const games = useAtomValue(gamesAtom)
@@ -9,10 +11,12 @@ export function LiveGames() {
   }
 
   const gamesItems = games
-    .map(({ id, name }) => (
-      <div key={id}>
-        {name}
-        <button style={joinStyle}>Join</button>
+    .map((game) => (
+      <div key={game.id}>
+        {game.name}
+        <Link to={getGamePath(game)}>
+          <button style={joinStyle}>Join</button>
+        </Link>
       </div>
     ))
     .concat([(

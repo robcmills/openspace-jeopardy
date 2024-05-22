@@ -3,10 +3,18 @@ import { SocketClient } from './SocketClient';
 import { Game } from '../../server/Game';
 import { gameAtom } from './gameAtom';
 import { gamesAtom } from './gamesAtom';
+import { getGamePath } from './getGamePath';
+import { navigate } from './navigate';
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('gameCreated', (game: Game) => {
     console.log('gameCreated', game)
+    navigate.to(getGamePath(game))
+    jotaiStore.set(gameAtom, game)
+  })
+
+  socket.on('gameJoined', (game: Game) => {
+    console.log('gameJoined', game)
     jotaiStore.set(gameAtom, game)
   })
 

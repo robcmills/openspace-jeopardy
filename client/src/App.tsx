@@ -1,11 +1,11 @@
 import { CSSProperties } from 'react'
 import './App.css'
 import { absoluteFill } from './styles'
-import { Outlet } from 'react-router-dom'
-import { useGameStateNavigation } from './useGameStateNavigation'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { navigate } from './navigate'
 
 export function App() {
-  useGameStateNavigation()
+  navigate.to = useNavigate()
 
   const style: CSSProperties = {
     ...absoluteFill,
