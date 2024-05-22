@@ -1,9 +1,9 @@
 export enum GameState {
-  Intro,
-  Logo,
-  Jeopardy,
-  DoubleJeopardy,
-  FinalJeopardy,
+  Intro = 'intro',
+  Logo = 'logo',
+  Jeopardy = 'jeopardy',
+  DoubleJeopardy = 'doubleJeopardy',
+  FinalJeopardy = 'finalJeopardy',
 }
 
 export const GAME_STATE_PATHS = {

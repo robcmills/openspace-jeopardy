@@ -5,16 +5,17 @@ import { resetTiles } from './resetTiles';
 import fill from './assets/board-fill.mp3'
 import { zoomInCategories, zoomOutCategories } from './zoomCategories';
 import { panCategories } from './panCategories';
-import { useAtomValue } from 'jotai';
-import { gameAtom } from './gameAtom';
 import { useSetGameState } from './useSetGameState';
+import { getNextGameState } from './getNextGameState';
+import { useGameState } from './useGameState';
+import { getPreviousGameState } from './getPreviousGameState';
 
 const SPACE_KEY_CODE = 32
 
 const audio = new Audio(fill);
 
 export function useKeyBindings() {
-  const game = useAtomValue(gameAtom)
+  const gameState = useGameState()
   const { setGameState } = useSetGameState()
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
@@ -22,14 +23,14 @@ export function useKeyBindings() {
     console.log(event.key, event.keyCode)
     if (event.key === 'n') {
       resetTiles()
-      setGameState(Math.min(game.state + 1, Object.keys(GameState).length / 2 - 1))
+      setGameState(getNextGameState(gameState))
     } else if (event.key === 'p') {
       resetTiles()
-      setGameState(Math.max(game.state - 1, 0))
+      setGameState(getPreviousGameState(gameState))
     } else if (
       event.keyCode === SPACE_KEY_CODE &&
       [GameState.Jeopardy, GameState.FinalJeopardy]
-        .includes(game.state)
+        .includes(gameState)
     ) {
       audio.play()
       revealTiles()
@@ -40,7 +41,7 @@ export function useKeyBindings() {
     } else if (event.key === 'ArrowRight') {
       panCategories()
     }
-  }, [game.state])
+  }, [gameState])
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown)

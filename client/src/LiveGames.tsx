@@ -14,7 +14,7 @@ export function LiveGames() {
     .map((game) => (
       <div key={game.id}>
         {game.name}
-        <Link to={getGamePath(game)}>
+        <Link to={getGamePath(game.id)}>
           <button style={joinStyle}>Join</button>
         </Link>
       </div>
