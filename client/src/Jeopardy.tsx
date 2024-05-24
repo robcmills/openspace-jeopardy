@@ -10,15 +10,9 @@ interface JeopardyProps {
 
 export function Jeopardy({ round = 1 }: JeopardyProps) {
   const columns = round === 1 ? jeopardy : doubleJeopardy;
-  const left = (containerElement: HTMLElement | null) =>
-    <Board
-      columns={columns}
-      round={round}
-      containerElement={containerElement}
-    />
   return (
     <GameLayout
-      left={left}
+      left={<Board columns={columns} round={round} />}
       right={<Side />}
     />
   )

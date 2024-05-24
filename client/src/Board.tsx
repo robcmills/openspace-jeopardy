@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useState } from 'react';
 import { jeopardy } from './clues'
 import { Column } from './Column'
 import { Round } from './Round';
@@ -7,11 +7,13 @@ import { boardAspect, tileGap } from './constants';
 
 interface BoardProps {
   columns: typeof jeopardy;
-  containerElement: HTMLElement | null;
   round: Round;
 }
 
-export function Board({ columns, containerElement, round }: BoardProps) {
+export function Board({ columns, round }: BoardProps) {
+  const [containerElement, setContainerElement] =
+    useState<HTMLElement | null>(null)
+
   const { height, width } = containerElement
     ? containerElement.getBoundingClientRect()
     : { height: 0, width: 0 }
@@ -24,11 +26,9 @@ export function Board({ columns, containerElement, round }: BoardProps) {
 
   const boardStyle: CSSProperties = {
     gap: tileGap,
-    // height: fit.height,
-    // width: fit.width,
+    height: fit.height || '100%',
+    width: fit.width || '100%',
   }
-  if (fit.height) boardStyle.height = fit.height
-  if (fit.width) boardStyle.width = fit.width
 
   const columnNodes = columns.map((column, index) => {
     return (
@@ -46,6 +46,7 @@ export function Board({ columns, containerElement, round }: BoardProps) {
     <div
       className='board'
       id='Board'
+      ref={setContainerElement}
       style={boardStyle}
     >
       board
