@@ -1,21 +1,34 @@
-import { CSSProperties } from 'react';
-import { Side } from './Side';
+import { CSSProperties, useState } from 'react';
 import { absoluteFill } from './styles';
-import { Game } from './Game';
 
-export function GameLayout() {
+interface GameLayoutProps {
+  left: (containerElement: HTMLElement | null) => React.ReactNode;
+  right: React.ReactNode;
+}
+
+export function GameLayout({ left, right }: GameLayoutProps) {
+  const [containerElement, setContainerElement] =
+    useState<HTMLElement | null>(null)
+
   const containerStyle: CSSProperties = {
     ...absoluteFill,
-    // placeContent: 'center',
-    // placeItems: 'center',
     display: 'grid',
     gridTemplateColumns: '2fr 1fr',
   }
 
+  const leftStyle: CSSProperties = {
+    display: 'grid',
+    placeItems: 'stretch',
+  }
+
   return (
     <div style={containerStyle}>
-      <Game />
-      <Side />
+      <div ref={(el) => setContainerElement(el)} style={leftStyle}>
+        {left(containerElement)}
+      </div>
+      <div style={{ borderLeft: '1px solid lightgray' }}>
+        {right}
+      </div>
     </div>
   )
 }

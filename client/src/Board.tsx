@@ -7,21 +7,28 @@ import { boardAspect, tileGap } from './constants';
 
 interface BoardProps {
   columns: typeof jeopardy;
+  containerElement: HTMLElement | null;
   round: Round;
 }
 
-export function Board({ columns, round }: BoardProps) {
-  const { height, width } = getFitDimensions({
+export function Board({ columns, containerElement, round }: BoardProps) {
+  const { height, width } = containerElement
+    ? containerElement.getBoundingClientRect()
+    : { height: 0, width: 0 }
+  const fit = getFitDimensions({
     aspectRatio: boardAspect,
-    height: window.innerHeight,
-    width: window.innerWidth,
-  })
-
-  const style: CSSProperties = {
-    gap: tileGap,
     height,
     width,
+  })
+  console.log('fit', fit)
+
+  const boardStyle: CSSProperties = {
+    gap: tileGap,
+    // height: fit.height,
+    // width: fit.width,
   }
+  if (fit.height) boardStyle.height = fit.height
+  if (fit.width) boardStyle.width = fit.width
 
   const columnNodes = columns.map((column, index) => {
     return (
@@ -36,7 +43,11 @@ export function Board({ columns, round }: BoardProps) {
   })
 
   return (
-    <div className='board' id='Board' style={style}>
+    <div
+      className='board'
+      id='Board'
+      style={boardStyle}
+    >
       board
       {false && columnNodes}
     </div>
