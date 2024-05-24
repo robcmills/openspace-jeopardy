@@ -2,6 +2,7 @@ import { useSetAtom } from 'jotai'
 import { useState } from 'react'
 import { socketAtom } from './socketAtom'
 import { socket } from './socket'
+import { centerFill } from './styles'
 
 export function UsernameForm() {
   const setSocketAtom = useSetAtom(socketAtom)
@@ -20,14 +21,16 @@ export function UsernameForm() {
     socket.connect()
   }
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        <label>Username: &nbsp; </label>
-      </div>
-      <div>
-        <input onChange={onChange} type='text' value={value} /> &nbsp;
-        <button type='submit'>Submit</button>
-      </div>
-    </form>
+    <main style={centerFill}>
+      <form onSubmit={onSubmit}>
+        <div>
+          <label>Username: &nbsp; </label>
+        </div>
+        <div>
+          <input onChange={onChange} type='text' value={value} /> &nbsp;
+          <button type='submit'>Submit</button>
+        </div>
+      </form>
+    </main>
   )
 }

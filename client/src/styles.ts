@@ -10,3 +10,8 @@ export const gridCenter: CSSProperties = {
   placeContent: 'center',
   placeItems: 'center',
 }
+
+export const centerFill: CSSProperties = {
+  ...absoluteFill,
+  ...gridCenter,
+}
