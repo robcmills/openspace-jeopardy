@@ -1,6 +1,7 @@
 
 ### Todo
 
+- [ ] Implement GameLayout
 - [ ] Join as contestant / spectator
 - [ ] Move .css into inline styles to be consistent
-- [ ] Combine gameState and setGameState hooks
+- [x] Combine gameState and setGameState hooks

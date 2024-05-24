@@ -37,7 +37,8 @@ export function Board({ columns, round }: BoardProps) {
 
   return (
     <div className='board' id='Board' style={style}>
-      {columnNodes}
+      board
+      {false && columnNodes}
     </div>
   )
 }

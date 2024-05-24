@@ -23,6 +23,10 @@ const io = new Server<
   SocketData
 >(httpServer, {});
 
+app.get('/', (_, res) => {
+  res.redirect('/lobby');
+});
+
 app.get('/hello', (_, res) => {
   res.send('<h1>Hello world</h1>')
 });
