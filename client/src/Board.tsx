@@ -3,7 +3,7 @@ import { jeopardy } from './clues'
 import { Column } from './Column'
 import { Round } from './Round';
 import { getFitDimensions } from './getFitDimensions';
-import { boardAspect, tileGap } from './constants';
+import { boardAspect } from './constants';
 
 interface BoardProps {
   columns: typeof jeopardy;
@@ -22,11 +22,17 @@ export function Board({ columns, round }: BoardProps) {
     height,
     width,
   })
-  console.log('fit', fit)
 
   const boardStyle: CSSProperties = {
-    gap: tileGap,
+    alignItems: 'stretch',
+    backgroundColor: 'hsl(0, 0%, 10%)',
+    border: '1px solid white',
+    boxSizing: 'border-box',
+    display: 'grid',
+    gridAutoFlow: 'column',
     height: fit.height || '100%',
+    justifyContent: 'stretch',
+    transition: 'transform 1s',
     width: fit.width || '100%',
   }
 
@@ -49,8 +55,7 @@ export function Board({ columns, round }: BoardProps) {
       ref={setContainerElement}
       style={boardStyle}
     >
-      board
-      {false && columnNodes}
+      {columnNodes}
     </div>
   )
 }

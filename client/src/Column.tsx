@@ -2,7 +2,7 @@ import { CategoryTile } from './CategoryTile';
 import { Round } from './Round';
 import { Tile } from './Tile';
 import { jeopardy } from './clues'
-import { columnCount, tileAspect, tileGap, xgaps } from './constants';
+import { columnCount, tileAspect } from './constants';
 
 interface ColumnProps {
   boardWidth: number;
@@ -12,10 +12,18 @@ interface ColumnProps {
 }
 
 export function Column({ boardWidth, column, index, round }: ColumnProps) {
-  const tileWidth = (boardWidth - xgaps) / columnCount
+  const tileWidth = boardWidth / columnCount
   const tileHeight = tileWidth / tileAspect
 
-  const tiles = column.items.map((item, row) => 
+  const categoryTile = (
+    <CategoryTile
+      category={column.category}
+      height={tileHeight}
+      width={tileWidth}
+    />
+  )
+
+  const clueTiles = column.items.map((item, row) =>
     <Tile
       column={index}
       height={tileHeight}
@@ -27,10 +35,15 @@ export function Column({ boardWidth, column, index, round }: ColumnProps) {
     />
   )
 
+  const columnStyle = {
+    display: 'grid',
+    placeItems: 'center',
+  }
+
   return (
-    <div className='column' style={{ gap: tileGap }}>
-      <CategoryTile category={column.category} height={tileHeight} width={tileWidth} />
-      {tiles}
+    <div style={columnStyle}>
+      {false && categoryTile}
+      {false && clueTiles}
     </div>
   )
 }

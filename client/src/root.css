@@ -22,19 +22,6 @@ h1, h2, h3, h4, h5, h6, p {
   margin: 0;
 }
 
-.board {
-  align-items: start;
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: center;
-  transition: transform 1s;
-}
-
-.column {
-  display: grid;
-  place-items: center;
-}
-
 .tile {
   background-color: rgb(0, 30, 155);
   box-sizing: border-box;
