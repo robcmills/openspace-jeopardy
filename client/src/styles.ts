@@ -15,3 +15,10 @@ export const centerFill: CSSProperties = {
   ...absoluteFill,
   ...gridCenter,
 }
+
+export const typography: CSSProperties = {
+  color: 'white',
+  fontWeight: 'bold',
+  textAlign: 'center',
+  textTransform: 'uppercase',
+}

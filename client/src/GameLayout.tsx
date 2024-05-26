@@ -16,6 +16,7 @@ export function GameLayout({ left, right }: GameLayoutProps) {
   const leftStyle: CSSProperties = {
     display: 'grid',
     placeItems: 'center',
+    position: 'relative',
   }
 
   return (

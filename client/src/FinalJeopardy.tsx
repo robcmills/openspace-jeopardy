@@ -3,6 +3,9 @@ import finalJeopardySrc from './assets/final-jeopardy.jpg'
 import { finalJeopardy } from './clues'
 import { BLUE_BACKGROUND } from './colors'
 import finalJeopardyTheme from './assets/final-jeopardy-theme.mp3'
+import { GameLayout } from './GameLayout'
+import { Side } from './Side'
+import { typography } from './styles'
 
 export type FinalJeopardyState = 'logo' | 'category' | 'answer'
 
@@ -25,18 +28,13 @@ export function FinalJeopardy() {
   const logo = <img src={finalJeopardySrc} style={imgStyle} />
 
   const style: CSSProperties = {
+    ...typography,
     background: BLUE_BACKGROUND,
-    color: 'white',
     display: 'grid',
-    fontSize: '3rem',
-    fontWeight: 'bold',
     inset: 0,
     padding: '4rem',
     placeItems: 'center',
     position: 'absolute',
-    textAlign: 'center',
-    textShadow: 'black 4px 4px 0px',
-    textTransform: 'uppercase',
   }
 
   const category = (
@@ -46,7 +44,7 @@ export function FinalJeopardy() {
   )
 
   const audioStyle: CSSProperties = {
-    bottom: '4rem',
+    bottom: '2rem',
     position: 'absolute',
   }
 
@@ -65,9 +63,16 @@ export function FinalJeopardy() {
     answer, 
   }[state]
 
-  return (
+  const left = (
     <div onClick={cycle}>
       {node}
     </div>
+  )
+
+  return (
+    <GameLayout
+      left={left}
+      right={<Side />}
+    />
   )
 }

@@ -3,12 +3,14 @@ import { jeopardy } from './clues'
 import { getCenterTransform } from './getCenterTransform'
 import { Round } from './Round'
 import { tilesAtoms } from './tilesAtoms'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { LogoBackground } from './LogoBackground'
 import { getScaleTransform } from './getScaleTransform'
 import { getFullScreenScaleTransform } from './getFullScreenScaleTransform'
 import { BLUE_BACKGROUND } from './colors'
 import { DailyDouble } from './DailyDouble'
+import { typography } from './styles'
+import { boardSizeAtom } from './boardSizeAtom'
 
 export const tileStyle: CSSProperties = {
   backgroundColor: 'rgb(0, 30, 155)',
@@ -32,6 +34,7 @@ interface TileProps {
 }
 
 export function Tile({ column, item, round, row }: TileProps) {
+  const boardSize = useAtomValue(boardSizeAtom)
   const tileRef = useRef<HTMLDivElement>(null)
 
   const tileStateAtom = tilesAtoms[column][row]
@@ -46,7 +49,14 @@ export function Tile({ column, item, round, row }: TileProps) {
       blank: 'logo',
     } as const)[state])
 
-  const money = `$${(row + 1) * 200 * round}`
+  const money = (
+    <span style={{
+      color: 'rgb(254, 199, 95)',
+      fontSize: `${boardSize.height / 16}px`
+    }}>
+     {`$${(row + 1) * 200 * round}`}
+    </span>
+  )
 
   const node = {
     logo: <LogoBackground column={column} row={row} />,
@@ -76,7 +86,9 @@ export function Tile({ column, item, round, row }: TileProps) {
 
   const style: CSSProperties = {
     ...tileStyle,
+    ...typography,
     borderColor,
+    fontSize: `${boardSize.height / 128}px`,
     inset: 0,
     position: 'absolute',
     zIndex: shouldZoom ? 2 : 0,

@@ -19,7 +19,9 @@ export function useGameKeyBindings() {
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     event.preventDefault()
     console.log(event.key, event.keyCode)
-    if (event.key === 'n') {
+    if (event.key === 'r') {
+      window.location.reload()
+    } else if (event.key === 'n') {
       resetTiles()
       setGameState(getNextGameState(gameState))
     } else if (event.key === 'p') {
