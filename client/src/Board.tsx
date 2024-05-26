@@ -29,7 +29,7 @@ export function Board({ columns, round }: BoardProps) {
     border: '1px solid white',
     boxSizing: 'border-box',
     display: 'grid',
-    gridAutoFlow: 'column',
+    gridTemplateColumns: 'repeat(6, 1fr)',
     height: fit.height || '100%',
     justifyContent: 'stretch',
     transition: 'transform 1s',

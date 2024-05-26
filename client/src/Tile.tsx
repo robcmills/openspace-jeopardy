@@ -10,6 +10,20 @@ import { getFullScreenScaleTransform } from './getFullScreenScaleTransform'
 import { BLUE_BACKGROUND } from './colors'
 import { DailyDouble } from './DailyDouble'
 
+export const tileStyle: CSSProperties = {
+  backgroundColor: 'rgb(0, 30, 155)',
+  border: '1px solid black',
+  boxSizing: 'border-box',
+  cursor: 'pointer',
+  display: 'grid',
+  fontWeight: 'bold',
+  placeItems: 'center',
+  position: 'relative',
+  textAlign: 'center',
+  textTransform: 'uppercase',
+  transition: 'transform 1s',
+}
+
 interface TileProps {
   column: number;
   height: number;
@@ -19,7 +33,7 @@ interface TileProps {
   width: number;
 }
 
-export function Tile({ column, height, item, round, row, width }: TileProps) {
+export function Tile({ column, item, round, row, width }: TileProps) {
   const tileRef = useRef<HTMLDivElement>(null)
 
   const tileStateAtom = tilesAtoms[column][row]
@@ -47,9 +61,9 @@ export function Tile({ column, height, item, round, row, width }: TileProps) {
   const className = [state, 'tile'].join(' ')
 
   const containerStyle: CSSProperties = {
-    height,
+    // height,
     position: 'relative',
-    width,
+    // width,
   }
   const shouldZoom = ['answer', 'dailyDouble'].includes(state)
 
@@ -81,7 +95,7 @@ export function Tile({ column, height, item, round, row, width }: TileProps) {
     <div style={containerStyle} onClick={cycle} ref={tileRef}>
       <div className={className} style={backdropStyle} />
       <div className={className} style={style}>
-        {node}
+        {false && node}
       </div>
     </div>
   )

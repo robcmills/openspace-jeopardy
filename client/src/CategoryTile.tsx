@@ -1,5 +1,6 @@
-import { CSSProperties, useState } from 'react'
+import { useState } from 'react'
 import { LogoImage } from './LogoImage'
+import { tileStyle } from './Tile';
 
 type CategoryTileState = 'logo' | 'category'
 
@@ -9,7 +10,7 @@ interface CategoryTileProps {
   width: number;
 }
 
-export function CategoryTile({ category, height, width }: CategoryTileProps) {
+export function CategoryTile({ category }: CategoryTileProps) {
   const [state, setState] = useState<CategoryTileState>('logo')
   const toggleState = () => {
     setState(state === 'logo' ? 'category' : 'logo')
@@ -19,13 +20,15 @@ export function CategoryTile({ category, height, width }: CategoryTileProps) {
     ? <LogoImage />
     : category
 
-  const style: CSSProperties = {
-    height,
-    width,
+  const style = {
+    ...tileStyle,
+    backgroundColor: state === 'logo'
+      ? 'black' :
+      tileStyle.backgroundColor,
   }
 
   return (
-    <div className='category tile' onClick={toggleState} style={style}>
+    <div onClick={toggleState} style={style}>
       {content}
     </div>
   )

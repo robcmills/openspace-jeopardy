@@ -37,13 +37,15 @@ export function Column({ boardWidth, column, index, round }: ColumnProps) {
 
   const columnStyle = {
     display: 'grid',
-    placeItems: 'center',
+    gridTemplateRows: 'repeat(6, 1fr)',
+    placeContent: 'stretch',
+    placeItems: 'stretch',
   }
 
   return (
     <div style={columnStyle}>
-      {false && categoryTile}
-      {false && clueTiles}
+      {categoryTile}
+      {clueTiles}
     </div>
   )
 }

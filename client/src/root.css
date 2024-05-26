@@ -22,19 +22,6 @@ h1, h2, h3, h4, h5, h6, p {
   margin: 0;
 }
 
-.tile {
-  background-color: rgb(0, 30, 155);
-  box-sizing: border-box;
-  cursor: pointer;
-  display: grid;
-  font-weight: bold;
-  place-items: center;
-  position: relative;
-  text-align: center;
-  text-transform: uppercase;
-  transition: transform 1s;
-}
-
 .money {
   color: rgb(254, 199, 95);
   font-size: 2rem;
@@ -50,12 +37,9 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .fullscreen {
-  bottom: 0;
   height: 100%;
-  left: 0;
+  inset: 0;
   position: absolute;
-  right: 0;
-  top: 0;
   width: 100%;
 }
 
