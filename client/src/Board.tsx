@@ -1,9 +1,11 @@
-import { CSSProperties, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import { jeopardy } from './clues'
 import { Column } from './Column'
 import { Round } from './Round';
 import { getFitDimensions } from './getFitDimensions';
 import { boardAspect } from './constants';
+import { useAtom } from 'jotai';
+import { boardSizeAtom } from './boardSizeAtom';
 
 interface BoardProps {
   columns: typeof jeopardy;
@@ -11,17 +13,21 @@ interface BoardProps {
 }
 
 export function Board({ columns, round }: BoardProps) {
-  const [containerElement, setContainerElement] =
+  const [boardSize, setBoardSize] = useAtom(boardSizeAtom)
+  const [boardElement, setBoardElement] =
     useState<HTMLElement | null>(null)
 
-  const { height, width } = containerElement
-    ? containerElement.getBoundingClientRect()
-    : { height: 0, width: 0 }
-  const fit = getFitDimensions({
-    aspectRatio: boardAspect,
-    height,
-    width,
-  })
+  useEffect(() => {
+    if (!boardElement) return
+    const rect = boardElement.getBoundingClientRect()
+    setBoardSize(getFitDimensions({
+      aspectRatio: boardAspect,
+      height: rect.height,
+      width: rect.width,
+    }))
+  }, [boardElement])
+
+  const { height, width } = boardSize
 
   const boardStyle: CSSProperties = {
     alignItems: 'stretch',
@@ -30,16 +36,15 @@ export function Board({ columns, round }: BoardProps) {
     boxSizing: 'border-box',
     display: 'grid',
     gridTemplateColumns: 'repeat(6, 1fr)',
-    height: fit.height || '100%',
+    height: height || '100%',
     justifyContent: 'stretch',
     transition: 'transform 1s',
-    width: fit.width || '100%',
+    width: width || '100%',
   }
 
   const columnNodes = columns.map((column, index) => {
     return (
       <Column
-        boardWidth={width}
         column={column}
         index={index}
         key={column.category}
@@ -52,7 +57,7 @@ export function Board({ columns, round }: BoardProps) {
     <div
       className='board'
       id='Board'
-      ref={setContainerElement}
+      ref={setBoardElement}
       style={boardStyle}
     >
       {columnNodes}

@@ -6,8 +6,6 @@ type CategoryTileState = 'logo' | 'category'
 
 interface CategoryTileProps {
   category: string;
-  height: number;
-  width: number;
 }
 
 export function CategoryTile({ category }: CategoryTileProps) {

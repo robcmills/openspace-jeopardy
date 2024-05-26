@@ -26,14 +26,12 @@ export const tileStyle: CSSProperties = {
 
 interface TileProps {
   column: number;
-  height: number;
   item: typeof jeopardy[number]['items'][number];
   round: Round;
   row: number;
-  width: number;
 }
 
-export function Tile({ column, item, round, row, width }: TileProps) {
+export function Tile({ column, item, round, row }: TileProps) {
   const tileRef = useRef<HTMLDivElement>(null)
 
   const tileStateAtom = tilesAtoms[column][row]
@@ -51,7 +49,7 @@ export function Tile({ column, item, round, row, width }: TileProps) {
   const money = `$${(row + 1) * 200 * round}`
 
   const node = {
-    logo: <LogoBackground column={column} row={row} tileWidth={width} />,
+    logo: <LogoBackground column={column} row={row} />,
     money: money,
     answer: item.answer,
     dailyDouble: <DailyDouble />,
