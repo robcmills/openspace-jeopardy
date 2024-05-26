@@ -32,7 +32,6 @@ export function Board({ columns, round }: BoardProps) {
   const boardStyle: CSSProperties = {
     alignItems: 'stretch',
     backgroundColor: 'hsl(0, 0%, 10%)',
-    border: '1px solid white',
     boxSizing: 'border-box',
     display: 'grid',
     gridTemplateColumns: 'repeat(6, 1fr)',

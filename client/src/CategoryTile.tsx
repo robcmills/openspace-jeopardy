@@ -26,7 +26,7 @@ export function CategoryTile({ category }: CategoryTileProps) {
   }
 
   return (
-    <div onClick={toggleState} style={style}>
+    <div className='category tile' onClick={toggleState} style={style}>
       {content}
     </div>
   )
