@@ -12,7 +12,7 @@ import { DailyDouble } from './DailyDouble'
 
 export const tileStyle: CSSProperties = {
   backgroundColor: 'rgb(0, 30, 155)',
-  border: '1px solid black',
+  border: '2px solid black',
   boxSizing: 'border-box',
   cursor: 'pointer',
   display: 'grid',
@@ -58,26 +58,30 @@ export function Tile({ column, item, round, row, width }: TileProps) {
     blank: '',
   }[state]
 
-  const className = [state, 'tile'].join(' ')
+  const className = state
 
   const containerStyle: CSSProperties = {
-    // height,
     position: 'relative',
-    // width,
   }
   const shouldZoom = ['answer', 'dailyDouble'].includes(state)
 
-  const style: CSSProperties = {
-    inset: 0,
-    position: 'absolute',
-    zIndex: shouldZoom ? 2 : 0,
-  }
+  const borderColor = shouldZoom ? BLUE_BACKGROUND : 'black'
 
   const backdropStyle: CSSProperties = {
+    ...tileStyle,
     background: BLUE_BACKGROUND,
+    borderColor,
     inset: 0,
     position: 'absolute',
     zIndex: shouldZoom ? 1 : 0,
+  }
+
+  const style: CSSProperties = {
+    ...tileStyle,
+    borderColor,
+    inset: 0,
+    position: 'absolute',
+    zIndex: shouldZoom ? 2 : 0,
   }
 
   if (shouldZoom && tileRef.current) {
@@ -95,7 +99,7 @@ export function Tile({ column, item, round, row, width }: TileProps) {
     <div style={containerStyle} onClick={cycle} ref={tileRef}>
       <div className={className} style={backdropStyle} />
       <div className={className} style={style}>
-        {false && node}
+        {node}
       </div>
     </div>
   )
