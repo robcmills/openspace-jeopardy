@@ -1,8 +1,10 @@
-import { LoaderFunction } from 'react-router-dom';
+import { LoaderFunction } from 'react-router-dom'
 
-export const gameLoader: LoaderFunction = ({ params }) => {
+export const gameLoader: LoaderFunction = async ({ params }) => {
   console.log('gameLoader', params)
-  // if (params.gameId) socket.emit('getGame', params.gameId)
-  // return null
-  return fetch(`/api/games/${params.gameId}`)
+  const response = await fetch(`/api/games/${params.gameId}`)
+  if (response.status === 404) {
+    throw new Response('Not Found', { status: 404 })
+  }
+  return response.json()
 }
