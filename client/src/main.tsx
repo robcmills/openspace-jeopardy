@@ -1,15 +1,18 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
-import { Provider } from 'jotai'
+import { Provider as JotaiProvider } from 'jotai'
 import { jotaiStore } from './jotaiStore'
 import { RouterProvider } from 'react-router-dom'
 import { router } from './router'
 
+// initialize socket
+import './socket'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store={jotaiStore}>
+    <JotaiProvider store={jotaiStore}>
       <RouterProvider router={router} />
-    </Provider>
+    </JotaiProvider>
   </StrictMode>,
 )

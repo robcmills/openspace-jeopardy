@@ -1,4 +1,3 @@
-import { GameState } from '../client/src/GameState';
 import type { Game } from './Game';
 import { randomId } from './randomId';
 
@@ -11,7 +10,6 @@ export const gameStore = {
       id: randomId(),
       hostUserId,
       name,
-      state: GameState.Intro,
     }
     this.set(newGame)
     return newGame

@@ -6,6 +6,7 @@ import { useGameState } from './useGameState';
 import { useGameKeyBindings } from './useGameKeyBindings';
 
 export function Game() {
+  console.log('Game component render')
   useGameKeyBindings()
   const { gameState } = useGameState()
 

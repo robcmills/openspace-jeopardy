@@ -7,6 +7,11 @@ import { getGamePath } from './getGamePath';
 import { navigate } from './navigate';
 
 export function onSocketGameEvents(socket: SocketClient) {
+  socket.on('game', (game: Game) => {
+    console.log('game', game)
+    jotaiStore.set(gameAtom, game)
+  })
+
   socket.on('gameCreated', (game: Game) => {
     console.log('gameCreated', game)
     navigate.to(getGamePath(game.id))

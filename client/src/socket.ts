@@ -12,3 +12,5 @@ export const socket: Socket = io({ autoConnect: false })
 onSocketSessionEvents(socket)
 onSocketUserEvents(socket)
 onSocketGameEvents(socket)
+
+console.log('client/src/socket.ts')

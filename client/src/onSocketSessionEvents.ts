@@ -1,13 +1,13 @@
-import { SocketClient } from './SocketClient';
-import { jotaiStore } from './jotaiStore';
-import { socketAtom } from './socketAtom';
+import { SocketClient } from './SocketClient'
+import { jotaiStore } from './jotaiStore'
+import { socketAtom } from './socketAtom'
 
 export function onSocketSessionEvents(socket: SocketClient) {
-  const sessionId = localStorage.getItem('sessionId');
+  const sessionId = localStorage.getItem('sessionId')
 
   if (sessionId) {
-    socket.auth = { sessionId };
-    socket.connect();
+    socket.auth = { sessionId }
+    socket.connect()
   }
 
   socket.on('session', ({ sessionId, userId, username }) => {
@@ -15,7 +15,7 @@ export function onSocketSessionEvents(socket: SocketClient) {
     // attach the session ID to the next reconnection attempts
     socket.auth = { sessionId }
     localStorage.setItem('sessionId', sessionId)
-    // socket.data.userID = userID;
+    // socket.data.userID = userID
     jotaiStore.set(socketAtom, state => ({
       ...state,
       isConnected: true,
@@ -24,7 +24,7 @@ export function onSocketSessionEvents(socket: SocketClient) {
       userId,
       username,
     }))
-  });
+  })
 
   socket.on('connect', () => {
     console.log('connected')

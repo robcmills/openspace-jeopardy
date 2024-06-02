@@ -19,6 +19,7 @@ export function onConnection(socket: Socket) {
   })
 
   // Emit users
+  // Maybe don't do this, unless we know they are in the lobby
   socket.emit('users', sessionStore
     .getAll()
     .map(session => ({
@@ -29,9 +30,11 @@ export function onConnection(socket: Socket) {
   )
 
   // Emit live games
+  // Maybe don't do this, unless we know they are in the lobby
   socket.emit('games', gameStore.getAll())
 
   // Broadcast user connection
+  // to right room?
   socket.broadcast.emit('userConnected', {
     isConnected: true,
     id: socket.data.userId,

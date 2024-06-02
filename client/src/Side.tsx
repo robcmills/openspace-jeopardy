@@ -1,11 +1,13 @@
+import { Contestants } from './Contestants'
+
 export function Side() {
   const sideStyle = {
-    borderLeft: '1px solid lightgray',
+    display: 'grid',
   }
 
   return (
     <div style={sideStyle}>
-      Side content (will be a scoreboard and contestant ui (buzzers, etc))
+      <Contestants />
     </div>
   )
 }

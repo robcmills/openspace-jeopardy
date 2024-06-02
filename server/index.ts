@@ -11,6 +11,7 @@ import { useSessionMiddleware } from './useSessionMiddleware'
 import { onConnection } from './onConnection'
 import { onGameEvents } from './onGameEvents'
 import { join } from 'path'
+import { useApiEndpoints } from './useApiEndpoints'
 
 const PORT = 3000
 
@@ -30,6 +31,8 @@ app.get('/', (_, res) => {
 app.get('/hello', (_, res) => {
   res.send('<h1>Hello world</h1>')
 });
+
+useApiEndpoints(app)
 
 app.use(express.static('../client/dist'))
 
