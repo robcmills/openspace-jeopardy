@@ -7,8 +7,11 @@ import { UsernameForm } from './UsernameForm'
 
 export function RootRoute() {
   navigate.to = useNavigate()
-  const { isConnected, sessionId } = useAtomValue(socketAtom)
+  const { isSessionEstablished, sessionId } = useAtomValue(socketAtom)
   if (!sessionId) return <UsernameForm />
-  if (!isConnected) return <div>Connecting...</div>
+  if (!isSessionEstablished) {
+    console.log('Connecting...')
+    return <div>Connecting...</div>
+  }
   return <Outlet />
 }

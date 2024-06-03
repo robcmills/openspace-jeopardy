@@ -7,13 +7,28 @@ import { Game as GameComponent } from './Game'
 
 export function GameRoute() {
   const game = useLoaderData() as GameType
-  const { isConnected, sessionId, userId, username } =
-    useAtomValue(socketAtom)
+  const {
+    isConnected,
+    isSessionEstablished,
+    sessionId,
+    userId,
+    username,
+  } = useAtomValue(socketAtom)
   console.log(
     'GameRoute',
-    { isConnected, game, sessionId, username, userId }
+    {
+      isConnected,
+      isSessionEstablished,
+      game,
+      sessionId,
+      username,
+      userId,
+    }
   )
-  if (!game || !sessionId) return <div>Loading...</div>
+  if (!isSessionEstablished || !game || !sessionId) {
+    console.log('Loading...')
+    return <div>Loading...</div>
+  }
   // const isHost = useIsHost()
   // if (!username) return <UsernameForm />
   const isHost = userId === game.hostUserId

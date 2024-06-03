@@ -6,6 +6,10 @@ export function onSocketSessionEvents(socket: SocketClient) {
   const sessionId = localStorage.getItem('sessionId')
 
   if (sessionId) {
+    jotaiStore.set(socketAtom, state => ({
+      ...state,
+      sessionId,
+    }))
     socket.auth = { sessionId }
     socket.connect()
   }
@@ -18,8 +22,7 @@ export function onSocketSessionEvents(socket: SocketClient) {
     // socket.data.userID = userID
     jotaiStore.set(socketAtom, state => ({
       ...state,
-      isConnected: true,
-      isConnectionError: false,
+      isSessionEstablished: true,
       sessionId,
       userId,
       username,
@@ -45,10 +48,14 @@ export function onSocketSessionEvents(socket: SocketClient) {
   })
 
   socket.on('connect_error', (error: Error) => {
-    console.error('connect_error', error)
+    console.error('connect_error', { error })
+    if (error.message === 'Invalid session') {
+      localStorage.removeItem('sessionId')
+    }
     jotaiStore.set(socketAtom, state => ({
       ...state,
       isConnectionError: true,
+      sessionId: null,
     }))
   })
 }

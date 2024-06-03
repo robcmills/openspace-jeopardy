@@ -29,8 +29,12 @@ socket.connect()
                       // useSessionMiddleware.ts
                       sessionId = socket.handshake.auth.sessionId
                       if sessionId
-                        socket.data = store.getSession(sessionId)
-                        return
+                        session = store.getSession(sessionId)
+                        if session
+                          socket.data = session
+                          return next()
+                        else
+                          return error // session expired
 
                       if not socket.handshake.auth.username
                         return error
