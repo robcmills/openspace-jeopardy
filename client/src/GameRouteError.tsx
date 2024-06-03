@@ -2,7 +2,6 @@ import { Link, useRouteError } from 'react-router-dom'
 
 export function GameRouteError() {
   const error = useRouteError() as Error & { status: number }
-  console.error(error)
   if (error.status === 404) {
     return (
       <>
@@ -11,5 +10,6 @@ export function GameRouteError() {
       </>
     )
   }
+  console.error(error)
   return <p>An error occurred.</p>
 }

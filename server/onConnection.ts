@@ -1,5 +1,4 @@
 import type { Socket } from './Socket'
-import { gameStore } from './gameStore'
 import { sessionStore } from './sessionStore'
 
 export function onConnection(socket: Socket) {
@@ -15,29 +14,6 @@ export function onConnection(socket: Socket) {
   socket.emit('session', {
     sessionId: socket.data.sessionId,
     userId: socket.data.userId,
-    username: socket.data.username,
-  })
-
-  // Emit users
-  // Maybe don't do this, unless we know they are in the lobby
-  socket.emit('users', sessionStore
-    .getAll()
-    .map(session => ({
-      isConnected: session.isConnected,
-      id: session.userId,
-      username: session.username,
-    }))
-  )
-
-  // Emit live games
-  // Maybe don't do this, unless we know they are in the lobby
-  socket.emit('games', gameStore.getAll())
-
-  // Broadcast user connection
-  // to right room?
-  socket.broadcast.emit('userConnected', {
-    isConnected: true,
-    id: socket.data.userId,
     username: socket.data.username,
   })
 

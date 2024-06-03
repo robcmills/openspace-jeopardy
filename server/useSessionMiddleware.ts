@@ -4,7 +4,6 @@ import { sessionStore } from './sessionStore'
 
 export function useSessionMiddleware(io: Server) {
   io.use((socket, next) => {
-    console.log('useSessionMiddleware', socket.handshake.auth)
     const sessionId = socket.handshake.auth.sessionId
     if (sessionId) {
       const session = sessionStore.get(sessionId)
@@ -15,11 +14,12 @@ export function useSessionMiddleware(io: Server) {
         return next()
       }
       // session expired
-      console.log('Invalid session')
+      console.warn('Invalid session')
       return next(new Error('Invalid session'))
     }
     const username = socket.handshake.auth.username
     if (!username) {
+      console.warn('Invalid username')
       return next(new Error('Invalid username'))
     }
     socket.data.sessionId = randomId()

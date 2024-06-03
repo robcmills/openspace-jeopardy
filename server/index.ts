@@ -12,6 +12,7 @@ import { onConnection } from './onConnection'
 import { onGameEvents } from './onGameEvents'
 import { join } from 'path'
 import { useApiEndpoints } from './useApiEndpoints'
+import { onLobbyEvents } from './onLobbyEvents'
 
 const PORT = 3000
 
@@ -51,6 +52,7 @@ useSessionMiddleware(io)
 io.on('connection', (socket) => {
   console.log(`${socket.data.username} connected`)
   onConnection(socket)
+  onLobbyEvents(socket, io)
   onGameEvents(socket)
 })
 

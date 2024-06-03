@@ -1,6 +1,5 @@
 import { socket } from './socket';
 import { ConnectionStatus } from './ConnectionStatus';
-import { UsernameForm } from './UsernameForm';
 import { useAtomValue } from 'jotai';
 import { socketAtom } from './socketAtom';
 import { ConnectedUsers } from './ConnectedUsers';
@@ -8,8 +7,7 @@ import { LiveGames } from './LiveGames';
 import { centerFill } from './styles';
 
 export function Lobby() {
-  const { isConnected, username } = useAtomValue(socketAtom)
-  if (!username) return <UsernameForm />
+  const { isSessionEstablished } = useAtomValue(socketAtom)
 
   const style = {
     ...centerFill,
@@ -32,8 +30,8 @@ export function Lobby() {
         <button onClick={() => { socket.disconnect() }}>Disconnect</button>
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-        {isConnected && <LiveGames />}
-        {isConnected && <ConnectedUsers />}
+        {isSessionEstablished && <LiveGames />}
+        {isSessionEstablished && <ConnectedUsers />}
       </div>
     </main>
   )
