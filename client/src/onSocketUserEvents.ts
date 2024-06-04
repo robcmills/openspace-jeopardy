@@ -10,7 +10,6 @@ export function onSocketUserEvents(socket: SocketClient) {
       acc[user.id] = user
       return acc
     }, {} as Record<string, UserState>)
-    console.log('usersById', usersById)
 
     jotaiStore.set(usersAtom, state => ({
       ...state,

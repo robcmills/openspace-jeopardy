@@ -11,8 +11,6 @@ export interface ServerToClientEvents {
   session: (data: SocketData) => void;
   userConnected: (data: UserState) => void;
   userDisconnected: (userId: string) => void;
-  userJoinedLobby: (data: UserState) => void;
-  userLeftLobby: (userId: string) => void;
   users: (data: UserState[]) => void;
   withAck: (d: string, callback: (e: number) => void) => void;
 }
