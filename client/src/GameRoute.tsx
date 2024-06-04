@@ -1,11 +1,10 @@
 import { useAtomValue } from 'jotai'
 import { socketAtom } from './socketAtom'
-import { useLoaderData } from 'react-router-dom'
-import type { Game as GameType } from '../../server/Game'
 import { Game as GameComponent } from './Game'
+import { useGameRouteData } from './useGameRouteData'
 
 export function GameRoute() {
-  const game = useLoaderData() as GameType
+  const { game } = useGameRouteData()
   const {
     isConnected,
     isSessionEstablished,
