@@ -2,9 +2,10 @@ import { useAtomValue } from 'jotai'
 import { socketAtom } from './socketAtom'
 import { Game as GameComponent } from './Game'
 import { useGameRouteData } from './useGameRouteData'
+import { JoinGame } from './JoinGame'
 
 export function GameRoute() {
-  const { game } = useGameRouteData()
+  const { contestants, game } = useGameRouteData()
   const {
     isConnected,
     isSessionEstablished,
@@ -28,7 +29,10 @@ export function GameRoute() {
     return <div>Loading...</div>
   }
   const isHost = userId === game.hostUserId
-  console.log('GameRoute', { isHost })
-  // if isContestant or isSpectator
-  return <GameComponent />
+  const isContestant = contestants.some(
+    contestant => contestant.id === userId
+  )
+  console.log({ isHost, isContestant })
+  if (isContestant || isHost) return <GameComponent />
+  return <JoinGame />
 }

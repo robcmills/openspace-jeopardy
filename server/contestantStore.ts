@@ -1,5 +1,8 @@
+import type { UserState } from '../client/src/UserState';
 import type { Contestant } from './Contestant';
+import type { Session } from './Session';
 import { randomId } from './randomId';
+import { sessionStore } from './sessionStore';
 
 export const contestantStore = {
   contestantsById: new Map<string, Contestant>(),
@@ -18,7 +21,19 @@ export const contestantStore = {
   getByGameId(gameId: string) {
     const contestantIds = this.indexByGameId.get(gameId)
     if (!contestantIds) return []
-    return [...contestantIds].map(id => this.contestantsById.get(id))
+    return [...contestantIds]
+      .map(id => this.contestantsById.get(id))
+      .filter((contestant): contestant is Contestant => Boolean(contestant))
+      .map(contestant => sessionStore.getByUserId(contestant?.userId || ''))
+      .filter((session): session is Session => Boolean(session))
+      .map(session => {
+        const user: UserState = {
+          isConnected: session.isConnected,
+          username: session.username,
+          id: session.userId,
+        }
+        return user
+      })
   },
 
   set(contestant: Contestant) {
