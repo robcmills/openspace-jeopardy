@@ -5,4 +5,5 @@ export type GameRouteData = {
   contestants: UserState[]
   game: Game
   host: UserState
+  spectators: UserState[]
 }

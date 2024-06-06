@@ -33,7 +33,7 @@ app.get('/hello', (_, res) => {
   res.send('<h1>Hello world</h1>')
 });
 
-useApiEndpoints(app)
+useApiEndpoints(app, io)
 
 app.use(express.static('../client/dist'))
 

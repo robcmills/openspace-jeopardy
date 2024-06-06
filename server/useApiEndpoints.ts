@@ -3,8 +3,10 @@ import { gameStore } from './gameStore'
 import { sessionStore } from './sessionStore'
 import type { UserState } from '../client/src/UserState'
 import { contestantStore } from './contestantStore'
+import { spectatorStore } from './spectatorStore'
+import type { Server } from './Server'
 
-export function useApiEndpoints(app: Express) {
+export function useApiEndpoints(app: Express, io: Server) {
   app.get('/api/games/:gameId', (req, res) => {
     // game
     const gameId = req.params.gameId
@@ -26,14 +28,13 @@ export function useApiEndpoints(app: Express) {
       username: hostSession.username,
     }
 
-    // contestants
     const contestants = contestantStore.getByGameId(gameId)
+    const spectators = spectatorStore.getByGameId(gameId)
 
-    res.json({ contestants, game, host })
+    res.json({ contestants, game, host, spectators })
   })
 
   app.post('/api/games/:gameId/join', (req, res) => {
-    console.log('POST /api/games/:gameId/join')
     const gameId = req.params.gameId
     const role = req.query.role
     if (!role || typeof role !== 'string') {
@@ -45,9 +46,24 @@ export function useApiEndpoints(app: Express) {
       res.status(400).json({ error: 'userId is required' })
       return
     }
-    console.log({ gameId, role, userId })
     if (role === 'contestant') {
-      contestantStore.new(gameId, userId)
+      const contestant = contestantStore.new(gameId, userId)
+      const session = sessionStore.getByUserId(userId)
+      if (!session) {
+        res.status(404).json({ error: 'User not found' })
+        return
+      }
+      const user: UserState = {
+        id: session.userId,
+        isConnected: session.isConnected,
+        username: session.username,
+      }
+      io.to(gameId).emit('contestantJoined', { contestant, user })
+      res.status(200).send()
+      return
+    }
+    if (role === 'spectator') {
+      spectatorStore.new(gameId, userId)
       res.status(200).send()
       return
     }

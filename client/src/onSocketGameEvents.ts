@@ -5,6 +5,8 @@ import { gameAtom } from './gameAtom';
 import { gamesAtom } from './gamesAtom';
 import { getGamePath } from './getGamePath';
 import { navigate } from './navigate';
+import { contestantsAtom } from './contestantsAtom';
+import { usersAtom } from './usersAtom';
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('game', (game: Game) => {
@@ -27,5 +29,25 @@ export function onSocketGameEvents(socket: SocketClient) {
   socket.on('games', (games: Game[]) => {
     console.log('games', games)
     jotaiStore.set(gamesAtom, games)
+  })
+
+  socket.on('contestantJoined', ({ contestant, user }) => {
+    console.log('contestantJoined', { contestant, user })
+    jotaiStore.set(contestantsAtom, state => {
+      return {
+        ...state,
+        contestantsById: {
+          ...state.contestantsById,
+          [contestant.id]: contestant,
+        },
+      }
+    })
+    jotaiStore.set(usersAtom, state => ({
+      ...state,
+      usersById: {
+        ...state.usersById,
+        [user.id]: user,
+      },
+    }))
   })
 }

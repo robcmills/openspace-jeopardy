@@ -5,7 +5,7 @@ import { useGameRouteData } from './useGameRouteData'
 import { JoinGame } from './JoinGame'
 
 export function GameRoute() {
-  const { contestants, game } = useGameRouteData()
+  const { contestants, game, spectators } = useGameRouteData()
   const {
     isConnected,
     isSessionEstablished,
@@ -32,7 +32,10 @@ export function GameRoute() {
   const isContestant = contestants.some(
     contestant => contestant.id === userId
   )
-  console.log({ isHost, isContestant })
-  if (isContestant || isHost) return <GameComponent />
+  const isSpectator = spectators.some(
+    spectator => spectator.id === userId
+  )
+  console.log({ isHost, isContestant, isSpectator })
+  if (isContestant || isHost || isSpectator) return <GameComponent />
   return <JoinGame />
 }
