@@ -50,4 +50,21 @@ export function onSocketGameEvents(socket: SocketClient) {
       },
     }))
   })
+
+  socket.on('userDisconnected', (userId: string) => {
+    console.log('userDisconnected', userId)
+    jotaiStore.set(contestantsAtom, state => {
+      const contestantsById = { ...state.contestantsById }
+      for (const id in contestantsById) {
+        if (contestantsById[id].userId === userId) {
+          delete contestantsById[id]
+        }
+      }
+      return {
+        ...state,
+        contestantsById,
+      }
+    })
+    // todo: spectators
+  })
 }

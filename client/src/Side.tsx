@@ -1,9 +1,12 @@
+import { useAtomValue } from 'jotai'
 import { Contestants } from './Contestants'
 import { BLUE_BACKGROUND } from './colors'
-import { useGameRouteData } from './useGameRouteData'
+import { gameAtom } from './gameAtom'
+import { useHost } from './useHost'
 
 export function Side() {
-  const { game, host } = useGameRouteData()
+  const game = useAtomValue(gameAtom)
+  const host = useHost()
 
   const sideStyle = {
     display: 'grid',

@@ -1,11 +1,15 @@
 import { useAtomValue } from 'jotai'
 import { socketAtom } from './socketAtom'
 import { Game as GameComponent } from './Game'
-import { useGameRouteData } from './useGameRouteData'
 import { JoinGame } from './JoinGame'
+import { gameAtom } from './gameAtom'
+import { useContestants } from './useContestants'
+import { useSpectators } from './useSpectators'
 
 export function GameRoute() {
-  const { contestants, game, spectators } = useGameRouteData()
+  const game = useAtomValue(gameAtom)
+  const contestants = useContestants(game.id)
+  const spectators = useSpectators(game.id)
   const {
     isConnected,
     isSessionEstablished,

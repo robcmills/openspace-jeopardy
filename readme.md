@@ -15,3 +15,4 @@
 - [ ] Move css into inline styles to be consistent
 - [x] Combine gameState and setGameState hooks
 - [ ] Add key bindings for everything to avoid cursor during game
+- [ ] Remove clues from src and load from env variable

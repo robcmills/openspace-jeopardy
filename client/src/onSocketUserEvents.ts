@@ -31,15 +31,16 @@ export function onSocketUserEvents(socket: SocketClient) {
   socket.on('userDisconnected', (userId: string) => {
     console.log('user disconnected', userId)
     jotaiStore.set(usersAtom, state => {
-      return state.usersById[userId] 
-        ? {
-          ...state,
-          usersById: {
-            ...state.usersById,
-            [userId]: { ...state.usersById[userId], isConnected: false }
+      return {
+        ...state,
+        usersById: {
+          ...state.usersById,
+          [userId]: {
+            ...state.usersById[userId],
+            isConnected: false,
           },
-        }
-        : state
+        },
+      }
     })
   })
 }

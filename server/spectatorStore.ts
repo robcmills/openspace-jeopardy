@@ -1,8 +1,5 @@
-import type { UserState } from '../client/src/UserState';
 import type { Spectator } from './Spectator';
-import type { Session } from './Session';
 import { randomId } from './randomId';
-import { sessionStore } from './sessionStore';
 
 export const spectatorStore = {
   spectatorsById: new Map<string, Spectator>(),
@@ -24,16 +21,6 @@ export const spectatorStore = {
     return [...spectatorIds]
       .map(id => this.spectatorsById.get(id))
       .filter((spectator): spectator is Spectator => Boolean(spectator))
-      .map(spectator => sessionStore.getByUserId(spectator?.userId || ''))
-      .filter((session): session is Session => Boolean(session))
-      .map(session => {
-        const user: UserState = {
-          isConnected: session.isConnected,
-          username: session.username,
-          id: session.userId,
-        }
-        return user
-      })
   },
 
   set(spectator: Spectator) {

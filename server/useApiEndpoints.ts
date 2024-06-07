@@ -5,6 +5,8 @@ import type { UserState } from '../client/src/UserState'
 import { contestantStore } from './contestantStore'
 import { spectatorStore } from './spectatorStore'
 import type { Server } from './Server'
+import type { GetGameResponse } from './GetGameResponse'
+import type { Session } from './Session'
 
 export function useApiEndpoints(app: Express, io: Server) {
   app.get('/api/games/:gameId', (req, res) => {
@@ -16,22 +18,33 @@ export function useApiEndpoints(app: Express, io: Server) {
       return
     }
 
-    // host
-    const hostSession = sessionStore.getByUserId(game.hostUserId)
-    if (!hostSession) {
-      res.status(404).json({ error: 'Host not found' })
-      return
-    }
-    const host: UserState = {
-      id: hostSession.userId,
-      isConnected: hostSession.isConnected,
-      username: hostSession.username,
-    }
-
     const contestants = contestantStore.getByGameId(gameId)
     const spectators = spectatorStore.getByGameId(gameId)
 
-    res.json({ contestants, game, host, spectators })
+    const users = [
+      ...contestants,
+      ...spectators,
+      { userId: game.hostUserId}
+    ]
+      .map(({ userId }) => sessionStore.getByUserId(userId))
+      .filter((session): session is Session => Boolean(session))
+      .map(session => {
+        const user: UserState = {
+          id: session.userId,
+          isConnected: session.isConnected,
+          username: session.username,
+        }
+        return user
+      })
+
+    const getGameResponse: GetGameResponse = {
+      contestants,
+      game,
+      spectators,
+      users,
+    }
+
+    res.json(getGameResponse)
   })
 
   app.post('/api/games/:gameId/join', (req, res) => {

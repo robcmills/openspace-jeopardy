@@ -1,9 +1,9 @@
 import { CSSProperties, useState } from 'react'
-import { useGameRouteData } from './useGameRouteData'
 import { useAtomValue } from 'jotai'
 import { socketAtom } from './socketAtom'
 import { UserRole } from './UserRole'
 import { joinGameAsRole } from './joinGameAsRole'
+import { gameAtom } from './gameAtom'
 
 const style: CSSProperties = {
   display: 'grid',
@@ -16,7 +16,7 @@ const style: CSSProperties = {
 
 export function JoinGame() {
   const [isJoining, setIsJoining] = useState(false)
-  const { game } = useGameRouteData()
+  const game = useAtomValue(gameAtom)
   const { userId } = useAtomValue(socketAtom)
 
   const onClickJoinAs = (role: UserRole) => () => {
@@ -30,8 +30,12 @@ export function JoinGame() {
 
   return (
     <div style={style}>
-      <button onClick={onClickJoinAs('contestant')}>Join as Contestant</button>
-      <button onClick={onClickJoinAs('spectator')}>Join as Spectator</button>
+      <button onClick={onClickJoinAs('contestant')}>
+        Join as Contestant
+      </button>
+      <button onClick={onClickJoinAs('spectator')}>
+        Join as Spectator
+      </button>
     </div>
   )
 }
