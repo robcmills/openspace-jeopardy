@@ -5,7 +5,9 @@ import { absoluteFill } from './styles'
 
 const imgStyle: CSSProperties = {
   ...absoluteFill,
+  height: '100%',
   objectFit: 'contain',
+  width: '100%',
 }
 
 const audioStyle: CSSProperties = {
@@ -24,8 +26,8 @@ export function GameLobby() {
 
   return (
     <>
-      <img className='fullscreen logo' src={logo} style={imgStyle} />
-      <audio id="theme" controls ref={audioRef} style={audioStyle}>
+      <img src={logo} style={imgStyle} />
+      <audio autoPlay id="theme" controls ref={audioRef} style={audioStyle}>
       	<source src={theme} type="audio/mpeg" />
       </audio>
     </>
