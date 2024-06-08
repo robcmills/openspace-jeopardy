@@ -10,7 +10,7 @@ export function useGameState() {
     if (gameId) navigate.to(getGamePath(gameId, gameState))
   }
   return {
-    gameState: isGameState(gameState) ? gameState : GameState.Intro,
+    gameState: isGameState(gameState) ? gameState : GameState.Lobby,
     setGameState,
   } as const
 }

@@ -3,7 +3,7 @@ import intro from './assets/intro.mp4'
 import { GameState } from './GameState'
 import { useGameState } from './useGameState'
 
-export function Intro() {
+export function Video() {
   const { setGameState } = useGameState()
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -11,7 +11,7 @@ export function Intro() {
     const video = videoRef.current
     if (video) {
       video.addEventListener('ended', () => {
-        setGameState(GameState.Logo)
+        setGameState(GameState.Jeopardy)
       })
     }
   }, [])

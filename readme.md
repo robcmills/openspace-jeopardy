@@ -1,7 +1,6 @@
 
 ### Todo
 
-- [ ] Implement change role update
 - [x] Don't use useGameRouteData-refactor to use atoms
 - [ ] First game state should be splash screen with music and side bar
 - [ ] Implement socket events to handle game state transitions and playing video
@@ -16,3 +15,4 @@
 - [x] Combine gameState and setGameState hooks
 - [ ] Add key bindings for everything to avoid cursor during game
 - [ ] Remove clues from src and load from env variable
+- [ ] Implement admin api endpoints
