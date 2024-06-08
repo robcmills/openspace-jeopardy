@@ -3,6 +3,7 @@ import { Contestants } from './Contestants'
 import { BLUE_BACKGROUND } from './colors'
 import { gameAtom } from './gameAtom'
 import { useHost } from './useHost'
+import { Spectators } from './Spectators'
 
 export function Side() {
   const game = useAtomValue(gameAtom)
@@ -20,6 +21,7 @@ export function Side() {
       </h2>
       <h3 style={{ padding: '0 10px' }}>Host: {host.username}</h3>
       <Contestants />
+      <Spectators />
     </div>
   )
 }

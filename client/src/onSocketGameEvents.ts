@@ -7,6 +7,7 @@ import { getGamePath } from './getGamePath';
 import { navigate } from './navigate';
 import { contestantsAtom } from './contestantsAtom';
 import { usersAtom } from './usersAtom';
+import { spectatorsAtom } from './spectatorsAtom';
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('game', (game: Game) => {
@@ -51,8 +52,29 @@ export function onSocketGameEvents(socket: SocketClient) {
     }))
   })
 
+  socket.on('spectatorJoined', ({ spectator, user }) => {
+    console.log('spectatorJoined', { spectator, user })
+    jotaiStore.set(spectatorsAtom, state => {
+      return {
+        ...state,
+        spectatorsById: {
+          ...state.spectatorsById,
+          [spectator.id]: spectator,
+        },
+      }
+    })
+    jotaiStore.set(usersAtom, state => ({
+      ...state,
+      usersById: {
+        ...state.usersById,
+        [user.id]: user,
+      },
+    }))
+  })
+
   socket.on('userDisconnected', (userId: string) => {
     console.log('userDisconnected', userId)
+
     jotaiStore.set(contestantsAtom, state => {
       const contestantsById = { ...state.contestantsById }
       for (const id in contestantsById) {
@@ -65,6 +87,18 @@ export function onSocketGameEvents(socket: SocketClient) {
         contestantsById,
       }
     })
-    // todo: spectators
+
+    jotaiStore.set(spectatorsAtom, state => {
+      const spectatorsById = { ...state.spectatorsById }
+      for (const id in spectatorsById) {
+        if (spectatorsById[id].userId === userId) {
+          delete spectatorsById[id]
+        }
+      }
+      return {
+        ...state,
+        spectatorsById,
+      }
+    })
   })
 }

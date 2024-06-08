@@ -4,6 +4,7 @@ import type { Socket } from './Socket';
 import { contestantStore } from './contestantStore';
 import { gameStore } from './gameStore';
 import { sessionStore } from './sessionStore';
+import { spectatorStore } from './spectatorStore';
 
 export function onGameEvents(socket: Socket, io: Server) {
   socket.on('getGame', (gameId: string) => {
@@ -58,7 +59,19 @@ export function onGameEvents(socket: Socket, io: Server) {
     } 
 
     if (userRole === 'spectator') {
-      // todo
+      const spectators = spectatorStore.getByGameId(gameId)
+      const spectator = spectators
+        .find(({ userId }) => userId === socket.data.userId)
+      if (!spectator) {
+        console.error('Spectator not found', {
+          username: user.username,
+          gameId: gameId,
+        })
+        return
+      }
+
+      io.to(gameId).emit('spectatorJoined', { spectator, user })
+      return
     }
   });
 }

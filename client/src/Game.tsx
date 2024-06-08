@@ -20,7 +20,7 @@ export function Game() {
   useEffect(() => {
     if (userRole === null) return
     socket.emit('joinGame', { gameId: game.id, userRole })
-  }, [])
+  }, [userRole])
 
   return ({
     intro: <Intro />,
