@@ -59,24 +59,28 @@ export function useApiEndpoints(app: Express, io: Server) {
       res.status(400).json({ error: 'userId is required' })
       return
     }
+
+    const session = sessionStore.getByUserId(userId)
+    if (!session) {
+      res.status(404).json({ error: 'User not found' })
+      return
+    }
+    const user: UserState = {
+      id: session.userId,
+      isConnected: session.isConnected,
+      username: session.username,
+    }
+
     if (role === 'contestant') {
       const contestant = contestantStore.new(gameId, userId)
-      const session = sessionStore.getByUserId(userId)
-      if (!session) {
-        res.status(404).json({ error: 'User not found' })
-        return
-      }
-      const user: UserState = {
-        id: session.userId,
-        isConnected: session.isConnected,
-        username: session.username,
-      }
       io.to(gameId).emit('contestantJoined', { contestant, user })
       res.status(200).send()
       return
     }
+
     if (role === 'spectator') {
-      spectatorStore.new(gameId, userId)
+      const spectator = spectatorStore.new(gameId, userId)
+      io.to(gameId).emit('spectatorJoined', { spectator, user })
       res.status(200).send()
       return
     }

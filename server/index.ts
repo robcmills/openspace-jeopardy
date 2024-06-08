@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
   console.log(`${socket.data.username} connected`)
   onConnection(socket)
   onLobbyEvents(socket, io)
-  onGameEvents(socket)
+  onGameEvents(socket, io)
 })
 
 httpServer.listen(PORT, () => {

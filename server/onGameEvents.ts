@@ -1,7 +1,11 @@
+import type { UserState } from '../client/src/UserState';
+import type { Server } from './Server';
 import type { Socket } from './Socket';
+import { contestantStore } from './contestantStore';
 import { gameStore } from './gameStore';
+import { sessionStore } from './sessionStore';
 
-export function onGameEvents(socket: Socket) {
+export function onGameEvents(socket: Socket, io: Server) {
   socket.on('getGame', (gameId: string) => {
     console.log('getGame', gameId)
     const game = gameStore.getById(gameId)
@@ -23,14 +27,38 @@ export function onGameEvents(socket: Socket) {
     socket.emit('games', gameStore.getAll())
   });
 
-  socket.on('joinGame', (gameId: string) => {
-    console.log('joinGame')
-    const game = gameStore.getById(gameId)
-    if (!game) {
-      console.error(`Game not found for gameId: ${gameId}`)
+  socket.on('joinGame', ({ gameId, userRole }) => {
+    console.log('joinGame', { gameId, userRole })
+
+    const session = sessionStore.getByUserId(socket.data.userId)
+    if (!session) {
+      console.error(`Session not found for userId: ${socket.data.userId}`)
       return
     }
-    socket.join(gameId)
-    socket.emit('gameJoined', game)
+    const user: UserState = {
+      id: session.userId,
+      isConnected: session.isConnected,
+      username: session.username,
+    }
+
+    if (userRole === 'contestant') {
+      const contestants = contestantStore.getByGameId(gameId)
+      const contestant = contestants
+        .find(({ userId }) => userId === socket.data.userId)
+      if (!contestant) {
+        console.error('Contestant not found', {
+          username: user.username,
+          gameId: gameId,
+        })
+        return
+      }
+
+      io.to(gameId).emit('contestantJoined', { contestant, user })
+      return
+    } 
+
+    if (userRole === 'spectator') {
+      // todo
+    }
   });
 }
