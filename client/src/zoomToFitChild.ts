@@ -1,15 +1,17 @@
 export function zoomToFitChild(parent: HTMLElement, child: HTMLElement) {
   const childRect = child.getBoundingClientRect();
+  const parentRect = parent.parentElement!.getBoundingClientRect();
 
-  const widthRatio = window.innerWidth / childRect.width;
-  const heightRatio = window.innerHeight / childRect.height;
+  const widthRatio = parentRect.width / childRect.width;
+  const heightRatio = parentRect.height / childRect.height;
   const scale = Math.min(widthRatio, heightRatio);
 
-  const isLandscape = window.innerWidth > window.innerHeight
+  const isLandscape = parentRect.width > parentRect.height;
   const translateX = isLandscape
-    ? (window.innerWidth - childRect.width * scale) / 2 - childRect.left
+    ? (parentRect.width - childRect.width * scale) / 2 - childRect.left
     : -childRect.left
-  const translateY = (window.innerHeight - childRect.height * scale) / 2 - childRect.top
+  const translateY =
+    (parentRect.height - childRect.height * scale) / 2 - childRect.top
 
   parent.style.transformOrigin = '0 0';
   parent.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
