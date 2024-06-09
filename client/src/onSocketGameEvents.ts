@@ -1,13 +1,13 @@
-import { jotaiStore } from './jotaiStore';
-import { SocketClient } from './SocketClient';
-import { Game } from '../../server/Game';
-import { gameAtom } from './gameAtom';
-import { gamesAtom } from './gamesAtom';
-import { getGamePath } from './getGamePath';
-import { navigate } from './navigate';
-import { contestantsAtom } from './contestantsAtom';
-import { usersAtom } from './usersAtom';
-import { spectatorsAtom } from './spectatorsAtom';
+import { jotaiStore } from './jotaiStore'
+import { SocketClient } from './SocketClient'
+import { Game } from '../../server/Game'
+import { gameAtom } from './gameAtom'
+import { gamesAtom } from './gamesAtom'
+import { getGamePath } from './getGamePath'
+import { navigate } from './navigate'
+import { contestantsAtom } from './contestantsAtom'
+import { usersAtom } from './usersAtom'
+import { spectatorsAtom } from './spectatorsAtom'
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('game', (game: Game) => {
@@ -30,6 +30,11 @@ export function onSocketGameEvents(socket: SocketClient) {
   socket.on('games', (games: Game[]) => {
     console.log('games', games)
     jotaiStore.set(gamesAtom, games)
+  })
+
+  socket.on('setGameState', ({ gameId, gameState }) => {
+    console.log('setGameState', gameState)
+    navigate.to(getGamePath(gameId, gameState))
   })
 
   socket.on('contestantJoined', ({ contestant, user }) => {

@@ -1,20 +1,26 @@
 import { useCallback, useEffect } from 'react'
 import { GameState } from './GameState'
 import { revealTiles } from './revealTiles'
-import { resetTiles } from './resetTiles';
+import { resetTiles } from './resetTiles'
 import fill from './assets/board-fill.mp3'
-import { zoomInCategories, zoomOutCategories } from './zoomCategories';
-import { panCategories } from './panCategories';
-import { getNextGameState } from './getNextGameState';
-import { useGameState } from './useGameState';
-import { getPreviousGameState } from './getPreviousGameState';
+import { zoomInCategories, zoomOutCategories } from './zoomCategories'
+import { panCategories } from './panCategories'
+import { getNextGameState } from './getNextGameState'
+import { useGameState } from './useGameState'
+import { getPreviousGameState } from './getPreviousGameState'
+import { useIsHost } from './useIsHost'
+import { socket } from './socket'
+import { useAtomValue } from 'jotai'
+import { gameAtom } from './gameAtom'
 
 const SPACE_KEY_CODE = 32
 
-const audio = new Audio(fill);
+const audio = new Audio(fill)
 
 export function useGameKeyBindings() {
   const { gameState, setGameState } = useGameState()
+  const game = useAtomValue(gameAtom)
+  const isHost = useIsHost()
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     event.preventDefault()
@@ -23,10 +29,20 @@ export function useGameKeyBindings() {
       window.location.reload()
     } else if (event.key === 'n') {
       resetTiles()
-      setGameState(getNextGameState(gameState))
+      const nextGameState = getNextGameState(gameState)
+      setGameState(nextGameState)
+      socket.emit('setGameState', {
+        gameId: game.id,
+        gameState: nextGameState,
+      })
     } else if (event.key === 'p') {
       resetTiles()
-      setGameState(getPreviousGameState(gameState))
+      const previousGameState = getPreviousGameState(gameState)
+      setGameState(previousGameState)
+      socket.emit('setGameState', {
+        gameId: game.id,
+        gameState: previousGameState,
+      })
     } else if (
       event.keyCode === SPACE_KEY_CODE &&
       [GameState.Jeopardy, GameState.FinalJeopardy]
@@ -41,10 +57,11 @@ export function useGameKeyBindings() {
     } else if (event.key === 'ArrowRight') {
       panCategories()
     }
-  }, [gameState])
+  }, [game, gameState])
 
   useEffect(() => {
+    if (!isHost) return
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [handleKeyDown])
+  }, [handleKeyDown, isHost])
 }

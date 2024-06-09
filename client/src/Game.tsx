@@ -1,14 +1,14 @@
-import { FinalJeopardy } from './FinalJeopardy';
-import { Jeopardy } from './Jeopardy';
-import { useGameState } from './useGameState';
-import { useGameKeyBindings } from './useGameKeyBindings';
-import { useEffect } from 'react';
-import { socket } from './socket';
-import { useAtomValue } from 'jotai';
-import { gameAtom } from './gameAtom';
-import { useUserRole } from './useUserRole';
-import { Video } from './Video';
-import { GameLobby } from './GameLobby';
+import { FinalJeopardy } from './FinalJeopardy'
+import { Jeopardy } from './Jeopardy'
+import { useGameState } from './useGameState'
+import { useGameKeyBindings } from './useGameKeyBindings'
+import { useEffect } from 'react'
+import { socket } from './socket'
+import { useAtomValue } from 'jotai'
+import { gameAtom } from './gameAtom'
+import { useUserRole } from './useUserRole'
+import { Video } from './Video'
+import { GameLobby } from './GameLobby'
 
 export function Game() {
   console.log('Game component render')

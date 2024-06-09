@@ -1,5 +1,5 @@
-import { atom } from 'jotai';
-import { Game } from '../../server/Game';
+import { atom } from 'jotai'
+import { Game } from '../../server/Game'
 
 const initialGame: Game = {
   id: '',

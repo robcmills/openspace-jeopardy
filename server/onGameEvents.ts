@@ -1,10 +1,10 @@
-import type { UserState } from '../client/src/UserState';
-import type { Server } from './Server';
-import type { Socket } from './Socket';
-import { contestantStore } from './contestantStore';
-import { gameStore } from './gameStore';
-import { sessionStore } from './sessionStore';
-import { spectatorStore } from './spectatorStore';
+import type { UserState } from '../client/src/UserState'
+import type { Server } from './Server'
+import type { Socket } from './Socket'
+import { contestantStore } from './contestantStore'
+import { gameStore } from './gameStore'
+import { sessionStore } from './sessionStore'
+import { spectatorStore } from './spectatorStore'
 
 export function onGameEvents(socket: Socket, io: Server) {
   socket.on('getGame', (gameId: string) => {
@@ -26,10 +26,11 @@ export function onGameEvents(socket: Socket, io: Server) {
     socket.join(newGame.id)
     socket.emit('gameCreated', newGame)
     socket.emit('games', gameStore.getAll())
-  });
+  })
 
   socket.on('joinGame', ({ gameId, userRole }) => {
     console.log('joinGame', { gameId, userRole })
+    socket.join(gameId)
 
     const session = sessionStore.getByUserId(socket.data.userId)
     if (!session) {
@@ -73,5 +74,10 @@ export function onGameEvents(socket: Socket, io: Server) {
       io.to(gameId).emit('spectatorJoined', { spectator, user })
       return
     }
-  });
+  })
+
+  socket.on('setGameState', ({ gameId, gameState }) => {
+    console.log('setGameState', { gameId, gameState })
+    io.to(gameId).emit('setGameState', { gameId, gameState })
+  })
 }
