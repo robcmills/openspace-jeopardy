@@ -2,6 +2,8 @@ import { CSSProperties, useEffect, useRef } from 'react'
 import logo from './assets/openspace-jeopardy.jpg'
 import theme from './assets/theme.mp3'
 import { absoluteFill } from './styles'
+import { GameLayout } from './GameLayout'
+import { Side } from './Side'
 
 const imgStyle: CSSProperties = {
   ...absoluteFill,
@@ -24,12 +26,19 @@ export function GameLobby() {
     if (audio) audio.play()
   }, [])
 
-  return (
+  const left = (
     <>
       <img src={logo} style={imgStyle} />
       <audio autoPlay id="theme" controls ref={audioRef} style={audioStyle}>
       	<source src={theme} type="audio/mpeg" />
       </audio>
     </>
+  )
+
+  return (
+    <GameLayout
+      left={left}
+      right={<Side />}
+    />
   )
 }

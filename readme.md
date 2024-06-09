@@ -2,7 +2,7 @@
 ### Todo
 
 - [x] Don't use useGameRouteData-refactor to use atoms
-- [ ] First game state should be splash screen with music and side bar
+- [x] First game state should be splash screen with music and side bar
 - [ ] Implement socket events to handle game state transitions and playing video
 - [ ] Disable all actions for non-hosts
 - [ ] Remove transition when closing clues
