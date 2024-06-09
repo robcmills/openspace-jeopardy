@@ -1,7 +1,6 @@
 export function panCategories() {
   const [child1, child2] = document.querySelectorAll('.category.tile')
   if (!(child1 instanceof HTMLElement) || !(child2 instanceof HTMLElement)) return
-  console.log({ child1, child2 })
   const child1Rect = child1.getBoundingClientRect();
   const child2Rect = child2.getBoundingClientRect();
   const delta = child1Rect.left - child2Rect.left
@@ -16,8 +15,7 @@ export function panCategories() {
     return
   }
   const [_, translateX, translateY, scale] = match;
-  console.log('Translate X:', parseFloat(translateX));
-  console.log('Translate Y:', parseFloat(translateY));
-  console.log('Scale:', parseFloat(scale));
+  // Prevent panning past 6th column
+  if (parseFloat(translateX) <= delta * 5) return
   parent.style.transform = `translate(${parseFloat(translateX) + delta}px, ${translateY}px) scale(${scale})`;
 }

@@ -13,6 +13,7 @@ export interface ServerToClientEvents {
   gameJoined: (game: Game) => void
   games: (games: Game[]) => void
   noArg: () => void
+  panCategories: () => void
   revealTiles: () => void
   session: (data: SocketData) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
@@ -31,6 +32,7 @@ export interface ClientToServerEvents {
   joinGame: (data: { gameId: string, userRole: UserRole }) => void
   joinLobby: () => void
   leaveLobby: () => void
+  panCategories: (data: { gameId: string }) => void
   revealTiles: (data: { gameId: string }) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
   zoomCategories: (data: { direction: 'in' | 'out', gameId: string }) => void

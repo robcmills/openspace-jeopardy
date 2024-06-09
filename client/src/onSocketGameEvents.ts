@@ -11,6 +11,8 @@ import { spectatorsAtom } from './spectatorsAtom'
 import { revealTiles } from './revealTiles'
 import { resetTiles } from './resetTiles'
 import { zoomInCategories, zoomOutCategories } from './zoomCategories'
+import { panCategories } from './panCategories'
+import { getIsHost } from './getIsHost'
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('game', (game: Game) => {
@@ -50,6 +52,12 @@ export function onSocketGameEvents(socket: SocketClient) {
     direction === 'in'
       ? zoomInCategories()
       : zoomOutCategories()
+  })
+
+  socket.on('panCategories', () => {
+    console.log('panCategories')
+    if (getIsHost()) return
+    panCategories()
   })
 
   socket.on('contestantJoined', ({ contestant, user }) => {

@@ -55,6 +55,7 @@ export function useGameKeyBindings() {
       socket.emit('zoomCategories', { direction: 'out', gameId: game.id })
     } else if (event.key === 'ArrowRight') {
       panCategories()
+      socket.emit('panCategories', { gameId: game.id })
     }
   }, [game, gameState])
 

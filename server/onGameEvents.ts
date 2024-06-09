@@ -90,4 +90,9 @@ export function onGameEvents(socket: Socket, io: Server) {
     console.log('zoomCategories', { direction, gameId })
     io.to(gameId).emit('zoomCategories', { direction })
   })
+
+  socket.on('panCategories', ({ gameId }) => {
+    console.log('panCategories', { gameId })
+    io.to(gameId).emit('panCategories')
+  })
 }
