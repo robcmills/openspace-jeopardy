@@ -44,11 +44,14 @@ export function onSocketGameEvents(socket: SocketClient) {
   })
 
   socket.on('revealTiles', () => {
+    console.log('revealTiles')
+    if (getIsHost()) return
     revealTiles()
   })
 
   socket.on('zoomCategories', ({ direction }) => {
     console.log('zoomCategories', direction)
+    if (getIsHost()) return
     direction === 'in'
       ? zoomInCategories()
       : zoomOutCategories()

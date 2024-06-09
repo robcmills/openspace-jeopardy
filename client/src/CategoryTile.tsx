@@ -1,18 +1,19 @@
-import { useState } from 'react'
 import { LogoImage } from './LogoImage'
 import { tileStyle } from './Tile';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { boardSizeAtom } from './boardSizeAtom';
-
-type CategoryTileState = 'logo' | 'category'
+import { categoriesAtoms } from './categoriesAtoms';
 
 interface CategoryTileProps {
   category: string;
+  column: number;
 }
 
-export function CategoryTile({ category }: CategoryTileProps) {
+export function CategoryTile({ category, column }: CategoryTileProps) {
   const boardSize = useAtomValue(boardSizeAtom)
-  const [state, setState] = useState<CategoryTileState>('logo')
+  const tileStateAtom = categoriesAtoms[column]
+  const [state, setState] = useAtom(tileStateAtom)
+
   const toggleState = () => {
     setState(state === 'logo' ? 'category' : 'logo')
   }

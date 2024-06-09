@@ -10,7 +10,8 @@ interface ColumnProps {
 }
 
 export function Column({ column, index, round }: ColumnProps) {
-  const categoryTile = <CategoryTile category={column.category} />
+  const categoryTile =
+    <CategoryTile category={column.category} column={index} />
 
   const clueTiles = column.items.map((item, row) =>
     <Tile
