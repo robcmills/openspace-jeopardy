@@ -5,8 +5,8 @@
 - [x] First game state should be splash screen with music and side bar
 - [x] Implement socket events to handle game state transitions and playing video
 - [ ] Implement socket events for all host actions
-  + categories zoom in/out/pan/reveal
-  + clues zoom in/out/reveal
+  + [x] categories zoom in/out/pan/reveal
+  + [ ] clues zoom in/out/reveal
 - [ ] When joining a game, sync gameState from host (in case not lobby)
 - [ ] Implement socket events for all contestant actions
 - [ ] Disable all actions for non-hosts
