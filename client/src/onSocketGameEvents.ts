@@ -10,6 +10,7 @@ import { usersAtom } from './usersAtom'
 import { spectatorsAtom } from './spectatorsAtom'
 import { revealTiles } from './revealTiles'
 import { resetTiles } from './resetTiles'
+import { zoomInCategories, zoomOutCategories } from './zoomCategories'
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('game', (game: Game) => {
@@ -42,6 +43,13 @@ export function onSocketGameEvents(socket: SocketClient) {
 
   socket.on('revealTiles', () => {
     revealTiles()
+  })
+
+  socket.on('zoomCategories', ({ direction }) => {
+    console.log('zoomCategories', direction)
+    direction === 'in'
+      ? zoomInCategories()
+      : zoomOutCategories()
   })
 
   socket.on('contestantJoined', ({ contestant, user }) => {

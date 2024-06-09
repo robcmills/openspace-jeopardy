@@ -49,8 +49,10 @@ export function useGameKeyBindings() {
       socket.emit('revealTiles', { gameId: game.id })
     } else if (event.key === 'c') {
       zoomInCategories()
+      socket.emit('zoomCategories', { direction: 'in', gameId: game.id })
     } else if (event.key === 'C') {
       zoomOutCategories()
+      socket.emit('zoomCategories', { direction: 'out', gameId: game.id })
     } else if (event.key === 'ArrowRight') {
       panCategories()
     }

@@ -3,7 +3,11 @@
 
 - [x] Don't use useGameRouteData-refactor to use atoms
 - [x] First game state should be splash screen with music and side bar
-- [ ] Implement socket events to handle game state transitions and playing video
+- [x] Implement socket events to handle game state transitions and playing video
+- [ ] Implement socket events for all host actions
+  + categories zoom in/out/pan/reveal
+  + clues zoom in/out/reveal
+- [ ] Implement socket events for all contestant actions
 - [ ] Disable all actions for non-hosts
 - [ ] Remove transition when closing clues
 - [ ] Implement score board

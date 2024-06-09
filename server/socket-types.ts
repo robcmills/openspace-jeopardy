@@ -21,6 +21,7 @@ export interface ServerToClientEvents {
   userDisconnected: (userId: string) => void
   users: (data: UserState[]) => void
   withAck: (d: string, callback: (e: number) => void) => void
+  zoomCategories: (data: { direction: 'in' | 'out' }) => void
 }
 
 export interface ClientToServerEvents {
@@ -32,6 +33,7 @@ export interface ClientToServerEvents {
   leaveLobby: () => void
   revealTiles: (data: { gameId: string }) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
+  zoomCategories: (data: { direction: 'in' | 'out', gameId: string }) => void
 }
 
 export interface InterServerEvents {

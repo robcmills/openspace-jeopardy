@@ -85,4 +85,9 @@ export function onGameEvents(socket: Socket, io: Server) {
     console.log('revealTiles', { gameId })
     io.to(gameId).emit('revealTiles')
   })
+
+  socket.on('zoomCategories', ({ direction, gameId }) => {
+    console.log('zoomCategories', { direction, gameId })
+    io.to(gameId).emit('zoomCategories', { direction })
+  })
 }
