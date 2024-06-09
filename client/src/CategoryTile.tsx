@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { LogoImage } from './LogoImage'
 import { tileStyle } from './Tile';
+import { useAtomValue } from 'jotai';
+import { boardSizeAtom } from './boardSizeAtom';
 
 type CategoryTileState = 'logo' | 'category'
 
@@ -9,6 +11,7 @@ interface CategoryTileProps {
 }
 
 export function CategoryTile({ category }: CategoryTileProps) {
+  const boardSize = useAtomValue(boardSizeAtom)
   const [state, setState] = useState<CategoryTileState>('logo')
   const toggleState = () => {
     setState(state === 'logo' ? 'category' : 'logo')
@@ -23,6 +26,7 @@ export function CategoryTile({ category }: CategoryTileProps) {
     backgroundColor: state === 'logo'
       ? 'black' :
       tileStyle.backgroundColor,
+    fontSize: `${boardSize.height / 35}px`,
   }
 
   return (

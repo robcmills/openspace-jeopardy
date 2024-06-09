@@ -19,6 +19,7 @@ export const tileStyle: CSSProperties = {
   cursor: 'pointer',
   display: 'grid',
   fontWeight: 'bold',
+  overflow: 'hidden',
   placeItems: 'center',
   position: 'relative',
   textAlign: 'center',
