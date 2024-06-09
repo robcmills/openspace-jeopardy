@@ -80,4 +80,9 @@ export function onGameEvents(socket: Socket, io: Server) {
     console.log('setGameState', { gameId, gameState })
     io.to(gameId).emit('setGameState', { gameId, gameState })
   })
+
+  socket.on('revealTiles', ({ gameId }) => {
+    console.log('revealTiles', { gameId })
+    io.to(gameId).emit('revealTiles')
+  })
 }

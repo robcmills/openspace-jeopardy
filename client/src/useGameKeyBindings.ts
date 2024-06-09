@@ -2,7 +2,6 @@ import { useCallback, useEffect } from 'react'
 import { GameState } from './GameState'
 import { revealTiles } from './revealTiles'
 import { resetTiles } from './resetTiles'
-import fill from './assets/board-fill.mp3'
 import { zoomInCategories, zoomOutCategories } from './zoomCategories'
 import { panCategories } from './panCategories'
 import { getNextGameState } from './getNextGameState'
@@ -14,8 +13,6 @@ import { useAtomValue } from 'jotai'
 import { gameAtom } from './gameAtom'
 
 const SPACE_KEY_CODE = 32
-
-const audio = new Audio(fill)
 
 export function useGameKeyBindings() {
   const { gameState, setGameState } = useGameState()
@@ -45,11 +42,11 @@ export function useGameKeyBindings() {
       })
     } else if (
       event.keyCode === SPACE_KEY_CODE &&
-      [GameState.Jeopardy, GameState.FinalJeopardy]
+      [GameState.Jeopardy, GameState.DoubleJeopardy]
         .includes(gameState)
     ) {
-      audio.play()
       revealTiles()
+      socket.emit('revealTiles', { gameId: game.id })
     } else if (event.key === 'c') {
       zoomInCategories()
     } else if (event.key === 'C') {

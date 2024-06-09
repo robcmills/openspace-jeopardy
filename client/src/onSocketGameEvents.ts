@@ -8,6 +8,8 @@ import { navigate } from './navigate'
 import { contestantsAtom } from './contestantsAtom'
 import { usersAtom } from './usersAtom'
 import { spectatorsAtom } from './spectatorsAtom'
+import { revealTiles } from './revealTiles'
+import { resetTiles } from './resetTiles'
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('game', (game: Game) => {
@@ -34,7 +36,12 @@ export function onSocketGameEvents(socket: SocketClient) {
 
   socket.on('setGameState', ({ gameId, gameState }) => {
     console.log('setGameState', gameState)
+    resetTiles()
     navigate.to(getGamePath(gameId, gameState))
+  })
+
+  socket.on('revealTiles', () => {
+    revealTiles()
   })
 
   socket.on('contestantJoined', ({ contestant, user }) => {

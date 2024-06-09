@@ -13,6 +13,7 @@ export interface ServerToClientEvents {
   gameJoined: (game: Game) => void
   games: (games: Game[]) => void
   noArg: () => void
+  revealTiles: () => void
   session: (data: SocketData) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
   spectatorJoined: (data: { spectator: Spectator, user: UserState }) => void
@@ -29,6 +30,7 @@ export interface ClientToServerEvents {
   joinGame: (data: { gameId: string, userRole: UserRole }) => void
   joinLobby: () => void
   leaveLobby: () => void
+  revealTiles: (data: { gameId: string }) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
 }
 

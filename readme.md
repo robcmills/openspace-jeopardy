@@ -8,6 +8,7 @@
 - [ ] Remove transition when closing clues
 - [ ] Implement score board
 - [ ] Implement contestant controls (buzzer, answer, wager)
+- [ ] Make jeopardy round visually distinct from double jeopardy
 - [x] Implement GameLayout
 - [x] Join as contestant 
 - [x] Join as spectator
