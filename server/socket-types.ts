@@ -14,6 +14,7 @@ export interface ServerToClientEvents {
   games: (games: Game[]) => void
   noArg: () => void
   panCategories: () => void
+  revealCategory: (data: { column: number }) => void
   revealTiles: () => void
   session: (data: SocketData) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
@@ -33,6 +34,7 @@ export interface ClientToServerEvents {
   joinLobby: () => void
   leaveLobby: () => void
   panCategories: (data: { gameId: string }) => void
+  revealCategory: (data: { column: number, gameId: string }) => void
   revealTiles: (data: { gameId: string }) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
   zoomCategories: (data: { direction: 'in' | 'out', gameId: string }) => void

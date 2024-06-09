@@ -13,6 +13,7 @@ import { resetTiles } from './resetTiles'
 import { zoomInCategories, zoomOutCategories } from './zoomCategories'
 import { panCategories } from './panCategories'
 import { getIsHost } from './getIsHost'
+import { revealCategory } from './revealCategory'
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('game', (game: Game) => {
@@ -41,6 +42,12 @@ export function onSocketGameEvents(socket: SocketClient) {
     console.log('setGameState', gameState)
     resetTiles()
     navigate.to(getGamePath(gameId, gameState))
+  })
+
+  socket.on('revealCategory', ({ column }) => {
+    console.log('revealCategory')
+    if (getIsHost()) return
+    revealCategory(column)
   })
 
   socket.on('revealTiles', () => {

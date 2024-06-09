@@ -3,6 +3,8 @@ import { tileStyle } from './Tile';
 import { useAtom, useAtomValue } from 'jotai';
 import { boardSizeAtom } from './boardSizeAtom';
 import { categoriesAtoms } from './categoriesAtoms';
+import { socket } from './socket';
+import { gameAtom } from './gameAtom';
 
 interface CategoryTileProps {
   category: string;
@@ -10,12 +12,14 @@ interface CategoryTileProps {
 }
 
 export function CategoryTile({ category, column }: CategoryTileProps) {
+  const game = useAtomValue(gameAtom)
   const boardSize = useAtomValue(boardSizeAtom)
   const tileStateAtom = categoriesAtoms[column]
   const [state, setState] = useAtom(tileStateAtom)
 
   const toggleState = () => {
     setState(state === 'logo' ? 'category' : 'logo')
+    socket.emit('revealCategory', { column, gameId: game.id })
   }
 
   const content = state === 'logo' 
