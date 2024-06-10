@@ -78,7 +78,7 @@ export function FinalJeopardy() {
   const answer = (
     <div style={style}>
       {finalJeopardy.answer}
-      <audio id="theme" controls style={audioStyle}>
+      <audio id="theme" controls={isHost} style={audioStyle}>
         <source src={finalJeopardyTheme} type="audio/mpeg" />
       </audio>
     </div>
