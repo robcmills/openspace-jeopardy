@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react'
+import { CSSProperties, useRef } from 'react'
 import finalJeopardySrc from './assets/final-jeopardy.jpg'
 import { finalJeopardy } from './clues'
 import { BLUE_BACKGROUND } from './colors'
@@ -12,11 +12,11 @@ import { useAtom, useAtomValue } from 'jotai'
 import { gameAtom } from './gameAtom'
 import { finalJeopardyAtom } from './finalJeopardyAtom'
 
-
 export function FinalJeopardy() {
   const isHost = useIsHost()
   const game = useAtomValue(gameAtom)
   const [state, setState] = useAtom(finalJeopardyAtom)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const cycle = () => {
     if (!isHost) return
@@ -32,6 +32,12 @@ export function FinalJeopardy() {
     })
   }
 
+  const containerStyle: CSSProperties = {
+    display: 'grid',
+    inset: 0,
+    position: 'absolute',
+  }
+
   const imgStyle: CSSProperties = {
     height: '100%',
     objectFit: 'contain',
@@ -40,14 +46,21 @@ export function FinalJeopardy() {
 
   const logo = <img src={finalJeopardySrc} style={imgStyle} />
 
+  let fontSize = '18px'
+  if (containerRef.current) {
+    console.log('containerRef.current', containerRef.current)
+    const containerRect = containerRef.current.getBoundingClientRect()
+    console.log({ containerRect })
+    fontSize = containerRect.width / 32 + 'px'
+  }
+
   const style: CSSProperties = {
     ...typography,
     background: BLUE_BACKGROUND,
     display: 'grid',
-    inset: 0,
+    fontSize,
     padding: '4rem',
     placeItems: 'center',
-    position: 'absolute',
   }
 
   const category = (
@@ -57,7 +70,8 @@ export function FinalJeopardy() {
   )
 
   const audioStyle: CSSProperties = {
-    bottom: '2rem',
+    bottom: '1rem',
+    height: '42px',
     position: 'absolute',
   }
 
@@ -77,7 +91,7 @@ export function FinalJeopardy() {
   }[state]
 
   const left = (
-    <div onClick={cycle}>
+    <div onClick={cycle} ref={containerRef} style={containerStyle}>
       {node}
     </div>
   )
