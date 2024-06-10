@@ -14,7 +14,7 @@ import { gameAtom } from './gameAtom'
 
 const SPACE_KEY_CODE = 32
 
-export function useGameKeyBindings() {
+export function useHostKeyBindings() {
   const { gameState, setGameState } = useGameState()
   const game = useAtomValue(gameAtom)
   const isHost = useIsHost()

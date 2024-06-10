@@ -1,7 +1,7 @@
 import { FinalJeopardy } from './FinalJeopardy'
 import { Jeopardy } from './Jeopardy'
 import { useGameState } from './useGameState'
-import { useGameKeyBindings } from './useGameKeyBindings'
+import { useHostKeyBindings } from './useHostKeyBindings'
 import { useEffect } from 'react'
 import { socket } from './socket'
 import { useAtomValue } from 'jotai'
@@ -12,7 +12,7 @@ import { GameLobby } from './GameLobby'
 
 export function Game() {
   console.log('Game component render')
-  useGameKeyBindings()
+  useHostKeyBindings()
   const { gameState } = useGameState()
   const game = useAtomValue(gameAtom)
   const userRole = useUserRole()
