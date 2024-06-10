@@ -1,6 +1,5 @@
 import { PrimitiveAtom, atom } from 'jotai'
-
-export type TileState = 'logo' | 'money' | 'answer' | 'dailyDouble' | 'blank'
+import { TileState } from './TileState';
 
 const initialTileState = 'logo' as TileState
 

@@ -1,7 +1,8 @@
 import { PrimitiveAtom } from 'jotai';
-import { TileState, tilesAtoms } from './tilesAtoms';
+import { tilesAtoms } from './tilesAtoms';
 import { jotaiStore } from './jotaiStore';
 import fill from './assets/board-fill.mp3'
+import { TileState } from './TileState';
 
 const audio = new Audio(fill)
 

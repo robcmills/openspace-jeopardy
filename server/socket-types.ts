@@ -1,3 +1,4 @@
+import type { TileState } from '../client/src/TileState'
 import type { UserState } from '../client/src/UserState'
 import type { UserRole } from '../client/src/UserRole'
 import type { GameState } from '../client/src/GameState'
@@ -7,7 +8,8 @@ import type { Spectator } from './Spectator'
 
 export interface ServerToClientEvents {
   basicEmit: (a: number, b: string, c: Buffer) => void
-  contestantJoined: (data: { contestant: Contestant, user: UserState }) => void
+  contestantJoined:
+    (data: { contestant: Contestant, user: UserState }) => void
   game: (game: Game) => void
   gameCreated: (game: Game) => void
   gameJoined: (game: Game) => void
@@ -18,6 +20,11 @@ export interface ServerToClientEvents {
   revealTiles: () => void
   session: (data: SocketData) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
+  setTileState: (data: {
+    column: number,
+    row: number,
+    state: TileState,
+  }) => void
   spectatorJoined: (data: { spectator: Spectator, user: UserState }) => void
   userConnected: (data: UserState) => void
   userDisconnected: (userId: string) => void
@@ -37,7 +44,14 @@ export interface ClientToServerEvents {
   revealCategory: (data: { column: number, gameId: string }) => void
   revealTiles: (data: { gameId: string }) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
-  zoomCategories: (data: { direction: 'in' | 'out', gameId: string }) => void
+  setTileState: (data: {
+    column: number,
+    gameId: string,
+    row: number,
+    state: TileState,
+  }) => void
+  zoomCategories:
+    (data: { direction: 'in' | 'out', gameId: string }) => void
 }
 
 export interface InterServerEvents {

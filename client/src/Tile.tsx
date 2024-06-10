@@ -11,6 +11,9 @@ import { BLUE_BACKGROUND } from './colors'
 import { DailyDouble } from './DailyDouble'
 import { typography } from './styles'
 import { boardSizeAtom } from './boardSizeAtom'
+import { socket } from './socket'
+import { gameAtom } from './gameAtom'
+import { useIsHost } from './useIsHost'
 
 export const tileStyle: CSSProperties = {
   backgroundColor: 'rgb(0, 30, 155)',
@@ -35,20 +38,31 @@ interface TileProps {
 }
 
 export function Tile({ column, item, round, row }: TileProps) {
+  const game = useAtomValue(gameAtom)
+  const isHost = useIsHost()
   const boardSize = useAtomValue(boardSizeAtom)
   const tileRef = useRef<HTMLDivElement>(null)
 
   const tileStateAtom = tilesAtoms[column][row]
   const [state, setState] = useAtom(tileStateAtom)
 
-  const cycle = () =>
-    setState(({
+  const cycle = () => {
+    if (!isHost) return
+    const nextState = ({
       logo: 'money',
       money: item.dailyDouble ? 'dailyDouble' : 'answer',
       dailyDouble: 'answer',
       answer: 'blank',
       blank: 'logo',
-    } as const)[state])
+    } as const)[state]
+    setState(nextState)
+    socket.emit('setTileState', {
+      column,
+      gameId: game.id,
+      row,
+      state: nextState,
+    })
+  }
 
   const money = (
     <span style={{

@@ -81,6 +81,11 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('setGameState', { gameId, gameState })
   })
 
+  socket.on('setTileState', ({ gameId, ...data }) => {
+    console.log('setTileState', data)
+    io.to(gameId).emit('setTileState', data)
+  })
+
   socket.on('revealCategory', ({ column, gameId }) => {
     console.log('revealCategory', { column, gameId })
     io.to(gameId).emit('revealCategory', { column })

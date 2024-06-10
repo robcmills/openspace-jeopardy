@@ -1,6 +1,7 @@
+import { TileState } from './TileState';
 import { CategoryTileState, categoriesAtoms } from './categoriesAtoms';
 import { jotaiStore } from './jotaiStore';
-import { TileState, tilesAtoms } from './tilesAtoms';
+import { tilesAtoms } from './tilesAtoms';
 
 export function resetTiles() {
   for (const tileAtom of tilesAtoms.flat()) {

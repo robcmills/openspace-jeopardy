@@ -14,6 +14,7 @@ import { zoomInCategories, zoomOutCategories } from './zoomCategories'
 import { panCategories } from './panCategories'
 import { getIsHost } from './getIsHost'
 import { revealCategory } from './revealCategory'
+import { tilesAtoms } from './tilesAtoms'
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('game', (game: Game) => {
@@ -42,6 +43,12 @@ export function onSocketGameEvents(socket: SocketClient) {
     console.log('setGameState', gameState)
     resetTiles()
     navigate.to(getGamePath(gameId, gameState))
+  })
+
+  socket.on('setTileState', ({ column, row, state }) => {
+    console.log('setTileState', { column, row, state })
+    if (getIsHost()) return
+    jotaiStore.set(tilesAtoms[column][row], state)
   })
 
   socket.on('revealCategory', ({ column }) => {
