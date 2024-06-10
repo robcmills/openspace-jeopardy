@@ -1,3 +1,4 @@
+import type { FinalJeopardyState } from '../client/src/FinalJeopardyState'
 import type { TileState } from '../client/src/TileState'
 import type { UserState } from '../client/src/UserState'
 import type { UserRole } from '../client/src/UserRole'
@@ -19,6 +20,7 @@ export interface ServerToClientEvents {
   revealCategory: (data: { column: number }) => void
   revealTiles: () => void
   session: (data: SocketData) => void
+  setFinalJeopardyState: (data: { state: FinalJeopardyState }) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
   setTileState: (data: {
     column: number,
@@ -43,6 +45,10 @@ export interface ClientToServerEvents {
   panCategories: (data: { gameId: string }) => void
   revealCategory: (data: { column: number, gameId: string }) => void
   revealTiles: (data: { gameId: string }) => void
+  setFinalJeopardyState: (data: {
+    gameId: string,
+    state: FinalJeopardyState,
+  }) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
   setTileState: (data: {
     column: number,

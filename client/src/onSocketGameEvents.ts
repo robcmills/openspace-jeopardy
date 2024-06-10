@@ -15,6 +15,7 @@ import { panCategories } from './panCategories'
 import { getIsHost } from './getIsHost'
 import { revealCategory } from './revealCategory'
 import { tilesAtoms } from './tilesAtoms'
+import { finalJeopardyAtom } from './finalJeopardyAtom'
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('game', (game: Game) => {
@@ -37,6 +38,11 @@ export function onSocketGameEvents(socket: SocketClient) {
   socket.on('games', (games: Game[]) => {
     console.log('games', games)
     jotaiStore.set(gamesAtom, games)
+  })
+
+  socket.on('setFinalJeopardyState', ({ state }) => {
+    console.log('setFinalJeopardyState', state)
+    jotaiStore.set(finalJeopardyAtom, state)
   })
 
   socket.on('setGameState', ({ gameId, gameState }) => {

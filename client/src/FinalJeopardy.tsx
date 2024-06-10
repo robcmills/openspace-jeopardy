@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from 'react'
+import { CSSProperties } from 'react'
 import finalJeopardySrc from './assets/final-jeopardy.jpg'
 import { finalJeopardy } from './clues'
 import { BLUE_BACKGROUND } from './colors'
@@ -6,18 +6,31 @@ import finalJeopardyTheme from './assets/final-jeopardy-theme.mp3'
 import { GameLayout } from './GameLayout'
 import { Side } from './Side'
 import { typography } from './styles'
+import { useIsHost } from './useIsHost'
+import { socket } from './socket'
+import { useAtom, useAtomValue } from 'jotai'
+import { gameAtom } from './gameAtom'
+import { finalJeopardyAtom } from './finalJeopardyAtom'
 
-export type FinalJeopardyState = 'logo' | 'category' | 'answer'
 
 export function FinalJeopardy() {
-  const [state, setState] = useState<FinalJeopardyState>('logo')
+  const isHost = useIsHost()
+  const game = useAtomValue(gameAtom)
+  const [state, setState] = useAtom(finalJeopardyAtom)
 
-  const cycle = () =>
-    setState(({
+  const cycle = () => {
+    if (!isHost) return
+    const nextState = ({
       logo: 'category',
       category: 'answer',
       answer: 'logo',
-    } as const)[state])
+    } as const)[state]
+    setState(nextState)
+    socket.emit('setFinalJeopardyState', {
+      gameId: game.id,
+      state: nextState,
+    })
+  }
 
   const imgStyle: CSSProperties = {
     height: '100%',

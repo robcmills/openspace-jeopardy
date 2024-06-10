@@ -6,7 +6,9 @@
 - [x] Implement socket events to handle game state transitions and playing video
 - [ ] Implement socket events for all host actions
   + [x] categories zoom in/out/pan/reveal
-  + [ ] clues zoom in/out/reveal
+  + [x] clues zoom in/out/reveal
+  + [ ] final jeopardy
+  + [ ] awarding points
 - [ ] When joining a game, sync gameState from host (in case not lobby)
 - [ ] Implement socket events for all contestant actions
 - [ ] Disable all actions for non-hosts

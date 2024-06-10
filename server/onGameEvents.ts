@@ -76,6 +76,11 @@ export function onGameEvents(socket: Socket, io: Server) {
     }
   })
 
+  socket.on('setFinalJeopardyState', ({ gameId, state }) => {
+    console.log('setFinalJeopardyState', { gameId, state })
+    io.to(gameId).emit('setFinalJeopardyState', { state })
+  })
+
   socket.on('setGameState', ({ gameId, gameState }) => {
     console.log('setGameState', { gameId, gameState })
     io.to(gameId).emit('setGameState', { gameId, gameState })
