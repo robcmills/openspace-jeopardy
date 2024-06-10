@@ -26,7 +26,6 @@ export const tileStyle: CSSProperties = {
   position: 'relative',
   textAlign: 'center',
   textTransform: 'uppercase',
-  transition: 'transform 1s',
 }
 
 interface TileProps {
@@ -89,12 +88,15 @@ export function Tile({ column, item, round, row }: TileProps) {
 
   const borderColor = shouldZoom ? BLUE_BACKGROUND : 'black'
 
+  const transition = state === 'blank' ? 'none' : 'transform 1s'
+
   const backdropStyle: CSSProperties = {
     ...tileStyle,
     background: BLUE_BACKGROUND,
     borderColor,
     inset: 0,
     position: 'absolute',
+    transition,
     zIndex: shouldZoom ? 1 : 0,
   }
 
@@ -105,6 +107,7 @@ export function Tile({ column, item, round, row }: TileProps) {
     fontSize: `${boardSize.height / 128}px`,
     inset: 0,
     position: 'absolute',
+    transition,
     zIndex: shouldZoom ? 2 : 0,
   }
 
