@@ -6,7 +6,6 @@ import { tilesAtoms } from './tilesAtoms'
 import { useAtom, useAtomValue } from 'jotai'
 import { LogoBackground } from './LogoBackground'
 import { getScaleTransform } from './getScaleTransform'
-import { getFullScreenScaleTransform } from './getFullScreenScaleTransform'
 import { BLUE_BACKGROUND } from './colors'
 import { DailyDouble } from './DailyDouble'
 import { typography } from './styles'
@@ -110,13 +109,26 @@ export function Tile({ column, item, round, row }: TileProps) {
   }
 
   if (shouldZoom && tileRef.current) {
+    const container = document.getElementById('left')
+    if (!container) {
+      console.error('tile container not found')
+      return
+    }
     style.transform = [
-      getCenterTransform(tileRef.current),
-      getScaleTransform(tileRef.current)
+      getCenterTransform(tileRef.current, container),
+      getScaleTransform({
+        element: tileRef.current,
+        container,
+        contain: true,
+      })
     ].join(' ')
     backdropStyle.transform = [
-      getCenterTransform(tileRef.current),
-      getFullScreenScaleTransform(tileRef.current)
+      getCenterTransform(tileRef.current, container),
+      getScaleTransform({
+        element: tileRef.current,
+        container,
+        contain: false,
+      })
     ].join(' ')
   }
 

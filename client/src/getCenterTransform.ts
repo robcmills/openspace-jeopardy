@@ -1,13 +1,18 @@
-export function getCenterTransform(element: HTMLElement): string {
+export function getCenterTransform(
+  element: HTMLElement,
+  container: HTMLElement,
+): string {
   const elementRect = element.getBoundingClientRect();
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
+  const containerRect = container.getBoundingClientRect();
+
+  const containerWidth = containerRect.width;
+  const containerHeight = containerRect.height;
 
   const elementWidth = elementRect.width;
   const elementHeight = elementRect.height;
 
-  const centerX = (windowWidth - elementWidth) / 2;
-  const centerY = (windowHeight - elementHeight) / 2;
+  const centerX = (containerWidth - elementWidth) / 2;
+  const centerY = (containerHeight - elementHeight) / 2;
 
   const translateX = centerX - elementRect.left;
   const translateY = centerY - elementRect.top;

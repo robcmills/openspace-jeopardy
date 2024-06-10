@@ -26,10 +26,10 @@ interface GameLayoutProps {
 export function GameLayout({ left, right }: GameLayoutProps) {
   return (
     <div style={containerStyle}>
-      <div style={leftStyle}>
+      <div id='left' style={leftStyle}>
         {left}
       </div>
-      <div style={rightStyle}>
+      <div id='right' style={rightStyle}>
         {right}
       </div>
     </div>

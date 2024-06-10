@@ -1,11 +1,25 @@
-export function getScaleTransform(element: HTMLElement): string {
-  const elementRect = element.getBoundingClientRect()
-  const windowHeight = window.innerHeight
-  const windowWidth = window.innerWidth
+export type GetScaleTransformArgs = {
+  element: HTMLElement
+  container: HTMLElement
+  contain: boolean
+}
 
-  const scaleX = windowWidth / elementRect.width;
-  const scaleY = windowHeight / elementRect.height;
+export function getScaleTransform({
+  element,
+  container,
+  contain,
+}: GetScaleTransformArgs): string {
+  const elementRect = element.getBoundingClientRect()
+  const containerRect = container.getBoundingClientRect()
+
+  const containerHeight = containerRect.height
+  const containerWidth = containerRect.width
+
+  const scaleX = containerWidth / elementRect.width;
+  const scaleY = containerHeight / elementRect.height;
   const scale = Math.min(scaleX, scaleY);
 
-  return `scale(${scale})`;
+  return contain
+    ? `scale(${scale})`
+    : `scale(${scaleX}, ${scaleY})`
 }
