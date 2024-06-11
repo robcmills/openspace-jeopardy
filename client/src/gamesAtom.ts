@@ -1,4 +1,4 @@
 import { atom } from 'jotai';
-import { Game } from '../../server/Game';
+import { ServerGame } from '../../server/ServerGame';
 
-export const gamesAtom = atom<Game[]>([])
+export const gamesAtom = atom<ServerGame[]>([])

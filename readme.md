@@ -9,7 +9,8 @@
   + [x] clues zoom in/out/reveal
   + [ ] final jeopardy
   + [ ] awarding points
-- [ ] When joining a game, sync gameState from host (in case not lobby)
+- [x] When joining a game, sync gameState from host (in case not lobby)
+- [ ] Store all game state on server and sync with clients on connection
 - [ ] Implement socket events for all contestant actions
 - [ ] Disable all actions for non-hosts
 - [x] Remove transition when closing clues

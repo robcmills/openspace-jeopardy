@@ -4,17 +4,17 @@ import type { UserState } from '../client/src/UserState'
 import type { UserRole } from '../client/src/UserRole'
 import type { GameState } from '../client/src/GameState'
 import type { Contestant } from './Contestant'
-import type { Game } from './Game'
+import type { ServerGame } from './ServerGame'
 import type { Spectator } from './Spectator'
 
 export interface ServerToClientEvents {
   basicEmit: (a: number, b: string, c: Buffer) => void
   contestantJoined:
     (data: { contestant: Contestant, user: UserState }) => void
-  game: (game: Game) => void
-  gameCreated: (game: Game) => void
-  gameJoined: (game: Game) => void
-  games: (games: Game[]) => void
+  game: (game: ServerGame) => void
+  gameCreated: (game: ServerGame) => void
+  gameJoined: (game: ServerGame) => void
+  games: (games: ServerGame[]) => void
   noArg: () => void
   panCategories: () => void
   revealCategory: (data: { column: number }) => void

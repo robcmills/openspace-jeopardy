@@ -1,11 +1,11 @@
 import type { UserState } from '../client/src/UserState'
 import type { Contestant } from './Contestant'
-import type { Game } from './Game'
+import type { ServerGame } from './ServerGame'
 import type { Spectator } from './Spectator'
 
 export type GetGameResponse = {
   contestants: Contestant[]
-  game: Game
+  game: ServerGame
   spectators: Spectator[]
   users: UserState[]
 }

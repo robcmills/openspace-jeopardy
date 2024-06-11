@@ -1,6 +1,6 @@
 import { jotaiStore } from './jotaiStore'
 import { SocketClient } from './SocketClient'
-import { Game } from '../../server/Game'
+import { ServerGame } from '../../server/ServerGame'
 import { gameAtom } from './gameAtom'
 import { gamesAtom } from './gamesAtom'
 import { getGamePath } from './getGamePath'
@@ -18,24 +18,24 @@ import { tilesAtoms } from './tilesAtoms'
 import { finalJeopardyAtom } from './finalJeopardyAtom'
 
 export function onSocketGameEvents(socket: SocketClient) {
-  socket.on('game', (game: Game) => {
+  socket.on('game', (game: ServerGame) => {
     console.log('game', game)
     jotaiStore.set(gameAtom, game)
   })
 
-  socket.on('gameCreated', (game: Game) => {
+  socket.on('gameCreated', (game: ServerGame) => {
     console.log('gameCreated', game)
     navigate.to(getGamePath(game.id))
     jotaiStore.set(gameAtom, game)
   })
 
-  socket.on('gameJoined', (game: Game) => {
+  socket.on('gameJoined', (game: ServerGame) => {
     console.log('gameJoined', game)
     jotaiStore.set(gameAtom, game)
   })
 
   /* Receive a list of all live games from server to show in Lobby */
-  socket.on('games', (games: Game[]) => {
+  socket.on('games', (games: ServerGame[]) => {
     console.log('games', games)
     jotaiStore.set(gamesAtom, games)
   })

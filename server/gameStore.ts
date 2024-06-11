@@ -1,17 +1,19 @@
 import { GameState } from '../client/src/GameState';
-import type { Game } from './Game';
+import type { ServerGame } from './ServerGame';
+import { initialTilesState } from './TilesState';
 import { randomId } from './randomId';
 
 export const gameStore = {
-  gamesById: new Map<string, Game>(),
+  gamesById: new Map<string, ServerGame>(),
   indexByHostUserId: new Map<string, string>(),
 
-  new(hostUserId: string, name: string): Game {
-    const newGame: Game = {
+  new(hostUserId: string, name: string): ServerGame {
+    const newGame: ServerGame = {
       id: randomId(),
       hostUserId,
       name,
       state: GameState.Lobby,
+      tiles: initialTilesState,
     }
     this.set(newGame)
     return newGame
@@ -30,7 +32,7 @@ export const gameStore = {
     return this.gamesById.get(id)
   },
 
-  set(game: Game) {
+  set(game: ServerGame) {
     this.gamesById.set(game.id, game)
     this.indexByHostUserId.set(game.hostUserId, game.id)
   },

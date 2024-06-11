@@ -95,6 +95,13 @@ export function onGameEvents(socket: Socket, io: Server) {
 
   socket.on('setTileState', ({ gameId, ...data }) => {
     console.log('setTileState', data)
+    const game = gameStore.getById(gameId)
+    if (game) {
+      game.tiles[data.column][data.row] = data.state
+      gameStore.set(game)
+    } else {
+      console.error(`Game not found for gameId: ${gameId}`)
+    }
     io.to(gameId).emit('setTileState', data)
   })
 
@@ -105,6 +112,16 @@ export function onGameEvents(socket: Socket, io: Server) {
 
   socket.on('revealTiles', ({ gameId }) => {
     console.log('revealTiles', { gameId })
+    const game = gameStore.getById(gameId)
+    if (game) {
+      for (let column = 0; column < 6; column++) {
+        for (let row = 0; row < 5; row++) {
+          game.tiles[column][row] = 'money'
+        }
+      }
+    } else {
+      console.error(`Game not found for gameId: ${gameId}`)
+    }
     io.to(gameId).emit('revealTiles')
   })
 

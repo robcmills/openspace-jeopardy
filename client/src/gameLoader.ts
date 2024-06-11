@@ -9,6 +9,8 @@ import { UserState } from './UserState'
 import { Spectator } from '../../server/Spectator'
 import { spectatorsAtom } from './spectatorsAtom'
 import { getGamePath } from './getGamePath'
+import { ClientGame } from './ClientGame'
+import { tilesAtoms } from './tilesAtoms'
 
 export const gameLoader: LoaderFunction = async ({ params }) => {
   console.log('gameLoader', params)
@@ -26,7 +28,18 @@ export const gameLoader: LoaderFunction = async ({ params }) => {
     return redirect(getGamePath(json.game.id, json.game.state))
   }
 
-  jotaiStore.set(gameAtom, json.game)
+  const clientGame: ClientGame = {
+    id: json.game.id,
+    name: json.game.name,
+    hostUserId: json.game.hostUserId,
+  }
+  jotaiStore.set(gameAtom, clientGame)
+
+  for (let column = 0; column < 6; column++) {
+    for (let row = 0; row < 5; row++) {
+      jotaiStore.set(tilesAtoms[column][row], json.game.tiles[column][row])
+    }
+  }
 
   jotaiStore.set(contestantsAtom, {
     contestantsById: json.contestants.reduce((acc, contestant) => {
