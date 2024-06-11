@@ -11,6 +11,7 @@ import { spectatorsAtom } from './spectatorsAtom'
 import { getGamePath } from './getGamePath'
 import { ClientGame } from './ClientGame'
 import { tilesAtoms } from './tilesAtoms'
+import { categoriesAtoms } from './categoriesAtoms'
 
 export const gameLoader: LoaderFunction = async ({ params }) => {
   console.log('gameLoader', params)
@@ -36,6 +37,7 @@ export const gameLoader: LoaderFunction = async ({ params }) => {
   jotaiStore.set(gameAtom, clientGame)
 
   for (let column = 0; column < 6; column++) {
+    jotaiStore.set(categoriesAtoms[column], json.game.categories[column])
     for (let row = 0; row < 5; row++) {
       jotaiStore.set(tilesAtoms[column][row], json.game.tiles[column][row])
     }

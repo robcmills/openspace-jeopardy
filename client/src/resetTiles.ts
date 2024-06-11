@@ -1,5 +1,6 @@
+import { CategoryTileState } from './CategoryTileState';
 import { TileState } from './TileState';
-import { CategoryTileState, categoriesAtoms } from './categoriesAtoms';
+import { categoriesAtoms } from './categoriesAtoms';
 import { jotaiStore } from './jotaiStore';
 import { tilesAtoms } from './tilesAtoms';
 

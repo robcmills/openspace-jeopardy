@@ -1,6 +1,5 @@
 import { PrimitiveAtom, atom } from 'jotai'
-
-export type CategoryTileState = 'logo' | 'category'
+import { CategoryTileState } from './CategoryTileState'
 
 const initialState = 'logo' as CategoryTileState
 

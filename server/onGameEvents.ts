@@ -107,6 +107,15 @@ export function onGameEvents(socket: Socket, io: Server) {
 
   socket.on('revealCategory', ({ column, gameId }) => {
     console.log('revealCategory', { column, gameId })
+    const game = gameStore.getById(gameId)
+    if (game) {
+      const currentCategory = game.categories[column]
+      game.categories[column] = currentCategory === 'logo'
+        ? 'category'
+        : 'logo'
+    } else {
+      console.error(`Game not found for gameId: ${gameId}`)
+    }
     io.to(gameId).emit('revealCategory', { column })
   })
 
