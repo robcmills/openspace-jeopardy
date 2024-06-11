@@ -12,6 +12,7 @@ import { getGamePath } from './getGamePath'
 import { ClientGame } from './ClientGame'
 import { tilesAtoms } from './tilesAtoms'
 import { categoriesAtoms } from './categoriesAtoms'
+import { finalJeopardyAtom } from './finalJeopardyAtom'
 
 export const gameLoader: LoaderFunction = async ({ params }) => {
   console.log('gameLoader', params)
@@ -42,6 +43,8 @@ export const gameLoader: LoaderFunction = async ({ params }) => {
       jotaiStore.set(tilesAtoms[column][row], json.game.tiles[column][row])
     }
   }
+
+  jotaiStore.set(finalJeopardyAtom, json.game.finalJeopardy)
 
   jotaiStore.set(contestantsAtom, {
     contestantsById: json.contestants.reduce((acc, contestant) => {

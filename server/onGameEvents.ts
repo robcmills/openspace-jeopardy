@@ -78,6 +78,12 @@ export function onGameEvents(socket: Socket, io: Server) {
 
   socket.on('setFinalJeopardyState', ({ gameId, state }) => {
     console.log('setFinalJeopardyState', { gameId, state })
+    const game = gameStore.getById(gameId)
+    if (game) {
+      game.finalJeopardy = state
+    } else {
+      console.error(`Game not found for gameId: ${gameId}`)
+    }
     io.to(gameId).emit('setFinalJeopardyState', { state })
   })
 
@@ -86,7 +92,6 @@ export function onGameEvents(socket: Socket, io: Server) {
     const game = gameStore.getById(gameId)
     if (game) {
       game.state = gameState
-      gameStore.set(game)
     } else {
       console.error(`Game not found for gameId: ${gameId}`)
     }
@@ -98,7 +103,6 @@ export function onGameEvents(socket: Socket, io: Server) {
     const game = gameStore.getById(gameId)
     if (game) {
       game.tiles[data.column][data.row] = data.state
-      gameStore.set(game)
     } else {
       console.error(`Game not found for gameId: ${gameId}`)
     }
