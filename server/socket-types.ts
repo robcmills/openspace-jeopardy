@@ -43,6 +43,7 @@ export interface ClientToServerEvents {
   joinLobby: () => void
   leaveLobby: () => void
   panCategories: (data: { gameId: string }) => void
+  resetTiles: (data: { gameId: string }) => void
   revealCategory: (data: { column: number, gameId: string }) => void
   revealTiles: (data: { gameId: string }) => void
   setFinalJeopardyState: (data: {

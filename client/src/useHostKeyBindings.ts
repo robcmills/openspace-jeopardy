@@ -26,6 +26,7 @@ export function useHostKeyBindings() {
       window.location.reload()
     } else if (event.key === 'n') {
       resetTiles()
+      socket.emit('resetTiles', { gameId: game.id })
       const nextGameState = getNextGameState(gameState)
       setGameState(nextGameState)
       socket.emit('setGameState', {

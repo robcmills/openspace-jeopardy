@@ -105,6 +105,21 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('setTileState', data)
   })
 
+  socket.on('resetTiles', ({ gameId }) => {
+    console.log('resetTiles', { gameId })
+    const game = gameStore.getById(gameId)
+    if (game) {
+      for (let column = 0; column < 6; column++) {
+        game.categories[column] = 'logo'
+        for (let row = 0; row < 6; row++) {
+          game.tiles[column][row] = 'logo'
+        }
+      }
+    } else {
+      console.error(`Game not found for gameId: ${gameId}`)
+    }
+  })
+
   socket.on('revealCategory', ({ column, gameId }) => {
     console.log('revealCategory', { column, gameId })
     const game = gameStore.getById(gameId)
