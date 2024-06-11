@@ -47,6 +47,7 @@ export function onSocketGameEvents(socket: SocketClient) {
 
   socket.on('setGameState', ({ gameId, gameState }) => {
     console.log('setGameState', gameState)
+    if (getIsHost()) return
     resetTiles()
     navigate.to(getGamePath(gameId, gameState))
   })

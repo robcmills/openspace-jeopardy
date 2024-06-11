@@ -6,6 +6,7 @@ import { gameAtom } from './gameAtom'
 import { useUserRole } from './useUserRole'
 
 export function GameRoute() {
+  console.log('GameRoute')
   const game = useAtomValue(gameAtom)
   const { isSessionEstablished, sessionId } = useAtomValue(socketAtom)
   const userRole = useUserRole()

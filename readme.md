@@ -12,7 +12,7 @@
 - [ ] When joining a game, sync gameState from host (in case not lobby)
 - [ ] Implement socket events for all contestant actions
 - [ ] Disable all actions for non-hosts
-- [ ] Remove transition when closing clues
+- [x] Remove transition when closing clues
 - [ ] Implement score board
 - [ ] Implement contestant controls (buzzer, answer, wager)
 - [ ] Make jeopardy round visually distinct from double jeopardy

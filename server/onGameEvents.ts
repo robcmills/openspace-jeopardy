@@ -83,6 +83,13 @@ export function onGameEvents(socket: Socket, io: Server) {
 
   socket.on('setGameState', ({ gameId, gameState }) => {
     console.log('setGameState', { gameId, gameState })
+    const game = gameStore.getById(gameId)
+    if (game) {
+      game.state = gameState
+      gameStore.set(game)
+    } else {
+      console.error(`Game not found for gameId: ${gameId}`)
+    }
     io.to(gameId).emit('setGameState', { gameId, gameState })
   })
 

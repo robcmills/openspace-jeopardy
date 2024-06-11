@@ -1,10 +1,10 @@
 import { atom } from 'jotai'
-import { Game } from '../../server/Game'
+import { ClientGame } from './ClientGame'
 
-const initialGame: Game = {
+const initialGame = {
   id: '',
   hostUserId: '',
   name: '',
 }
 
-export const gameAtom = atom<Game>(initialGame)
+export const gameAtom = atom<ClientGame>(initialGame)
