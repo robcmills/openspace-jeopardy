@@ -7,12 +7,12 @@
 - [ ] Implement socket events for all host actions
   + [x] categories zoom in/out/pan/reveal
   + [x] clues zoom in/out/reveal
-  + [ ] final jeopardy
+  + [x] final jeopardy
   + [ ] awarding points
 - [x] When joining a game, sync gameState from host (in case not lobby)
-- [ ] Store all game state on server and sync with clients on connection
+- [x] Store all game state on server and sync with clients on connection
 - [ ] Implement socket events for all contestant actions
-- [ ] Disable all actions for non-hosts
+- [x] Disable all actions for non-hosts
 - [x] Remove transition when closing clues
 - [ ] Implement score board
 - [ ] Implement contestant controls (buzzer, answer, wager)
@@ -22,6 +22,5 @@
 - [x] Join as spectator
 - [ ] Move css into inline styles to be consistent
 - [x] Combine gameState and setGameState hooks
-- [ ] Add key bindings for everything to avoid cursor during game
 - [ ] Remove clues from src and load from env variable
 - [ ] Implement admin api endpoints
