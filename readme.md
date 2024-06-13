@@ -8,9 +8,11 @@
   + [x] categories zoom in/out/pan/reveal
   + [x] clues zoom in/out/reveal
   + [x] final jeopardy
-  + [ ] make random contestant active (with reveal sound)
+  + [x] make random contestant active (with reveal sound)
   + [ ] awarding points
 - [ ] Implement score board
+  + [ ] Sort by score then name
+  + [ ] Animate sort changes
 - [ ] Implement contestant controls
   + [ ] buzzer
   + [ ] wager (daily double)

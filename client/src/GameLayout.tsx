@@ -15,7 +15,9 @@ const leftStyle: CSSProperties = {
 }
 
 const rightStyle: CSSProperties = {
-  borderLeft: '1px solid lightgray'
+  borderLeft: '1px solid lightgray',
+  display: 'grid',
+  overflow: 'hidden',
 }
 
 interface GameLayoutProps {
