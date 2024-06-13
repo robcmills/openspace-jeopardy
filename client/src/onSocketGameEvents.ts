@@ -16,8 +16,14 @@ import { getIsHost } from './getIsHost'
 import { revealCategory } from './revealCategory'
 import { tilesAtoms } from './tilesAtoms'
 import { finalJeopardyAtom } from './finalJeopardyAtom'
+import { activateRandomContestant } from './activateRandomContestant'
 
 export function onSocketGameEvents(socket: SocketClient) {
+  socket.on('activateRandomContestant', ({ contestantId }) => {
+    console.log('activateRandomContestant', contestantId)
+    activateRandomContestant(contestantId)
+  })
+
   socket.on('game', (game: ServerGame) => {
     console.log('game', game)
     jotaiStore.set(gameAtom, game)

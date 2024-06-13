@@ -7,6 +7,17 @@ import { sessionStore } from './sessionStore'
 import { spectatorStore } from './spectatorStore'
 
 export function onGameEvents(socket: Socket, io: Server) {
+  socket.on('activateRandomContestant', ({ contestantId, gameId }) => {
+    console.log('activateRandomContestant', { contestantId, gameId })
+    const game = gameStore.getById(gameId)
+    if (game) {
+      game.activeContestantId = contestantId
+    } else {
+      console.error(`Game not found for gameId: ${gameId}`)
+    }
+    io.to(gameId).emit('activateRandomContestant', { contestantId })
+  })
+
   socket.on('getGame', (gameId: string) => {
     console.log('getGame', gameId)
     const game = gameStore.getById(gameId)

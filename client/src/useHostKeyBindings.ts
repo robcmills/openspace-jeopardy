@@ -12,6 +12,7 @@ import { socket } from './socket'
 import { useAtomValue } from 'jotai'
 import { gameAtom } from './gameAtom'
 import { activateRandomContestant } from './activateRandomContestant'
+import { getRandomContestantId } from './getRandomContestantId'
 
 const SPACE_KEY_CODE = 32
 
@@ -52,7 +53,12 @@ export function useHostKeyBindings() {
     } else if (
       event.key === 'a' && gameState === GameState.Jeopardy
     ) {
-      activateRandomContestant()
+      const randomContestantId = getRandomContestantId()
+      activateRandomContestant(randomContestantId)
+      socket.emit('activateRandomContestant', {
+        contestantId: randomContestantId,
+        gameId: game.id,
+      })
     } else if (event.key === 'c') {
       zoomInCategories()
       socket.emit('zoomCategories', { direction: 'in', gameId: game.id })
