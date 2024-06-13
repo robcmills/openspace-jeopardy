@@ -15,7 +15,7 @@ export function useUserRole() {
   if (isHost) return 'host'
 
   const isContestant = contestants.some(
-    contestant => contestant.id === userId
+    contestant => contestant.user.id === userId
   )
   if (isContestant) return 'contestant'
 

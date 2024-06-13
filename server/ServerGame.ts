@@ -4,6 +4,7 @@ import type { GameState } from '../client/src/GameState'
 import type { TilesState } from './TilesState'
 
 export type ServerGame = {
+  activeContestantId: string | null,
   categories: CategoryTileState[],
   finalJeopardy: FinalJeopardyState,
   id: string,

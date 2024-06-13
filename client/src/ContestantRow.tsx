@@ -2,15 +2,13 @@ import { CSSProperties } from 'react'
 import { UserState } from './UserState'
 import { Contestant } from '../../server/Contestant'
 import { BLUE_BACKGROUND, DARK_GRAY } from './colors'
+import { useAtomValue } from 'jotai'
+import { activeContestantAtom } from './activeContestantAtom'
 
 const contestantStyle: CSSProperties = {
   display: 'grid',
   gap: 4,
   gridTemplateColumns: '1fr 10px 2fr',
-}
-
-const highlightStyle: CSSProperties = {
-  background: DARK_GRAY,
 }
 
 const scoreStyle: CSSProperties = {
@@ -28,15 +26,28 @@ const usernameStyle: CSSProperties = {
 }
 
 type ContestantRowProps = {
-  contestant: Contestant & UserState,
+  contestant: {
+    contestant: Contestant
+    user: UserState
+  },
 }
 
-export function ContestantRow({ contestant }: ContestantRowProps) {
+export function ContestantRow(props: ContestantRowProps) {
+  const contestant = props.contestant.contestant
+  const user = props.contestant.user
+  const activeContestantId = useAtomValue(activeContestantAtom)
+
+  const highlightStyle: CSSProperties = {
+    background: activeContestantId === contestant.id
+      ? 'white'
+      : DARK_GRAY,
+  }
+
   return (
     <div style={contestantStyle}>
       <div style={scoreStyle}>${contestant.score}</div>
       <div style={highlightStyle}></div>
-      <div style={usernameStyle}>{contestant.username}</div>
+      <div style={usernameStyle}>{user.username}</div>
     </div>
   )
 }

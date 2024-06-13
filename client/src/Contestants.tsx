@@ -24,7 +24,7 @@ export function Contestants() {
   const contestants = useContestants(game.id)
 
   const contestantsNodes = contestants.map(contestant => (
-    <ContestantRow key={contestant.id} contestant={contestant} />
+    <ContestantRow key={contestant.user.id} contestant={contestant} />
   ))
 
   const content = contestants.length === 0

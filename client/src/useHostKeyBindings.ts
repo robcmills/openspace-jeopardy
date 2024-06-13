@@ -11,6 +11,7 @@ import { useIsHost } from './useIsHost'
 import { socket } from './socket'
 import { useAtomValue } from 'jotai'
 import { gameAtom } from './gameAtom'
+import { activateRandomContestant } from './activateRandomContestant'
 
 const SPACE_KEY_CODE = 32
 
@@ -48,6 +49,10 @@ export function useHostKeyBindings() {
     ) {
       revealTiles()
       socket.emit('revealTiles', { gameId: game.id })
+    } else if (
+      event.key === 'a' && gameState === GameState.Jeopardy
+    ) {
+      activateRandomContestant()
     } else if (event.key === 'c') {
       zoomInCategories()
       socket.emit('zoomCategories', { direction: 'in', gameId: game.id })

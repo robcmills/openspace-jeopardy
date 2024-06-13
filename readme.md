@@ -8,14 +8,18 @@
   + [x] categories zoom in/out/pan/reveal
   + [x] clues zoom in/out/reveal
   + [x] final jeopardy
+  + [ ] make random contestant active (with reveal sound)
   + [ ] awarding points
+- [ ] Implement score board
+- [ ] Implement contestant controls
+  + [ ] buzzer
+  + [ ] wager (daily double)
+  + [ ] wager and answer (final jeopardy)
 - [x] When joining a game, sync gameState from host (in case not lobby)
 - [x] Store all game state on server and sync with clients on connection
 - [ ] Implement socket events for all contestant actions
 - [x] Disable all actions for non-hosts
 - [x] Remove transition when closing clues
-- [ ] Implement score board
-- [ ] Implement contestant controls (buzzer, answer, wager)
 - [ ] Make jeopardy round visually distinct from double jeopardy
 - [x] Implement GameLayout
 - [x] Join as contestant 
