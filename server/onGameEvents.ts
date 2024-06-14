@@ -18,6 +18,18 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('activateRandomContestant', { contestantId })
   })
 
+  socket.on('contestantBuzzer', ({ contestantId, gameId }) => {
+    console.log('contestantBuzzer', { contestantId, gameId })
+    const game = gameStore.getById(gameId)
+    if (!game) {
+      console.error(`Game not found for gameId: ${gameId}`)
+      return
+    }
+    if (game.activeContestantId) return
+    game.activeContestantId = contestantId
+    io.to(gameId).emit('activateContestant', { contestantId })
+  })
+
   socket.on('getGame', (gameId: string) => {
     console.log('getGame', gameId)
     const game = gameStore.getById(gameId)
@@ -113,10 +125,13 @@ export function onGameEvents(socket: Socket, io: Server) {
   socket.on('setTileState', ({ gameId, ...data }) => {
     console.log('setTileState', data)
     const game = gameStore.getById(gameId)
-    if (game) {
-      game.tiles[data.column][data.row] = data.state
-    } else {
+    if (!game) {
       console.error(`Game not found for gameId: ${gameId}`)
+      return
+    }
+    game.tiles[data.column][data.row] = data.state
+    if (data.state === 'answer') {
+      game.activeContestantId = null
     }
     io.to(gameId).emit('setTileState', data)
   })

@@ -32,3 +32,5 @@
 - [ ] Implement admin api endpoints
 - [ ] Implement mute for all contestants (to avoid echo)
 - [ ] Disable or hide disconnected contestants
+- [ ] Improve error page
+- [ ] Implement ability for host to set active player, or implement automatic activation of previous active contestant in case player answers incorrectly

@@ -3,7 +3,7 @@ import { jeopardy } from './clues'
 import { getCenterTransform } from './getCenterTransform'
 import { Round } from './Round'
 import { tilesAtoms } from './tilesAtoms'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { LogoBackground } from './LogoBackground'
 import { getScaleTransform } from './getScaleTransform'
 import { BLUE_BACKGROUND } from './colors'
@@ -13,6 +13,7 @@ import { boardSizeAtom } from './boardSizeAtom'
 import { socket } from './socket'
 import { gameAtom } from './gameAtom'
 import { useIsHost } from './useIsHost'
+import { activeContestantAtom } from './activeContestantAtom'
 
 export const tileStyle: CSSProperties = {
   backgroundColor: 'rgb(0, 30, 155)',
@@ -37,6 +38,7 @@ interface TileProps {
 
 export function Tile({ column, item, round, row }: TileProps) {
   const game = useAtomValue(gameAtom)
+  const setActiveContestant = useSetAtom(activeContestantAtom)
   const isHost = useIsHost()
   const boardSize = useAtomValue(boardSizeAtom)
   const tileRef = useRef<HTMLDivElement>(null)
@@ -54,6 +56,7 @@ export function Tile({ column, item, round, row }: TileProps) {
       blank: 'logo',
     } as const)[state]
     setState(nextState)
+    if (nextState === 'answer') setActiveContestant(null)
     socket.emit('setTileState', {
       column,
       gameId: game.id,

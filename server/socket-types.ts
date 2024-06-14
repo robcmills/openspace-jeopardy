@@ -8,6 +8,7 @@ import type { ServerGame } from './ServerGame'
 import type { Spectator } from './Spectator'
 
 export interface ServerToClientEvents {
+  activateContestant: (data: { contestantId: string }) => void
   activateRandomContestant: (data: { contestantId: string }) => void
   basicEmit: (a: number, b: string, c: Buffer) => void
   contestantJoined:
@@ -37,7 +38,11 @@ export interface ServerToClientEvents {
 }
 
 export interface ClientToServerEvents {
-  activateRandomContestant: (data: { contestantId: string, gameId: string }) => void
+  activateRandomContestant: (data: {
+    contestantId: string,
+    gameId: string,
+  }) => void
+  contestantBuzzer: (data: { contestantId: string, gameId: string }) => void
   getGame: (gameId: string) => void
   hello: () => void
   hostNewGame: (gameName: string) => void

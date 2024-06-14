@@ -1,5 +1,10 @@
-import { CSSProperties } from 'react'
+import { CSSProperties, useState } from 'react'
 import { useContestantControlsSignal } from './useContestantControlsSignal'
+import { socket } from './socket'
+import { useContestant } from './useContestant'
+import { useAtomValue } from 'jotai'
+import { gameAtom } from './gameAtom'
+import { LIGHT_GREEN } from './colors'
 
 const controlsStyle: CSSProperties = {
   borderTop: '1px solid white',
@@ -26,14 +31,30 @@ const buttonStyle: CSSProperties = {
 
 export function ContestantControls() {
   const { color } = useContestantControlsSignal()
+  const contestant = useContestant()
+  const game = useAtomValue(gameAtom)
+
+  const [disabled, setDisabled] = useState(false)
 
   const lightStyle: CSSProperties = {
-    backgroundColor: color,
+    backgroundColor: disabled ? 'red' : color,
     borderRadius: 8,
     height: 16,
     marginLeft: -96,
     transform: 'translate(-50%, -50%)',
     width: 16,
+  }
+
+  const onPointerDown = () => {
+    if (color !== LIGHT_GREEN) {
+      // Penalize with 500ms lockout
+      setDisabled(true)
+      setTimeout(() => setDisabled(false), 500)
+      return
+    }
+    if (!contestant) return
+    const contestantId = contestant.contestant.id
+    socket.emit('contestantBuzzer', { contestantId, gameId: game.id })
   }
 
   return (
@@ -43,6 +64,8 @@ export function ContestantControls() {
       </div>
       <button
         className='buzzer'
+        disabled={disabled}
+        onPointerDown={onPointerDown}
         style={buttonStyle}
         title='<spacebar>'
       >
