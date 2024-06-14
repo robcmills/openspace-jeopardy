@@ -98,7 +98,7 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('setFinalJeopardyState', { state })
   })
 
-  socket.on('setGameState', ({ gameId, gameState }) => {
+  socket.on('setGameState', ({ gameId, gameState }, callback) => {
     console.log('setGameState', { gameId, gameState })
     const game = gameStore.getById(gameId)
     if (game) {
@@ -106,6 +106,7 @@ export function onGameEvents(socket: Socket, io: Server) {
     } else {
       console.error(`Game not found for gameId: ${gameId}`)
     }
+    callback()
     io.to(gameId).emit('setGameState', { gameId, gameState })
   })
 

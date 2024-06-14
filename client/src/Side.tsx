@@ -6,6 +6,10 @@ import { useHost } from './useHost'
 import { Spectators } from './Spectators'
 import { CSSProperties } from 'react'
 import { ContestantControls } from './ContestantControls'
+import { useIsHost } from './useIsHost'
+import { HostControls } from './HostControls'
+import { useGameState } from './useGameState'
+import { GameState } from './GameState'
 
 const sideStyle: CSSProperties = {
   display: 'grid',
@@ -23,6 +27,18 @@ const scrollStyle: CSSProperties = {
 export function Side() {
   const game = useAtomValue(gameAtom)
   const host = useHost()
+  const isHost = useIsHost()
+  const { gameState } = useGameState()
+
+  const controls = isHost
+    ? <HostControls />
+    : <ContestantControls />
+
+  const controlsVisible = [
+    GameState.Jeopardy,
+    GameState.DoubleJeopardy,
+    GameState.FinalJeopardy,
+  ].includes(gameState)
 
   return (
     <div style={sideStyle}>
@@ -37,7 +53,7 @@ export function Side() {
         <Contestants />
         <Spectators />
       </div>
-      <ContestantControls />
+      {controlsVisible && controls}
     </div>
   )
 }

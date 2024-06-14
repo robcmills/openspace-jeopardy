@@ -30,3 +30,4 @@
 - [x] Combine gameState and setGameState hooks
 - [ ] Remove clues from src and load from env variable
 - [ ] Implement admin api endpoints
+- [ ] Implement mute for all contestants (to avoid echo)

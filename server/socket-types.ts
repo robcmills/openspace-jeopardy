@@ -52,7 +52,10 @@ export interface ClientToServerEvents {
     gameId: string,
     state: FinalJeopardyState,
   }) => void
-  setGameState: (data: { gameId: string, gameState: GameState }) => void
+  setGameState: (data: {
+    gameId: string,
+    gameState: GameState,
+  }, callback: () => void) => void
   setTileState: (data: {
     column: number,
     gameId: string,

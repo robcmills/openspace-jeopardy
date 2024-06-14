@@ -14,7 +14,7 @@ const buttonStyle: CSSProperties = {
   width: 64,
 }
 
-export function ContestantControls() {
+export function HostControls() {
   return (
     <div style={controlsStyle}>
       <button style={buttonStyle} title='<spacebar>'></button>

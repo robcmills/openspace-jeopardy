@@ -31,18 +31,10 @@ export function useHostKeyBindings() {
       socket.emit('resetTiles', { gameId: game.id })
       const nextGameState = getNextGameState(gameState)
       setGameState(nextGameState)
-      socket.emit('setGameState', {
-        gameId: game.id,
-        gameState: nextGameState,
-      })
     } else if (event.key === 'p') {
       resetTiles()
       const previousGameState = getPreviousGameState(gameState)
       setGameState(previousGameState)
-      socket.emit('setGameState', {
-        gameId: game.id,
-        gameState: previousGameState,
-      })
     } else if (
       event.keyCode === SPACE_KEY_CODE &&
       [GameState.Jeopardy, GameState.DoubleJeopardy]
