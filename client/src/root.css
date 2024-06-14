@@ -47,3 +47,13 @@ h1, h2, h3, h4, h5, h6, p {
 img.logo {
   object-fit: contain;
 }
+
+.buzzer {
+  background-color: hsl(0 0 40%);
+}
+.buzzer:hover {
+  background-color: hsl(0 0 30%);
+}
+.buzzer:active {
+  background-color: white;
+}

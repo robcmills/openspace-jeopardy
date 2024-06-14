@@ -83,7 +83,7 @@ export const jeopardy = [{
     answer: "This refers to when a web browser engine renders content with the browser's default styles prior to loading an external CSS stylesheet. The page corrects itself as soon as the style rules are loaded and applied.",
     question: 'What is Flash Of Unstyled Content',
   },{
-    answer: 'A mode used by web browsers to maintain backward compatibility with web pages designed for old web browsers, instead of strictly complying with web standards in standards mode.',
+    answer: 'A mode used by web browsers to maintain backward compatibility with web pages designed for old web browsers, instead of strictly complying with web standards.',
     question: 'What is quirks mode',
   }, {
     answer: "A hybrid between relative and fixed, it allows an element to act like it is relatively positioned until it's scrolled to a certain threshold, after which it becomes fixed.",
