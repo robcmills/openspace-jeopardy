@@ -57,3 +57,25 @@ img.logo {
 .buzzer:active {
   background-color: white;
 }
+
+button.correct {
+  background-color: hsl(120 100% 25%);
+  color: white;
+}
+button.correct:hover {
+  background-color: hsl(120 100% 20%);
+}
+button.correct:active {
+  background-color: hsl(120 0% 30%);
+}
+
+button.incorrect {
+  background-color: hsl(0 100% 40%);
+  color: white;
+}
+button.incorrect:hover {
+  background-color: hsl(0 100% 35%);
+}
+button.incorrect:active {
+  background-color: hsl(0 0% 30%);
+}
