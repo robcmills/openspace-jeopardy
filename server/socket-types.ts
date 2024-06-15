@@ -22,6 +22,10 @@ export interface ServerToClientEvents {
   revealCategory: (data: { column: number }) => void
   revealTiles: () => void
   session: (data: SocketData) => void
+  setContestantScore: (data: {
+    contestantId: string,
+    score: number
+  }) => void
   setFinalJeopardyState: (data: { state: FinalJeopardyState }) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
   setTileState: (data: {
@@ -53,6 +57,11 @@ export interface ClientToServerEvents {
   resetTiles: (data: { gameId: string }) => void
   revealCategory: (data: { column: number, gameId: string }) => void
   revealTiles: (data: { gameId: string }) => void
+  setContestantScore: (data: {
+    contestantId: string,
+    gameId: string,
+    score: number,
+  }) => void
   setFinalJeopardyState: (data: {
     gameId: string,
     state: FinalJeopardyState,

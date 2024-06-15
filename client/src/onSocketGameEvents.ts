@@ -52,6 +52,21 @@ export function onSocketGameEvents(socket: SocketClient) {
     jotaiStore.set(gamesAtom, games)
   })
 
+  socket.on('setContestantScore', ({ contestantId, score }) => {
+    console.log('setContestantScore', { contestantId, score })
+    if (getIsHost()) return
+    jotaiStore.set(contestantsAtom, state => ({
+      ...state,
+      contestantsById: {
+        ...state.contestantsById,
+        [contestantId]: {
+          ...state.contestantsById[contestantId],
+          score,
+        },
+      },
+    }))
+  })
+
   socket.on('setFinalJeopardyState', ({ state }) => {
     console.log('setFinalJeopardyState', state)
     jotaiStore.set(finalJeopardyAtom, state)

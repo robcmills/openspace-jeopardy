@@ -99,6 +99,19 @@ export function onGameEvents(socket: Socket, io: Server) {
     }
   })
 
+  socket.on('setContestantScore', ({ contestantId, gameId, score }) => {
+    console.log('setContestantScore', { contestantId, gameId, score })
+    const contestant = contestantStore.contestantsById.get(contestantId)
+    if (!contestant) {
+      console.error(
+        `Contestant not found for contestantId: ${contestantId}`
+      )
+      return
+    }
+    contestant.score = score
+    io.to(gameId).emit('setContestantScore', { contestantId, score })
+  })
+
   socket.on('setFinalJeopardyState', ({ gameId, state }) => {
     console.log('setFinalJeopardyState', { gameId, state })
     const game = gameStore.getById(gameId)
