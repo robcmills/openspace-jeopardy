@@ -8,7 +8,7 @@ import { activeContestantAtom } from './activeContestantAtom'
 const contestantStyle: CSSProperties = {
   display: 'grid',
   gap: 4,
-  gridTemplateColumns: '1fr 10px 2fr',
+  gridTemplateColumns: '2fr 10px 3fr',
 }
 
 const scoreStyle: CSSProperties = {
@@ -43,9 +43,11 @@ export function ContestantRow(props: ContestantRowProps) {
       : DARK_GRAY,
   }
 
+  const score = contestant.score.toLocaleString()
+
   return (
     <div style={contestantStyle}>
-      <div style={scoreStyle}>${contestant.score}</div>
+      <div style={scoreStyle}>${score}</div>
       <div style={highlightStyle}></div>
       <div style={usernameStyle}>{user.username}</div>
     </div>
