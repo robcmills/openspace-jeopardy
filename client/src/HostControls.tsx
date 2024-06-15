@@ -3,6 +3,7 @@ import { useIsAnyClueVisible } from './useIsAnyClueVisible'
 import { useAtomValue } from 'jotai'
 import { activeContestantAtom } from './activeContestantAtom'
 import { addToContestantScore } from './addToContestantScore'
+import { closeActiveClue } from './closeActiveClue'
 
 const controlsStyle: CSSProperties = {
   borderTop: '1px solid white',
@@ -30,10 +31,12 @@ export function HostControls() {
 
   const onClickCorrect = () => {
     addToContestantScore(1)
+    closeActiveClue()
   }
 
   const onClickIncorrect = () => {
     addToContestantScore(-1)
+    closeActiveClue()
   }
 
   return (

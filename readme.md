@@ -9,7 +9,10 @@
   + [x] clues zoom in/out/reveal
   + [x] final jeopardy
   + [x] make random contestant active (with reveal sound)
-  + [ ] awarding points
+  + [x] awarding points (jeopardy, double jeopardy)
+  + [ ] awarding points (daily double)
+  + [ ] awarding points (final jeopardy)
+  + [ ] incorrect answer behavior
 - [ ] Implement score board
   + [ ] Sort by score then name
   + [ ] Animate sort changes
