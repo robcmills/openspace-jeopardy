@@ -2,6 +2,7 @@ import { CSSProperties } from 'react'
 import { useIsAnyClueVisible } from './useIsAnyClueVisible'
 import { useAtomValue } from 'jotai'
 import { activeContestantAtom } from './activeContestantAtom'
+import { addToContestantScore } from './addToContestantScore'
 
 const controlsStyle: CSSProperties = {
   borderTop: '1px solid white',
@@ -23,14 +24,34 @@ const buttonStyle: CSSProperties = {
 }
 
 export function HostControls() {
-  const activeContestant = useAtomValue(activeContestantAtom)
+  const activeContestantId = useAtomValue(activeContestantAtom)
   const isAnyClueVisible = useIsAnyClueVisible()
-  if (!isAnyClueVisible || !activeContestant) return null
+  if (!isAnyClueVisible || !activeContestantId) return null
+
+  const onClickCorrect = () => {
+    addToContestantScore(1)
+  }
+
+  const onClickIncorrect = () => {
+    addToContestantScore(-1)
+  }
 
   return (
     <div style={controlsStyle}>
-      <button className='correct' style={buttonStyle}>✓</button>
-      <button className='incorrect' style={buttonStyle}>✗</button>
+      <button
+        className='correct'
+        onClick={onClickCorrect}
+        style={buttonStyle}
+      >
+        ✓
+      </button>
+      <button
+        className='incorrect'
+        onClick={onClickIncorrect}
+        style={buttonStyle}
+      >
+        ✗
+      </button>
     </div>
   )
 }
