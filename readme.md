@@ -17,7 +17,7 @@
   + [ ] Sort by score then name
   + [ ] Animate sort changes
 - [ ] Implement contestant controls
-  + [ ] buzzer
+  + [x] buzzer
   + [ ] wager (daily double)
   + [ ] wager and answer (final jeopardy)
   + [ ] answer timer (with sound effect)

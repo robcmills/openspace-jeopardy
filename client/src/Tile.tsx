@@ -56,7 +56,13 @@ export function Tile({ column, item, round, row }: TileProps) {
       blank: 'logo',
     } as const)[state]
     setState(nextState)
-    if (nextState === 'answer') setActiveContestant(null)
+    if (nextState === 'answer' && state !== 'dailyDouble') {
+      setActiveContestant(null)
+      socket.emit('setActiveContestant', {
+        contestantId: null,
+        gameId: game.id,
+      })
+    }
     socket.emit('setTileState', {
       column,
       gameId: game.id,

@@ -27,7 +27,7 @@ export function onGameEvents(socket: Socket, io: Server) {
     }
     if (game.activeContestantId) return
     game.activeContestantId = contestantId
-    io.to(gameId).emit('activateContestant', { contestantId })
+    io.to(gameId).emit('setActiveContestant', { contestantId })
   })
 
   socket.on('getGame', (gameId: string) => {
@@ -99,6 +99,17 @@ export function onGameEvents(socket: Socket, io: Server) {
     }
   })
 
+  socket.on('setActiveContestant', ({ contestantId, gameId }) => {
+    console.log('setActiveContestant', { contestantId, gameId })
+    const game = gameStore.getById(gameId)
+    if (!game) {
+      console.error(`Game not found for gameId: ${gameId}`)
+      return
+    }
+    game.activeContestantId = contestantId
+    io.to(gameId).emit('setActiveContestant', { contestantId })
+  })
+
   socket.on('setContestantScore', ({ contestantId, gameId, score }) => {
     console.log('setContestantScore', { contestantId, gameId, score })
     const contestant = contestantStore.contestantsById.get(contestantId)
@@ -143,9 +154,6 @@ export function onGameEvents(socket: Socket, io: Server) {
       return
     }
     game.tiles[data.column][data.row] = data.state
-    if (data.state === 'answer') {
-      game.activeContestantId = null
-    }
     io.to(gameId).emit('setTileState', data)
   })
 

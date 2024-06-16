@@ -8,7 +8,6 @@ import type { ServerGame } from './ServerGame'
 import type { Spectator } from './Spectator'
 
 export interface ServerToClientEvents {
-  activateContestant: (data: { contestantId: string }) => void
   activateRandomContestant: (data: { contestantId: string }) => void
   basicEmit: (a: number, b: string, c: Buffer) => void
   contestantJoined:
@@ -22,6 +21,7 @@ export interface ServerToClientEvents {
   revealCategory: (data: { column: number }) => void
   revealTiles: () => void
   session: (data: SocketData) => void
+  setActiveContestant: (data: { contestantId: string | null }) => void
   setContestantScore: (data: {
     contestantId: string,
     score: number
@@ -57,6 +57,10 @@ export interface ClientToServerEvents {
   resetTiles: (data: { gameId: string }) => void
   revealCategory: (data: { column: number, gameId: string }) => void
   revealTiles: (data: { gameId: string }) => void
+  setActiveContestant: (data: {
+    contestantId: string | null,
+    gameId: string
+  }) => void
   setContestantScore: (data: {
     contestantId: string,
     gameId: string,

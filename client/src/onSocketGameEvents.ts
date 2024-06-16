@@ -20,11 +20,6 @@ import { activateRandomContestant } from './activateRandomContestant'
 import { activeContestantAtom } from './activeContestantAtom'
 
 export function onSocketGameEvents(socket: SocketClient) {
-  socket.on('activateContestant', ({ contestantId }) => {
-    console.log('activateContestant', contestantId)
-    jotaiStore.set(activeContestantAtom, contestantId)
-  })
-
   socket.on('activateRandomContestant', ({ contestantId }) => {
     console.log('activateRandomContestant', contestantId)
     activateRandomContestant(contestantId)
@@ -50,6 +45,11 @@ export function onSocketGameEvents(socket: SocketClient) {
   socket.on('games', (games: ServerGame[]) => {
     console.log('games', games)
     jotaiStore.set(gamesAtom, games)
+  })
+
+  socket.on('setActiveContestant', ({ contestantId }) => {
+    console.log('setActiveContestant', contestantId)
+    jotaiStore.set(activeContestantAtom, contestantId)
   })
 
   socket.on('setContestantScore', ({ contestantId, score }) => {
@@ -83,7 +83,6 @@ export function onSocketGameEvents(socket: SocketClient) {
     console.log('setTileState', { column, row, state })
     if (getIsHost()) return
     jotaiStore.set(tilesAtoms[column][row], state)
-    if (state === 'answer') jotaiStore.set(activeContestantAtom, null)
   })
 
   socket.on('revealCategory', ({ column }) => {
