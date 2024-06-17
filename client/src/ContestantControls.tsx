@@ -5,8 +5,10 @@ import { useContestant } from './useContestant'
 import { useAtomValue } from 'jotai'
 import { gameAtom } from './gameAtom'
 import { LIGHT_GREEN } from './colors'
+import { ContestantWagerForm } from './ContestantWagerForm'
+import { useIsDailyDouble } from './useIsDailyDouble'
 
-const controlsStyle: CSSProperties = {
+const buzzerContainerStyle: CSSProperties = {
   borderTop: '1px solid white',
   display: 'grid',
   padding: 16,
@@ -57,8 +59,13 @@ export function ContestantControls() {
     socket.emit('contestantBuzzer', { contestantId, gameId: game.id })
   }
 
+  const isDailyDouble = useIsDailyDouble()
+  if (isDailyDouble) return (
+    <ContestantWagerForm />
+  )
+
   return (
-    <div style={controlsStyle}>
+    <div style={buzzerContainerStyle}>
       <div style={lightContainerStyle}>
         <span style={lightStyle}></span>
       </div>

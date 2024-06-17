@@ -123,6 +123,19 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('setContestantScore', { contestantId, score })
   })
 
+  socket.on('setContestantWager', ({ contestantId, gameId, wager }) => {
+    console.log('setContestantWager', { contestantId, gameId, wager })
+    const contestant = contestantStore.contestantsById.get(contestantId)
+    if (!contestant) {
+      console.error(
+        `Contestant not found for contestantId: ${contestantId}`
+      )
+      return
+    }
+    contestant.wager = wager
+    io.to(gameId).emit('setContestantWager', { contestantId, wager })
+  })
+
   socket.on('setFinalJeopardyState', ({ gameId, state }) => {
     console.log('setFinalJeopardyState', { gameId, state })
     const game = gameStore.getById(gameId)

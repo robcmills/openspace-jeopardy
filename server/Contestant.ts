@@ -3,4 +3,5 @@ export type Contestant = {
   id: string,
   score: number,
   userId: string,
+  wager: number,
 }

@@ -11,6 +11,7 @@ export const contestantStore = {
       id: randomId(),
       score: 0,
       userId,
+      wager: 0,
     }
     this.set(contestant)
     return contestant

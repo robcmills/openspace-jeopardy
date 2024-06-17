@@ -18,6 +18,7 @@ import { tilesAtoms } from './tilesAtoms'
 import { finalJeopardyAtom } from './finalJeopardyAtom'
 import { activateRandomContestant } from './activateRandomContestant'
 import { activeContestantAtom } from './activeContestantAtom'
+import { setContestant } from './setContestant'
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('activateRandomContestant', ({ contestantId }) => {
@@ -55,16 +56,12 @@ export function onSocketGameEvents(socket: SocketClient) {
   socket.on('setContestantScore', ({ contestantId, score }) => {
     console.log('setContestantScore', { contestantId, score })
     if (getIsHost()) return
-    jotaiStore.set(contestantsAtom, state => ({
-      ...state,
-      contestantsById: {
-        ...state.contestantsById,
-        [contestantId]: {
-          ...state.contestantsById[contestantId],
-          score,
-        },
-      },
-    }))
+    setContestant({ id: contestantId, score })
+  })
+
+  socket.on('setContestantWager', ({ contestantId, wager }) => {
+    console.log('setContestantWager', { contestantId, wager })
+    setContestant({ id: contestantId, wager })
   })
 
   socket.on('setFinalJeopardyState', ({ state }) => {
