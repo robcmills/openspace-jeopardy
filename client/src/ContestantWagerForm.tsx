@@ -1,9 +1,15 @@
-import { CSSProperties, FormEventHandler, useRef, useState } from 'react'
+import {
+  CSSProperties,
+  ChangeEventHandler,
+  FormEventHandler,
+  useState,
+} from 'react'
 import { useContestant } from './useContestant'
 import { useSetContestant } from './useSetContestant'
 import { useAtomValue } from 'jotai'
 import { gameAtom } from './gameAtom'
 import { socket } from './socket'
+import { revealDailyDoubleClue } from './revealDailyDoubleClue'
 
 const wagerContainerStyle: CSSProperties = {
   borderTop: '1px solid white',
@@ -17,23 +23,31 @@ export function ContestantWagerForm() {
   const contestant = useContestant()
   const setContestant = useSetContestant()
   const game = useAtomValue(gameAtom)
-  const [disabled, setDisabled] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [wager, setWager] = useState(contestant?.contestant.wager || 0)
+
+  if (!contestant) return null
+  const disabled = contestant.contestant.wager > 0
+
+  const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setWager(event.target.valueAsNumber)
+  }
 
   const onSubmitWager: FormEventHandler = (event) => {
     event.preventDefault()
-    if (!contestant) return
-    const input = inputRef.current
-    if (!input) return
-    const wager = input.valueAsNumber
-    setDisabled(true)
     setContestant({ id: contestant.contestant.id, wager })
     socket.emit('setContestantWager', {
       contestantId: contestant.contestant.id,
       gameId: game.id,
       wager,
     })
-    // revealDailyDoubleClue()
+    const location = revealDailyDoubleClue()
+    if (!location) return
+    socket.emit('setTileState', {
+      column: location.column,
+      gameId: game.id,
+      row: location.row,
+      state: 'answer',
+    })
   }
 
   return (
@@ -42,12 +56,13 @@ export function ContestantWagerForm() {
         <input
           disabled={disabled}
           max={contestant?.contestant.score || 100}
-          min={0}
+          min={100}
+          onChange={onChange}
           placeholder='Wager'
-          ref={inputRef}
           required
           style={{ width: 'calc(100% - 8px)' }}
           type='number'
+          value={wager}
         />
         <button disabled={disabled} type='submit'>Submit</button>
       </div>

@@ -78,7 +78,6 @@ export function onSocketGameEvents(socket: SocketClient) {
 
   socket.on('setTileState', ({ column, row, state }) => {
     console.log('setTileState', { column, row, state })
-    if (getIsHost()) return
     jotaiStore.set(tilesAtoms[column][row], state)
   })
 

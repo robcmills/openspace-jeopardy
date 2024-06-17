@@ -60,7 +60,7 @@ export function ContestantControls() {
   }
 
   const isDailyDouble = useIsDailyDouble()
-  if (isDailyDouble) return (
+  if (isDailyDouble || contestant?.contestant.wager) return (
     <ContestantWagerForm />
   )
 
