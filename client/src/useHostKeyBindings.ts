@@ -13,6 +13,7 @@ import { useAtomValue } from 'jotai'
 import { gameAtom } from './gameAtom'
 import { activateRandomContestant } from './activateRandomContestant'
 import { getRandomContestantId } from './getRandomContestantId'
+import { setActiveContestant } from './setActiveContestant'
 
 const SPACE_KEY_CODE = 32
 
@@ -31,6 +32,9 @@ export function useHostKeyBindings() {
       socket.emit('resetTiles', { gameId: game.id })
       const nextGameState = getNextGameState(gameState)
       setGameState(nextGameState)
+      if (nextGameState === GameState.FinalJeopardy) {
+        setActiveContestant(null)
+      }
     } else if (event.key === 'p') {
       resetTiles()
       const previousGameState = getPreviousGameState(gameState)

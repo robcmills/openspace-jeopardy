@@ -10,7 +10,7 @@
   + [x] final jeopardy
   + [x] make random contestant active (with reveal sound)
   + [x] awarding points (jeopardy, double jeopardy)
-  + [ ] awarding points (daily double)
+  + [x] awarding points (daily double)
   + [ ] awarding points (final jeopardy)
   + [ ] incorrect answer behavior
 - [ ] Implement score board
@@ -18,7 +18,7 @@
   + [ ] Animate sort changes
 - [ ] Implement contestant controls
   + [x] buzzer
-  + [ ] wager (daily double)
+  + [x] wager (daily double)
   + [ ] wager and answer (final jeopardy)
   + [ ] answer timer (with sound effect)
 - [x] When joining a game, sync gameState from host (in case not lobby)
