@@ -23,17 +23,20 @@ export function ContestantWagerForm() {
   const contestant = useContestant()
   const setContestant = useSetContestant()
   const game = useAtomValue(gameAtom)
-  const [wager, setWager] = useState(contestant?.contestant.wager || 0)
+  const [wager, setWager] = useState<number | string>(
+    contestant?.contestant.wager || ''
+  )
 
   if (!contestant) return null
   const disabled = contestant.contestant.wager > 0
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setWager(event.target.valueAsNumber)
+    setWager(event.target.value ? event.target.valueAsNumber : '')
   }
 
   const onSubmitWager: FormEventHandler = (event) => {
     event.preventDefault()
+    if (typeof wager !== 'number') return
     setContestant({ id: contestant.contestant.id, wager })
     socket.emit('setContestantWager', {
       contestantId: contestant.contestant.id,

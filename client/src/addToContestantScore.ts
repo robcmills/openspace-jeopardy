@@ -19,7 +19,11 @@ export function addToContestantScore(sign: number) {
       if (tileState === 'answer') {
         const round = gameState === GameState.DoubleJeopardy ? 2 : 1
         const activeClueValue = (rowIndex + 1) * 200 * round * sign
-        const newScore = activeContestant.score + activeClueValue
+        const newScore = activeContestant.score + (
+          activeContestant.wager
+            ? activeContestant.wager * sign
+            : activeClueValue
+        )
         jotaiStore.set(contestantsAtom, ({ contestantsById }) => ({
           contestantsById: {
             ...contestantsById,
