@@ -2,8 +2,10 @@ import { CSSProperties } from 'react'
 import { UserState } from './UserState'
 import { Contestant } from '../../server/Contestant'
 import { BLUE_BACKGROUND, DARK_GRAY } from './colors'
-import { useAtomValue } from 'jotai'
+import { useAtom } from 'jotai'
 import { activeContestantAtom } from './activeContestantAtom'
+import { useIsHost } from './useIsHost'
+import { socket } from './socket'
 
 const contestantStyle: CSSProperties = {
   display: 'grid',
@@ -35,12 +37,24 @@ type ContestantRowProps = {
 export function ContestantRow(props: ContestantRowProps) {
   const contestant = props.contestant.contestant
   const user = props.contestant.user
-  const activeContestantId = useAtomValue(activeContestantAtom)
+  const [activeContestantId, setActiveContestantId] = useAtom(activeContestantAtom)
+  const isActive = activeContestantId === contestant.id
+  const isHost = useIsHost()
+
+  const toggleActive = () => {
+    const nextActiveContestantId = isActive ? null : contestant.id
+    setActiveContestantId(nextActiveContestantId)
+    socket.emit('setActiveContestant', {
+      contestantId: nextActiveContestantId,
+      gameId: contestant.gameId,
+    })
+  }
+
+  const onClickHighlight = isHost ? toggleActive : undefined
 
   const highlightStyle: CSSProperties = {
-    background: activeContestantId === contestant.id
-      ? 'white'
-      : DARK_GRAY,
+    background: isActive ? 'white' : DARK_GRAY,
+    cursor: isHost ? 'pointer' : 'default',
   }
 
   const score = contestant.score.toLocaleString()
@@ -48,7 +62,7 @@ export function ContestantRow(props: ContestantRowProps) {
   return (
     <div style={contestantStyle}>
       <div style={scoreStyle}>${score}</div>
-      <div style={highlightStyle}></div>
+      <div style={highlightStyle} onClick={onClickHighlight}></div>
       <div style={usernameStyle}>{user.username}</div>
     </div>
   )

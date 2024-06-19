@@ -7,15 +7,17 @@ import { useAtomValue } from 'jotai'
 import { gameAtom } from './gameAtom'
 import { setContestant } from './setContestant'
 import { socket } from './socket'
+import { useGameState } from './useGameState'
+import { GameState } from './GameState'
 
 const controlsStyle: CSSProperties = {
   borderTop: '1px solid white',
   display: 'grid',
-  gap: 16,
-  gridTemplateRows: 'auto auto',
+  gridTemplateRows: 'auto auto auto',
   justifyContent: 'center',
   padding: 16,
   placeItems: 'center',
+  textAlign: 'center',
 }
 
 const buttonsStyle: CSSProperties = {
@@ -39,11 +41,28 @@ export function HostControls() {
   const game = useAtomValue(gameAtom)
   const activeContestant = useActiveContestant()
   const isAnyClueVisible = useIsAnyClueVisible()
-  if (!isAnyClueVisible || !activeContestant) return null
+  const { gameState } = useGameState()
+
+  if (
+    !activeContestant ||
+    (!isAnyClueVisible && gameState !== GameState.FinalJeopardy) ||
+    (gameState === GameState.FinalJeopardy && !activeContestant.contestant.wager)
+  ) {
+    return null
+  }
 
   const resetContestantWager = () => {
     if (!activeContestant.contestant.wager) return
-    setContestant({ id: activeContestant.contestant.id, wager: 0 })
+    setContestant({
+      id: activeContestant.contestant.id,
+      question: '',
+      wager: 0,
+    })
+    socket.emit('setContestantQuestion', {
+      contestantId: activeContestant.contestant.id,
+      gameId: game.id,
+      question: '',
+    })
     socket.emit('setContestantWager', {
       contestantId: activeContestant.contestant.id,
       gameId: game.id,
@@ -63,14 +82,19 @@ export function HostControls() {
     resetContestantWager()
   }
 
+  const question = activeContestant.contestant.question
+    ? <p>{activeContestant.contestant.question}</p>
+    : null
+
   const wager = activeContestant.contestant.wager
     ? <p>Wager: ${activeContestant.contestant.wager.toLocaleString()}</p>
     : null
 
-  controlsStyle.gap = wager ? 16 : 0
+  controlsStyle.gap = wager ? 8 : 0
 
   return (
     <div style={controlsStyle}>
+      {question}
       {wager}
       <div style={buttonsStyle}>
         <button

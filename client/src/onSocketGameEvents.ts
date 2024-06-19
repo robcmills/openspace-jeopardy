@@ -58,6 +58,11 @@ export function onSocketGameEvents(socket: SocketClient) {
     setContestant({ id: contestantId, question })
   })
 
+  socket.on('setContestantScore', ({ contestantId, score }) => {
+    console.log('setContestantScore', { contestantId, score })
+    setContestant({ id: contestantId, score })
+  })
+
   socket.on('setContestantWager', ({ contestantId, wager }) => {
     console.log('setContestantWager', { contestantId, wager })
     setContestant({ id: contestantId, wager })
