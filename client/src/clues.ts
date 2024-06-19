@@ -198,7 +198,7 @@ export const doubleJeopardy = [{
     answer: 'For all commands the exit status is stored in this special variable.',
     question: 'What is $?',
   }, {
-    answer: 'In 2014, Stéphane Chazelas, discovered this severe security bug in bash, that allowed hackers to execute arbitrary code on millions of devices.',
+    answer: 'In 2014, Stéphane Chazelas, discovered this famous security bug in bash, that allowed hackers to execute arbitrary code on millions of devices.',
     question: 'What is Shellshock',
   }],
 }, {

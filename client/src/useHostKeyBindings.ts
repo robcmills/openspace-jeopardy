@@ -14,6 +14,7 @@ import { gameAtom } from './gameAtom'
 import { activateRandomContestant } from './activateRandomContestant'
 import { getRandomContestantId } from './getRandomContestantId'
 import { setActiveContestant } from './setActiveContestant'
+import { toggleTimer } from './toggleTimer'
 
 const SPACE_KEY_CODE = 32
 
@@ -41,6 +42,12 @@ export function useHostKeyBindings() {
       setGameState(previousGameState)
     } else if (
       event.keyCode === SPACE_KEY_CODE &&
+      [GameState.Jeopardy, GameState.DoubleJeopardy]
+        .includes(gameState)
+    ) {
+      toggleTimer()
+    } else if (
+      event.key === 'v' &&
       [GameState.Jeopardy, GameState.DoubleJeopardy]
         .includes(gameState)
     ) {

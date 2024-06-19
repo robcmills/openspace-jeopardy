@@ -6,6 +6,9 @@ import { useAtom } from 'jotai'
 import { activeContestantAtom } from './activeContestantAtom'
 import { useIsHost } from './useIsHost'
 import { socket } from './socket'
+import { Timer } from './Timer'
+
+const rowStyle: CSSProperties = { }
 
 const contestantStyle: CSSProperties = {
   display: 'grid',
@@ -60,10 +63,13 @@ export function ContestantRow(props: ContestantRowProps) {
   const score = contestant.score.toLocaleString()
 
   return (
-    <div style={contestantStyle}>
-      <div style={scoreStyle}>${score}</div>
-      <div style={highlightStyle} onClick={onClickHighlight}></div>
-      <div style={usernameStyle}>{user.username}</div>
+    <div style={rowStyle}>
+      <div style={contestantStyle}>
+        <div style={scoreStyle}>${score}</div>
+        <div style={highlightStyle} onClick={onClickHighlight}></div>
+        <div style={usernameStyle}>{user.username}</div>
+      </div>
+      <Timer isActive={isActive} />
     </div>
   )
 }
