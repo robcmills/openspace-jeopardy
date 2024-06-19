@@ -9,6 +9,8 @@ import { setContestant } from './setContestant'
 import { socket } from './socket'
 import { useGameState } from './useGameState'
 import { GameState } from './GameState'
+import { setActiveContestant } from './setActiveContestant'
+import { getActiveClue } from './getActiveClue'
 
 const controlsStyle: CSSProperties = {
   borderTop: '1px solid white',
@@ -78,8 +80,12 @@ export function HostControls() {
 
   const onClickIncorrect = () => {
     addToContestantScore(-1)
-    closeActiveClue()
     resetContestantWager()
+    if (getActiveClue()?.dailyDouble) {
+      closeActiveClue()
+    } else {
+      setActiveContestant(null)
+    }
   }
 
   const question = activeContestant.contestant.question

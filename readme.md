@@ -11,15 +11,15 @@
   + [x] make random contestant active (with reveal sound)
   + [x] awarding points (jeopardy, double jeopardy)
   + [x] awarding points (daily double)
-  + [ ] awarding points (final jeopardy)
-  + [ ] incorrect answer behavior
+  + [x] awarding points (final jeopardy)
+  + [x] incorrect answer behavior
 - [ ] Implement score board
   + [ ] Sort by score then name
   + [ ] Animate sort changes
 - [ ] Implement contestant controls
   + [x] buzzer
   + [x] wager (daily double)
-  + [ ] wager and answer (final jeopardy)
+  + [x] wager and answer (final jeopardy)
   + [ ] answer timer (with sound effect)
 - [x] When joining a game, sync gameState from host (in case not lobby)
 - [x] Store all game state on server and sync with clients on connection
@@ -33,6 +33,7 @@
 - [ ] Move css into inline styles to be consistent
 - [x] Combine gameState and setGameState hooks
 - [ ] Remove clues from src and load from env variable
+- [ ] Clean up clues type
 - [ ] Implement admin api endpoints
 - [ ] Implement mute for all contestants (to avoid echo)
 - [ ] Disable or hide disconnected contestants
