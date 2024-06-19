@@ -22,6 +22,10 @@ export interface ServerToClientEvents {
   revealTiles: () => void
   session: (data: SocketData) => void
   setActiveContestant: (data: { contestantId: string | null }) => void
+  setContestantQuestion: (data: {
+    contestantId: string,
+    question: string
+  }) => void
   setContestantScore: (data: {
     contestantId: string,
     score: number
@@ -69,6 +73,11 @@ export interface ClientToServerEvents {
     contestantId: string,
     gameId: string,
     score: number,
+  }) => void
+  setContestantQuestion: (data: {
+    contestantId: string,
+    gameId: string,
+    question: string,
   }) => void
   setContestantWager: (data: {
     contestantId: string,

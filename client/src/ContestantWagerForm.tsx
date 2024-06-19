@@ -10,19 +10,31 @@ import { useAtomValue } from 'jotai'
 import { gameAtom } from './gameAtom'
 import { socket } from './socket'
 import { revealDailyDoubleClue } from './revealDailyDoubleClue'
+import { useGameState } from './useGameState'
+import { GameState } from './GameState'
 
-const wagerContainerStyle: CSSProperties = {
+const containerStyle: CSSProperties = {
   borderTop: '1px solid white',
   display: 'grid',
   gap: 6,
-  gridTemplateColumns: '1fr 1fr',
   padding: 16,
+}
+
+const wagerContainerStyle: CSSProperties = {
+  display: 'grid',
+  gap: 6,
+  gridTemplateColumns: '1fr 1fr',
 }
 
 export function ContestantWagerForm() {
   const contestant = useContestant()
   const setContestant = useSetContestant()
   const game = useAtomValue(gameAtom)
+  const { gameState } = useGameState()
+
+  const [question, setQuestion] = useState(
+    contestant?.contestant.question || ''
+  )
   const [wager, setWager] = useState<number | string>(
     contestant?.contestant.wager || ''
   )
@@ -30,44 +42,70 @@ export function ContestantWagerForm() {
   if (!contestant) return null
   const disabled = contestant.contestant.wager > 0
 
-  const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const onChangeQuestion: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+    setQuestion(event.target.value)
+  }
+
+  const onChangeWager: ChangeEventHandler<HTMLInputElement> = (event) => {
     setWager(event.target.value ? event.target.valueAsNumber : '')
   }
 
-  const onSubmitWager: FormEventHandler = (event) => {
+  const onSubmit: FormEventHandler = (event) => {
     event.preventDefault()
     if (typeof wager !== 'number') return
+
     setContestant({ id: contestant.contestant.id, wager })
     socket.emit('setContestantWager', {
       contestantId: contestant.contestant.id,
       gameId: game.id,
       wager,
     })
-    const location = revealDailyDoubleClue()
-    if (!location) return
-    socket.emit('setTileState', {
-      column: location.column,
-      gameId: game.id,
-      row: location.row,
-      state: 'answer',
-    })
+
+    if (gameState === GameState.FinalJeopardy) {
+      // Final Jeopardy
+      setContestant({ id: contestant.contestant.id, question })
+      socket.emit('setContestantQuestion', {
+        contestantId: contestant.contestant.id,
+        gameId: game.id,
+        question,
+      })
+    } else {
+      // Daily Double
+      const location = revealDailyDoubleClue()
+      if (!location) return
+      socket.emit('setTileState', {
+        column: location.column,
+        gameId: game.id,
+        row: location.row,
+        state: 'answer',
+      })
+    }
   }
 
   return (
-    <form onSubmit={onSubmitWager}>
-      <div style={wagerContainerStyle}>
-        <input
+    <form onSubmit={onSubmit}>
+      <div style={containerStyle}>
+        <textarea
           disabled={disabled}
-          max={contestant?.contestant.score || 100}
-          min={100}
-          onChange={onChange}
-          placeholder='Wager'
+          onChange={onChangeQuestion}
+          placeholder='Question'
           required
-          style={{ width: 'calc(100% - 8px)' }}
-          type='number'
-          value={wager}
+          value={question}
         />
-        <button disabled={disabled} type='submit'>Submit</button>
+        <div style={wagerContainerStyle}>
+          <input
+            disabled={disabled}
+            max={contestant?.contestant.score || 100}
+            min={100}
+            onChange={onChangeWager}
+            placeholder='Wager'
+            required
+            style={{ width: 'calc(100% - 8px)' }}
+            type='number'
+            value={wager}
+          />
+          <button disabled={disabled} type='submit'>Submit</button>
+        </div>
       </div>
     </form>
   )

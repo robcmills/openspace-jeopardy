@@ -110,6 +110,19 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('setActiveContestant', { contestantId })
   })
 
+  socket.on('setContestantQuestion', ({ contestantId, gameId, question }) => {
+    console.log('setContestantQuestion', { contestantId, gameId, question })
+    const contestant = contestantStore.contestantsById.get(contestantId)
+    if (!contestant) {
+      console.error(
+        `Contestant not found for contestantId: ${contestantId}`
+      )
+      return
+    }
+    contestant.question = question
+    io.to(gameId).emit('setContestantQuestion', { contestantId, question })
+  })
+
   socket.on('setContestantScore', ({ contestantId, gameId, score }) => {
     console.log('setContestantScore', { contestantId, gameId, score })
     const contestant = contestantStore.contestantsById.get(contestantId)

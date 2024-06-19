@@ -9,6 +9,7 @@ export const contestantStore = {
     const contestant: Contestant = {
       gameId,
       id: randomId(),
+      question: '',
       score: 0,
       userId,
       wager: 0,

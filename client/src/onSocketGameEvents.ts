@@ -53,10 +53,9 @@ export function onSocketGameEvents(socket: SocketClient) {
     jotaiStore.set(activeContestantAtom, contestantId)
   })
 
-  socket.on('setContestantScore', ({ contestantId, score }) => {
-    console.log('setContestantScore', { contestantId, score })
-    if (getIsHost()) return
-    setContestant({ id: contestantId, score })
+  socket.on('setContestantQuestion', ({ contestantId, question }) => {
+    console.log('setContestantQuestion', { contestantId, question })
+    setContestant({ id: contestantId, question })
   })
 
   socket.on('setContestantWager', ({ contestantId, wager }) => {

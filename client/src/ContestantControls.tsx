@@ -7,6 +7,9 @@ import { gameAtom } from './gameAtom'
 import { LIGHT_GREEN } from './colors'
 import { ContestantWagerForm } from './ContestantWagerForm'
 import { useIsDailyDouble } from './useIsDailyDouble'
+import { useGameState } from './useGameState'
+import { GameState } from './GameState'
+import { finalJeopardyAtom } from './finalJeopardyAtom'
 
 const buzzerContainerStyle: CSSProperties = {
   borderTop: '1px solid white',
@@ -35,8 +38,26 @@ export function ContestantControls() {
   const { color } = useContestantControlsSignal()
   const contestant = useContestant()
   const game = useAtomValue(gameAtom)
+  const { gameState } = useGameState()
+  const finalJeopardyState = useAtomValue(finalJeopardyAtom)
 
   const [disabled, setDisabled] = useState(false)
+
+  const isDailyDouble = useIsDailyDouble()
+  if (
+    isDailyDouble ||
+    contestant?.contestant.wager &&
+    !contestant?.contestant.question
+  ) {
+    return <ContestantWagerForm />
+  }
+
+  if (gameState === GameState.FinalJeopardy) {
+    if (finalJeopardyState === 'answer') {
+      return <ContestantWagerForm />
+    }
+    return null
+  }
 
   const lightStyle: CSSProperties = {
     backgroundColor: disabled ? 'red' : color,
@@ -58,11 +79,6 @@ export function ContestantControls() {
     const contestantId = contestant.contestant.id
     socket.emit('contestantBuzzer', { contestantId, gameId: game.id })
   }
-
-  const isDailyDouble = useIsDailyDouble()
-  if (isDailyDouble || contestant?.contestant.wager) return (
-    <ContestantWagerForm />
-  )
 
   return (
     <div style={buzzerContainerStyle}>
