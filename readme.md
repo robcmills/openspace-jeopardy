@@ -21,6 +21,7 @@
   + [x] wager (daily double)
   + [x] wager and answer (final jeopardy)
   + [ ] answer timer (with sound effect)
+  + [ ] reset timer when contestant buzzes in
 - [x] When joining a game, sync gameState from host (in case not lobby)
 - [x] Store all game state on server and sync with clients on connection
 - [ ] Implement socket events for all contestant actions

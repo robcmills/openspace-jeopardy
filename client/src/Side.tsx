@@ -10,6 +10,8 @@ import { useIsHost } from './useIsHost'
 import { HostControls } from './HostControls'
 import { useGameState } from './useGameState'
 import { GameState } from './GameState'
+import { Timer } from './Timer'
+import { activeContestantAtom } from './activeContestantAtom'
 
 const sideStyle: CSSProperties = {
   display: 'grid',
@@ -20,7 +22,7 @@ const sideStyle: CSSProperties = {
 const scrollStyle: CSSProperties = {
   alignContent: 'start',
   display: 'grid',
-  gap: 8,
+  gap: 4,
   overflowY: 'auto',
 }
 
@@ -29,16 +31,17 @@ export function Side() {
   const host = useHost()
   const isHost = useIsHost()
   const { gameState } = useGameState()
-
-  const controls = isHost
-    ? <HostControls />
-    : <ContestantControls />
+  const activeContestantId = useAtomValue(activeContestantAtom)
 
   const controlsVisible = [
     GameState.Jeopardy,
     GameState.DoubleJeopardy,
     GameState.FinalJeopardy,
   ].includes(gameState)
+
+  const controls = isHost
+    ? <HostControls />
+    : <ContestantControls />
 
   return (
     <div style={sideStyle}>
@@ -49,7 +52,10 @@ export function Side() {
         }}>
           {game.name}
         </h2>
-        <h3 style={{ padding: '0 10px' }}>Host: {host.username}</h3>
+        <div style={{ padding: '0 4px' }}>
+          <p style={{ padding: '0 6px 4px' }}>Host: {host.username}</p>
+          <Timer isActive={!activeContestantId} />
+        </div>
         <Contestants />
         <Spectators />
       </div>
