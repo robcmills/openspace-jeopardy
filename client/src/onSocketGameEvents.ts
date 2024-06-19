@@ -65,6 +65,7 @@ export function onSocketGameEvents(socket: SocketClient) {
 
   socket.on('setFinalJeopardyState', ({ state }) => {
     console.log('setFinalJeopardyState', state)
+    if (state === 'logo') return
     jotaiStore.set(finalJeopardyAtom, state)
   })
 

@@ -1,4 +1,4 @@
-import { CSSProperties, useRef } from 'react'
+import { CSSProperties, useEffect, useRef } from 'react'
 import finalJeopardySrc from './assets/final-jeopardy.jpg'
 import { finalJeopardy } from './clues'
 import { BLUE_BACKGROUND } from './colors'
@@ -16,6 +16,8 @@ export function FinalJeopardy() {
   const isHost = useIsHost()
   const game = useAtomValue(gameAtom)
   const [state, setState] = useAtom(finalJeopardyAtom)
+
+  const audioRef = useRef<HTMLAudioElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const cycle = () => {
@@ -31,6 +33,15 @@ export function FinalJeopardy() {
       state: nextState,
     })
   }
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (audio) {
+      audio.addEventListener('ended', () => {
+        cycle()
+      })
+    }
+  }, [])
 
   const containerStyle: CSSProperties = {
     display: 'grid',
@@ -48,9 +59,7 @@ export function FinalJeopardy() {
 
   let fontSize = '18px'
   if (containerRef.current) {
-    console.log('containerRef.current', containerRef.current)
     const containerRect = containerRef.current.getBoundingClientRect()
-    console.log({ containerRect })
     fontSize = containerRect.width / 32 + 'px'
   }
 
@@ -78,7 +87,7 @@ export function FinalJeopardy() {
   const answer = (
     <div style={style}>
       {finalJeopardy.answer}
-      <audio id="theme" controls={isHost} style={audioStyle}>
+      <audio id="theme" controls={isHost} ref={audioRef} style={audioStyle}>
         <source src={finalJeopardyTheme} type="audio/mpeg" />
       </audio>
     </div>

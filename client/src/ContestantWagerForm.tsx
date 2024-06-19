@@ -2,16 +2,19 @@ import {
   CSSProperties,
   ChangeEventHandler,
   FormEventHandler,
+  useEffect,
   useState,
 } from 'react'
 import { useContestant } from './useContestant'
 import { useSetContestant } from './useSetContestant'
-import { useAtomValue } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { gameAtom } from './gameAtom'
 import { socket } from './socket'
 import { revealDailyDoubleClue } from './revealDailyDoubleClue'
 import { useGameState } from './useGameState'
 import { GameState } from './GameState'
+import { finalJeopardyAtom } from './finalJeopardyAtom'
+import { ServerToClientEvents } from '../../server/socket-types'
 
 const containerStyle: CSSProperties = {
   borderTop: '1px solid white',
@@ -31,6 +34,7 @@ export function ContestantWagerForm() {
   const setContestant = useSetContestant()
   const game = useAtomValue(gameAtom)
   const { gameState } = useGameState()
+  const setFinalJeopardyState = useSetAtom(finalJeopardyAtom)
 
   const [question, setQuestion] = useState(
     contestant?.contestant.question || ''
@@ -50,8 +54,7 @@ export function ContestantWagerForm() {
     setWager(event.target.value ? event.target.valueAsNumber : '')
   }
 
-  const onSubmit: FormEventHandler = (event) => {
-    event.preventDefault()
+  const submit = () => {
     if (typeof wager !== 'number') return
 
     setContestant({ id: contestant.contestant.id, wager })
@@ -82,16 +85,47 @@ export function ContestantWagerForm() {
     }
   }
 
+  const onSubmit: FormEventHandler = (event) => {
+    event.preventDefault()
+    submit()
+  }
+
+  useEffect(() => {
+    // Server will transition finalJeopardyState when 30 second audio ends.
+    // At this point all contestants should have submitted their questions
+    // and wagers, and if not we force submission.
+    const callback: ServerToClientEvents['setFinalJeopardyState'] = ({
+      state
+    }) => {
+      if (state === 'logo') {
+        submit()
+        setFinalJeopardyState('logo')
+      }
+    }
+
+    // Listen to socket event here so we can submit local form state
+    socket.on('setFinalJeopardyState', callback)
+    return () => {
+      socket.off('setFinalJeopardyState', callback)
+    }
+  }, [submit])
+
+  const questionInput = gameState === GameState.FinalJeopardy
+    ? (
+      <textarea
+        disabled={disabled}
+        onChange={onChangeQuestion}
+        placeholder='Question'
+        required
+        value={question}
+      />
+    )
+    : null
+
   return (
     <form onSubmit={onSubmit}>
       <div style={containerStyle}>
-        <textarea
-          disabled={disabled}
-          onChange={onChangeQuestion}
-          placeholder='Question'
-          required
-          value={question}
-        />
+        {questionInput}
         <div style={wagerContainerStyle}>
           <input
             disabled={disabled}

@@ -40,3 +40,4 @@
 - [ ] Implement ability for host to set active player, or implement automatic activation of previous active contestant in case player answers incorrectly
 - [ ] Refactor contestantsAtom to use an atom per contestant instead of one atom for all contestants
 - [ ] Add strictmode
+- [ ] Incorrect responses should deactivate contestant
