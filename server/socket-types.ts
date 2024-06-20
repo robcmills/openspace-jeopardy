@@ -10,6 +10,7 @@ import type { Spectator } from './Spectator'
 export interface ServerToClientEvents {
   activateRandomContestant: (data: { contestantId: string }) => void
   basicEmit: (a: number, b: string, c: Buffer) => void
+  clearTimer: () => void
   contestantJoined:
     (data: { contestant: Contestant, user: UserState }) => void
   game: (game: ServerGame) => void
@@ -18,6 +19,7 @@ export interface ServerToClientEvents {
   games: (games: ServerGame[]) => void
   noArg: () => void
   panCategories: () => void
+  restartTimer: () => void
   revealCategory: (data: { column: number }) => void
   revealTiles: () => void
   session: (data: SocketData) => void
@@ -42,6 +44,7 @@ export interface ServerToClientEvents {
     state: TileState,
   }) => void
   spectatorJoined: (data: { spectator: Spectator, user: UserState }) => void
+  toggleTimer: () => void
   userConnected: (data: UserState) => void
   userDisconnected: (userId: string) => void
   users: (data: UserState[]) => void
@@ -54,6 +57,7 @@ export interface ClientToServerEvents {
     contestantId: string,
     gameId: string,
   }) => void
+  clearTimer: (data: { gameId: string }) => void
   contestantBuzzer: (data: { contestantId: string, gameId: string }) => void
   getGame: (gameId: string) => void
   hello: () => void
@@ -63,6 +67,7 @@ export interface ClientToServerEvents {
   leaveLobby: () => void
   panCategories: (data: { gameId: string }) => void
   resetTiles: (data: { gameId: string }) => void
+  restartTimer: (data: { gameId: string }) => void
   revealCategory: (data: { column: number, gameId: string }) => void
   revealTiles: (data: { gameId: string }) => void
   setActiveContestant: (data: {
@@ -98,6 +103,7 @@ export interface ClientToServerEvents {
     row: number,
     state: TileState,
   }) => void
+  toggleTimer: (data: { gameId: string }) => void
   zoomCategories:
     (data: { direction: 'in' | 'out', gameId: string }) => void
 }

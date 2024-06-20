@@ -19,11 +19,17 @@ import { finalJeopardyAtom } from './finalJeopardyAtom'
 import { activateRandomContestant } from './activateRandomContestant'
 import { activeContestantAtom } from './activeContestantAtom'
 import { setContestant } from './setContestant'
+import { clearTimer, restartTimer, toggleTimer } from './timerActions'
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('activateRandomContestant', ({ contestantId }) => {
     console.log('activateRandomContestant', contestantId)
     activateRandomContestant(contestantId)
+  })
+
+  socket.on('clearTimer', () => {
+    console.log('clearTimer')
+    clearTimer()
   })
 
   socket.on('game', (game: ServerGame) => {
@@ -46,6 +52,24 @@ export function onSocketGameEvents(socket: SocketClient) {
   socket.on('games', (games: ServerGame[]) => {
     console.log('games', games)
     jotaiStore.set(gamesAtom, games)
+  })
+
+  socket.on('restartTimer', () => {
+    console.log('restartTimer')
+    if (getIsHost()) return
+    restartTimer()
+  })
+
+  socket.on('revealCategory', ({ column }) => {
+    console.log('revealCategory')
+    if (getIsHost()) return
+    revealCategory(column)
+  })
+
+  socket.on('revealTiles', () => {
+    console.log('revealTiles')
+    if (getIsHost()) return
+    revealTiles()
   })
 
   socket.on('setActiveContestant', ({ contestantId }) => {
@@ -86,16 +110,10 @@ export function onSocketGameEvents(socket: SocketClient) {
     jotaiStore.set(tilesAtoms[column][row], state)
   })
 
-  socket.on('revealCategory', ({ column }) => {
-    console.log('revealCategory')
+  socket.on('toggleTimer', () => {
+    console.log('toggleTimer')
     if (getIsHost()) return
-    revealCategory(column)
-  })
-
-  socket.on('revealTiles', () => {
-    console.log('revealTiles')
-    if (getIsHost()) return
-    revealTiles()
+    toggleTimer()
   })
 
   socket.on('zoomCategories', ({ direction }) => {

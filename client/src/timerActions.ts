@@ -6,6 +6,19 @@ const timerAudio = new Audio(timerMp3)
 
 let interval: NodeJS.Timeout | null = null
 
+export function clearTimer() {
+  if (interval) {
+    clearInterval(interval)
+    interval = null
+  }
+  jotaiStore.set(timerAtom, 0)
+}
+
+export function restartTimer() {
+  clearTimer()
+  toggleTimer()
+}
+
 export function toggleTimer() {
   if (interval) {
     clearInterval(interval)
@@ -16,7 +29,6 @@ export function toggleTimer() {
   jotaiStore.set(timerAtom, 5)
   interval = setInterval(() => {
     const timerValue = jotaiStore.get(timerAtom)
-    console.log('interval', { timerValue })
     const nextValue = timerValue - 1
     if (nextValue === 0) {
       timerAudio.play()

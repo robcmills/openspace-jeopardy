@@ -11,6 +11,7 @@ import { useGameState } from './useGameState'
 import { GameState } from './GameState'
 import { setActiveContestant } from './setActiveContestant'
 import { getActiveClue } from './getActiveClue'
+import { clearTimer, restartTimer } from './timerActions'
 
 const controlsStyle: CSSProperties = {
   borderTop: '1px solid white',
@@ -76,6 +77,8 @@ export function HostControls() {
     addToContestantScore(1)
     closeActiveClue()
     resetContestantWager()
+    clearTimer()
+    socket.emit('clearTimer', { gameId: game.id })
   }
 
   const onClickIncorrect = () => {
@@ -83,8 +86,12 @@ export function HostControls() {
     resetContestantWager()
     if (getActiveClue()?.dailyDouble) {
       closeActiveClue()
+      clearTimer()
+      socket.emit('clearTimer', { gameId: game.id })
     } else {
       setActiveContestant(null)
+      restartTimer()
+      socket.emit('restartTimer', { gameId: game.id })
     }
   }
 

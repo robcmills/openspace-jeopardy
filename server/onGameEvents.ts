@@ -18,6 +18,11 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('activateRandomContestant', { contestantId })
   })
 
+  socket.on('clearTimer', ({ gameId }) => {
+    console.log('clearTimer', { gameId })
+    io.to(gameId).emit('clearTimer')
+  })
+
   socket.on('contestantBuzzer', ({ contestantId, gameId }) => {
     console.log('contestantBuzzer', { contestantId, gameId })
     const game = gameStore.getById(gameId)
@@ -97,6 +102,55 @@ export function onGameEvents(socket: Socket, io: Server) {
       io.to(gameId).emit('spectatorJoined', { spectator, user })
       return
     }
+  })
+
+  socket.on('resetTiles', ({ gameId }) => {
+    console.log('resetTiles', { gameId })
+    const game = gameStore.getById(gameId)
+    if (game) {
+      for (let column = 0; column < 6; column++) {
+        game.categories[column] = 'logo'
+        for (let row = 0; row < 6; row++) {
+          game.tiles[column][row] = 'logo'
+        }
+      }
+    } else {
+      console.error(`Game not found for gameId: ${gameId}`)
+    }
+  })
+
+  socket.on('restartTimer', ({ gameId }) => {
+    console.log('restartTimer', { gameId })
+    io.to(gameId).emit('restartTimer')
+  })
+
+  socket.on('revealCategory', ({ column, gameId }) => {
+    console.log('revealCategory', { column, gameId })
+    const game = gameStore.getById(gameId)
+    if (game) {
+      const currentCategory = game.categories[column]
+      game.categories[column] = currentCategory === 'logo'
+        ? 'category'
+        : 'logo'
+    } else {
+      console.error(`Game not found for gameId: ${gameId}`)
+    }
+    io.to(gameId).emit('revealCategory', { column })
+  })
+
+  socket.on('revealTiles', ({ gameId }) => {
+    console.log('revealTiles', { gameId })
+    const game = gameStore.getById(gameId)
+    if (game) {
+      for (let column = 0; column < 6; column++) {
+        for (let row = 0; row < 5; row++) {
+          game.tiles[column][row] = 'money'
+        }
+      }
+    } else {
+      console.error(`Game not found for gameId: ${gameId}`)
+    }
+    io.to(gameId).emit('revealTiles')
   })
 
   socket.on('setActiveContestant', ({ contestantId, gameId }) => {
@@ -183,48 +237,9 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('setTileState', data)
   })
 
-  socket.on('resetTiles', ({ gameId }) => {
-    console.log('resetTiles', { gameId })
-    const game = gameStore.getById(gameId)
-    if (game) {
-      for (let column = 0; column < 6; column++) {
-        game.categories[column] = 'logo'
-        for (let row = 0; row < 6; row++) {
-          game.tiles[column][row] = 'logo'
-        }
-      }
-    } else {
-      console.error(`Game not found for gameId: ${gameId}`)
-    }
-  })
-
-  socket.on('revealCategory', ({ column, gameId }) => {
-    console.log('revealCategory', { column, gameId })
-    const game = gameStore.getById(gameId)
-    if (game) {
-      const currentCategory = game.categories[column]
-      game.categories[column] = currentCategory === 'logo'
-        ? 'category'
-        : 'logo'
-    } else {
-      console.error(`Game not found for gameId: ${gameId}`)
-    }
-    io.to(gameId).emit('revealCategory', { column })
-  })
-
-  socket.on('revealTiles', ({ gameId }) => {
-    console.log('revealTiles', { gameId })
-    const game = gameStore.getById(gameId)
-    if (game) {
-      for (let column = 0; column < 6; column++) {
-        for (let row = 0; row < 5; row++) {
-          game.tiles[column][row] = 'money'
-        }
-      }
-    } else {
-      console.error(`Game not found for gameId: ${gameId}`)
-    }
-    io.to(gameId).emit('revealTiles')
+  socket.on('toggleTimer', ({ gameId }) => {
+    console.log('toggleTimer', { gameId })
+    io.to(gameId).emit('toggleTimer')
   })
 
   socket.on('zoomCategories', ({ direction, gameId }) => {

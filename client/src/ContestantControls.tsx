@@ -10,6 +10,7 @@ import { useIsDailyDouble } from './useIsDailyDouble'
 import { useGameState } from './useGameState'
 import { GameState } from './GameState'
 import { finalJeopardyAtom } from './finalJeopardyAtom'
+import { clearTimer } from './timerActions'
 
 const buzzerContainerStyle: CSSProperties = {
   borderTop: '1px solid white',
@@ -77,6 +78,8 @@ export function ContestantControls() {
     }
     if (!contestant) return
     const contestantId = contestant.contestant.id
+    clearTimer()
+    socket.emit('clearTimer', { gameId: game.id })
     socket.emit('contestantBuzzer', { contestantId, gameId: game.id })
   }
 
