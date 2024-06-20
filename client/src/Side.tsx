@@ -12,6 +12,7 @@ import { useGameState } from './useGameState'
 import { GameState } from './GameState'
 import { Timer } from './Timer'
 import { activeContestantAtom } from './activeContestantAtom'
+import { ellipsify } from './styles'
 
 const sideStyle: CSSProperties = {
   display: 'grid',
@@ -24,6 +25,17 @@ const scrollStyle: CSSProperties = {
   display: 'grid',
   gap: 4,
   overflowY: 'auto',
+}
+
+const gameNameStyle: CSSProperties = {
+  ...ellipsify,
+  padding: '4px 10px',
+  backgroundColor: BLUE_BACKGROUND,
+}
+
+const hostNameStyle: CSSProperties = {
+  ...ellipsify,
+  padding: '0 6px 4px'
 }
 
 export function Side() {
@@ -46,14 +58,9 @@ export function Side() {
   return (
     <div style={sideStyle}>
       <div style={scrollStyle}>
-        <h2 style={{
-          padding: '4px 10px',
-          backgroundColor: BLUE_BACKGROUND,
-        }}>
-          {game.name}
-        </h2>
-        <div style={{ padding: '0 4px' }}>
-          <p style={{ padding: '0 6px 4px' }}>Host: {host.username}</p>
+        <h2 style={gameNameStyle} title={game.name}>{game.name}</h2>
+        <div style={{ overflow: 'hidden', padding: '0 4px' }}>
+          <p style={hostNameStyle}>Host: {host.username}</p>
           <Timer isActive={!activeContestantId} />
         </div>
         <Contestants />

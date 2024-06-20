@@ -7,6 +7,7 @@ import { activeContestantAtom } from './activeContestantAtom'
 import { useIsHost } from './useIsHost'
 import { socket } from './socket'
 import { Timer } from './Timer'
+import { ellipsify } from './styles'
 
 const rowStyle: CSSProperties = { }
 
@@ -24,9 +25,8 @@ const scoreStyle: CSSProperties = {
 }
 
 const usernameStyle: CSSProperties = {
-  alignItems: 'center',
+  ...ellipsify,
   backgroundColor: BLUE_BACKGROUND,
-  display: 'grid',
   padding: '0 4px',
 }
 
@@ -67,7 +67,9 @@ export function ContestantRow(props: ContestantRowProps) {
       <div style={contestantStyle}>
         <div style={scoreStyle}>${score}</div>
         <div style={highlightStyle} onClick={onClickHighlight}></div>
-        <div style={usernameStyle}>{user.username}</div>
+        <div style={usernameStyle} title={user.username}>
+          {user.username}
+        </div>
       </div>
       <Timer isActive={isActive} />
     </div>

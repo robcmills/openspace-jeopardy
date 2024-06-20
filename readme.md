@@ -26,7 +26,7 @@
 - [x] Implement socket events for all contestant actions
 - [x] Disable all actions for non-hosts
 - [x] Remove transition when closing clues
-- [ ] Ellipsify long contestant names
+- [x] Ellipsify long names
 - [ ] Make jeopardy round visually distinct from double jeopardy
 - [x] Implement GameLayout
 - [x] Join as contestant 
@@ -43,3 +43,4 @@
 - [ ] Refactor contestantsAtom to use an atom per contestant instead of one atom for all contestants
 - [ ] Add strictmode
 - [x] Incorrect responses should deactivate contestant
+- [ ] Implement ability to change username

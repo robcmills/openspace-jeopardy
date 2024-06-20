@@ -5,6 +5,12 @@ export const absoluteFill: CSSProperties = {
   position: 'absolute',
 }
 
+export const ellipsify = {
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+}
+
 export const gridCenter: CSSProperties = {
   display: 'grid',
   placeContent: 'center',
