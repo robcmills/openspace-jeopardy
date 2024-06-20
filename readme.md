@@ -4,7 +4,7 @@
 - [x] Don't use useGameRouteData-refactor to use atoms
 - [x] First game state should be splash screen with music and side bar
 - [x] Implement socket events to handle game state transitions and playing video
-- [ ] Implement socket events for all host actions
+- [x] Implement socket events for all host actions
   + [x] categories zoom in/out/pan/reveal
   + [x] clues zoom in/out/reveal
   + [x] final jeopardy
@@ -13,20 +13,20 @@
   + [x] awarding points (daily double)
   + [x] awarding points (final jeopardy)
   + [x] incorrect answer behavior
-- [ ] Implement score board
-  + [ ] Sort by score then name
-  + [ ] Animate sort changes
-- [ ] Implement contestant controls
+- [x] Implement score board
+  + [x] Sort by score then name
+- [x] Implement contestant controls
   + [x] buzzer
   + [x] wager (daily double)
   + [x] wager and answer (final jeopardy)
-  + [ ] answer timer (with sound effect)
-  + [ ] reset timer when contestant buzzes in
+  + [x] answer timer (with sound effect)
+  + [x] reset timer when contestant buzzes in
 - [x] When joining a game, sync gameState from host (in case not lobby)
 - [x] Store all game state on server and sync with clients on connection
-- [ ] Implement socket events for all contestant actions
+- [x] Implement socket events for all contestant actions
 - [x] Disable all actions for non-hosts
 - [x] Remove transition when closing clues
+- [ ] Ellipsify long contestant names
 - [ ] Make jeopardy round visually distinct from double jeopardy
 - [x] Implement GameLayout
 - [x] Join as contestant 
@@ -42,4 +42,4 @@
 - [ ] Implement ability for host to set active player, or implement automatic activation of previous active contestant in case player answers incorrectly
 - [ ] Refactor contestantsAtom to use an atom per contestant instead of one atom for all contestants
 - [ ] Add strictmode
-- [ ] Incorrect responses should deactivate contestant
+- [x] Incorrect responses should deactivate contestant
