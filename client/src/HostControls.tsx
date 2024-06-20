@@ -90,6 +90,7 @@ export function HostControls() {
       socket.emit('clearTimer', { gameId: game.id })
     } else {
       setActiveContestant(null)
+      if (gameState === GameState.FinalJeopardy) return
       restartTimer()
       socket.emit('restartTimer', { gameId: game.id })
     }
