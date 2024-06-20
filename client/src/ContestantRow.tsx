@@ -71,7 +71,7 @@ export function ContestantRow(props: ContestantRowProps) {
           {user.username}
         </div>
       </div>
-      <Timer isActive={isActive} />
+      {isActive && <Timer isActive={isActive} />}
     </div>
   )
 }
