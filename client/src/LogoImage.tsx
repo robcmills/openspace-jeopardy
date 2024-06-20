@@ -1,13 +1,21 @@
 import { CSSProperties } from 'react'
-import logo from './assets/openspace-jeopardy.jpg'
+import jeopardy from './assets/openspace-jeopardy.jpg'
+import double from './assets/double-jeopardy.jpg'
+import { useGameState } from './useGameState'
+import { GameState } from './GameState'
 
 export function LogoImage() {
+  const { gameState } = useGameState()
+
   const style: CSSProperties = {
     height: 'auto',
     objectFit: 'contain',
     width: '100%',
   }
-  return (
-    <img src={logo} style={style} />
-  )
+
+  const src = gameState === GameState.DoubleJeopardy
+    ? double
+    : jeopardy
+
+  return <img src={src} style={style} />
 }
