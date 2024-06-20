@@ -2,12 +2,13 @@ import { CSSProperties } from 'react'
 import { UserState } from './UserState'
 import { Contestant } from '../../server/Contestant'
 import { BLUE_BACKGROUND, DARK_GRAY } from './colors'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { activeContestantAtom } from './activeContestantAtom'
 import { useIsHost } from './useIsHost'
 import { socket } from './socket'
 import { Timer } from './Timer'
 import { ellipsify } from './styles'
+import { timerAtom } from './timerAtom'
 
 const rowStyle: CSSProperties = { }
 
@@ -43,6 +44,7 @@ export function ContestantRow(props: ContestantRowProps) {
   const [activeContestantId, setActiveContestantId] = useAtom(activeContestantAtom)
   const isActive = activeContestantId === contestant.id
   const isHost = useIsHost()
+  const timerValue = useAtomValue(timerAtom)
 
   const toggleActive = () => {
     const nextActiveContestantId = isActive ? null : contestant.id
@@ -71,7 +73,7 @@ export function ContestantRow(props: ContestantRowProps) {
           {user.username}
         </div>
       </div>
-      {isActive && <Timer isActive={isActive} />}
+      {isActive && timerValue > 0 && <Timer isActive={isActive} />}
     </div>
   )
 }
