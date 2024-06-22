@@ -11,6 +11,7 @@ const leftStyle: CSSProperties = {
   display: 'grid',
   placeItems: 'center',
   overflow: 'hidden',
+  padding: 8,
   position: 'relative',
 }
 

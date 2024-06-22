@@ -23,7 +23,12 @@ const io = new Server<
   ServerToClientEvents,
   InterServerEvents,
   SocketData
->(httpServer, {});
+>(httpServer, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"]
+  },
+});
 
 app.get('/', (_, res) => {
   res.redirect('/lobby');

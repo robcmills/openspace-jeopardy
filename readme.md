@@ -44,3 +44,4 @@
 - [ ] Add strictmode
 - [x] Incorrect responses should deactivate contestant
 - [ ] Implement ability to change username
+- [ ] Add padding to game board
