@@ -1,19 +1,14 @@
-import { categoriesAtoms } from './categoriesAtoms';
+import { categoriesAtoms, initialCategoryState } from './categoriesAtoms';
 import { jotaiStore } from './jotaiStore';
-import { tilesAtoms } from './tilesAtoms';
+import { initialTileState, tilesAtoms } from './tilesAtoms';
 
 export function resetTiles() {
+  console.log('resetTiles')
   for (const tileAtom of tilesAtoms.flat()) {
-    jotaiStore.set(tileAtom, (prev) => ({
-      ...prev,
-      step: 'logo',
-    }))
+    jotaiStore.set(tileAtom, initialTileState)
   }
 
   for (const categoryAtom of categoriesAtoms) {
-    jotaiStore.set(categoryAtom, (prev) => ({
-      ...prev,
-      step: 'logo',
-    }))
+    jotaiStore.set(categoryAtom, initialCategoryState)
   }
 }

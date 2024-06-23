@@ -6,6 +6,7 @@ import type { GameState } from '../client/src/GameState'
 import type { Contestant } from './Contestant'
 import type { ServerGame } from './ServerGame'
 import type { Spectator } from './Spectator'
+import type { CategoryTileState } from '../client/src/CategoryTileState'
 
 export interface ServerToClientEvents {
   activateRandomContestant: (data: { contestantId: string }) => void
@@ -20,28 +21,31 @@ export interface ServerToClientEvents {
   noArg: () => void
   panCategories: () => void
   restartTimer: () => void
-  revealCategory: (data: { column: number }) => void
   revealTiles: () => void
   session: (data: SocketData) => void
   setActiveContestant: (data: { contestantId: string | null }) => void
+  setCategoryState: (data: {
+    column: number
+    state: CategoryTileState
+  }) => void
   setContestantQuestion: (data: {
-    contestantId: string,
+    contestantId: string
     question: string
   }) => void
   setContestantScore: (data: {
-    contestantId: string,
+    contestantId: string
     score: number
   }) => void
   setContestantWager: (data: {
-    contestantId: string,
-    wager: number,
+    contestantId: string
+    wager: number
   }) => void
   setFinalJeopardyState: (data: { state: FinalJeopardyState }) => void
   setGameState: (data: { gameId: string, gameState: GameState }) => void
   setTileState: (data: {
-    column: number,
-    row: number,
-    state: TileState,
+    column: number
+    row: number
+    state: TileState
   }) => void
   spectatorJoined: (data: { spectator: Spectator, user: UserState }) => void
   toggleTimer: () => void
@@ -54,8 +58,8 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   activateRandomContestant: (data: {
-    contestantId: string,
-    gameId: string,
+    contestantId: string
+    gameId: string
   }) => void
   clearTimer: (data: { gameId: string }) => void
   contestantBuzzer: (data: { contestantId: string, gameId: string }) => void
@@ -68,40 +72,44 @@ export interface ClientToServerEvents {
   panCategories: (data: { gameId: string }) => void
   resetTiles: (data: { gameId: string }) => void
   restartTimer: (data: { gameId: string }) => void
-  revealCategory: (data: { column: number, gameId: string }) => void
   revealTiles: (data: { gameId: string }) => void
   setActiveContestant: (data: {
-    contestantId: string | null,
+    contestantId: string | null
     gameId: string
   }) => void
+  setCategoryState: (data: {
+    column: number
+    gameId: string
+    state: CategoryTileState
+  }) => void
   setContestantScore: (data: {
-    contestantId: string,
-    gameId: string,
-    score: number,
+    contestantId: string
+    gameId: string
+    score: number
   }) => void
   setContestantQuestion: (data: {
-    contestantId: string,
-    gameId: string,
-    question: string,
+    contestantId: string
+    gameId: string
+    question: string
   }) => void
   setContestantWager: (data: {
-    contestantId: string,
-    gameId: string,
-    wager: number,
+    contestantId: string
+    gameId: string
+    wager: number
   }) => void
   setFinalJeopardyState: (data: {
-    gameId: string,
-    state: FinalJeopardyState,
+    gameId: string
+    state: FinalJeopardyState
   }) => void
   setGameState: (data: {
-    gameId: string,
-    gameState: GameState,
+    gameId: string
+    gameState: GameState
   }, callback: () => void) => void
   setTileState: (data: {
-    column: number,
-    gameId: string,
-    row: number,
-    state: Partial<TileState>,
+    column: number
+    gameId: string
+    row: number
+    state: Partial<TileState>
   }) => void
   toggleTimer: (data: { gameId: string }) => void
   zoomCategories:

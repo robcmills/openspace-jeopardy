@@ -13,7 +13,7 @@ import { resetTiles } from './resetTiles'
 import { zoomInCategories, zoomOutCategories } from './zoomCategories'
 import { panCategories } from './panCategories'
 import { getIsHost } from './getIsHost'
-import { revealCategory } from './revealCategory'
+import { setCategoryState } from './setCategoryState'
 import { tilesAtoms } from './tilesAtoms'
 import { finalJeopardyAtom } from './finalJeopardyAtom'
 import { activateRandomContestant } from './activateRandomContestant'
@@ -60,10 +60,9 @@ export function onSocketGameEvents(socket: SocketClient) {
     restartTimer()
   })
 
-  socket.on('revealCategory', ({ column }) => {
-    console.log('revealCategory')
-    if (getIsHost()) return
-    revealCategory(column)
+  socket.on('setCategoryState', ({ column, state }) => {
+    console.log('setCategoryState', { column, state })
+    setCategoryState({ column, state })
   })
 
   socket.on('revealTiles', () => {

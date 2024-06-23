@@ -1,11 +1,14 @@
 import { GameState } from '../client/src/GameState'
 import type { TileState } from '../client/src/TileState'
 import type { UserState } from '../client/src/UserState'
+import { initialTileState } from '../client/src/tilesAtoms'
+import { initialCategoryState } from '../client/src/categoriesAtoms'
 import type { Server } from './Server'
 import type { Socket } from './Socket'
 import { contestantStore } from './contestantStore'
 import { gameStore } from './gameStore'
 import { getAnswer } from './getAnswer'
+import { getCategory } from './getCategory'
 import { sessionStore } from './sessionStore'
 import { spectatorStore } from './spectatorStore'
 
@@ -110,15 +113,15 @@ export function onGameEvents(socket: Socket, io: Server) {
   socket.on('resetTiles', ({ gameId }) => {
     console.log('resetTiles', { gameId })
     const game = gameStore.getById(gameId)
-    if (game) {
-      for (let column = 0; column < 6; column++) {
-        game.categories[column].step = 'logo'
-        for (let row = 0; row < 5; row++) {
-          game.tiles[column][row].step = 'logo'
-        }
-      }
-    } else {
+    if (!game) {
       console.error(`Game not found for gameId: ${gameId}`)
+      return
+    }
+    for (let column = 0; column < 6; column++) {
+      game.categories[column] = { ...initialCategoryState }
+      for (let row = 0; row < 5; row++) {
+        game.tiles[column][row] = { ...initialTileState }
+      }
     }
   })
 
@@ -127,18 +130,24 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('restartTimer')
   })
 
-  socket.on('revealCategory', ({ column, gameId }) => {
-    console.log('revealCategory', { column, gameId })
+  socket.on('setCategoryState', ({ column, gameId, state: { step } }) => {
+    console.log('setCategoryState', { column, gameId, step })
     const game = gameStore.getById(gameId)
-    if (game) {
-      const currentCategoryState = game.categories[column]
-      game.categories[column].step = currentCategoryState.step === 'logo'
-        ? 'category'
-        : 'logo'
-    } else {
+    if (!game) {
       console.error(`Game not found for gameId: ${gameId}`)
+      return
     }
-    io.to(gameId).emit('revealCategory', { column })
+    const state = game.categories[column]
+    state.step = step
+    if (step === 'category') {
+      const round = game.state === GameState.Jeopardy
+        ? 1
+        : game.state === GameState.DoubleJeopardy
+        ? 2
+        : 0
+      state.category = getCategory({ column, round })
+    }
+    io.to(gameId).emit('setCategoryState', { column, state })
   })
 
   socket.on('revealTiles', ({ gameId }) => {

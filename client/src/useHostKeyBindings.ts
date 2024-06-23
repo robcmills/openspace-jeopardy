@@ -29,7 +29,6 @@ export function useHostKeyBindings() {
     if (event.key === 'r') {
       window.location.reload()
     } else if (event.key === 'n') {
-      resetTiles()
       socket.emit('resetTiles', { gameId: game.id })
       const nextGameState = getNextGameState(gameState)
       setGameState(nextGameState)
@@ -38,6 +37,7 @@ export function useHostKeyBindings() {
       }
     } else if (event.key === 'p') {
       resetTiles()
+      socket.emit('resetTiles', { gameId: game.id })
       const previousGameState = getPreviousGameState(gameState)
       setGameState(previousGameState)
     } else if (

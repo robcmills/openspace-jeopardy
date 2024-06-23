@@ -6,6 +6,7 @@ import { categoriesAtoms } from './categoriesAtoms';
 import { socket } from './socket';
 import { gameAtom } from './gameAtom';
 import { useIsHost } from './useIsHost';
+import { CategoryTileState } from './CategoryTileState';
 
 interface CategoryTileProps {
   column: number;
@@ -15,25 +16,31 @@ export function CategoryTile({ column }: CategoryTileProps) {
   const isHost = useIsHost()
   const game = useAtomValue(gameAtom)
   const boardSize = useAtomValue(boardSizeAtom)
-  const tileStateAtom = categoriesAtoms[column]
-  const [tileState, setTileState] = useAtom(tileStateAtom)
+  const categoryAtom = categoriesAtoms[column]
+  const [categoryState, setCategoryState] = useAtom(categoryAtom)
 
   const toggleState = () => {
     if (!isHost) return
-    setTileState((prev) => ({
-      ...prev,
-      step: tileState.step === 'logo' ? 'category' : 'logo',
-    }))
-    socket.emit('revealCategory', { column, gameId: game.id })
+    const nextStep = categoryState.step === 'logo' ? 'category' : 'logo'
+    const nextState: CategoryTileState = {
+      ...categoryState,
+      step: nextStep,
+    }
+    setCategoryState(nextState)
+    socket.emit('setCategoryState', {
+      column,
+      gameId: game.id,
+      state: nextState,
+    })
   }
 
-  const content = tileState.step === 'logo' 
+  const content = categoryState.step === 'logo'
     ? <LogoImage />
-    : tileState.category
+    : categoryState.category
 
   const style = {
     ...tileStyle,
-    backgroundColor: tileState.step === 'logo'
+    backgroundColor: categoryState.step === 'logo'
       ? 'black' :
       tileStyle.backgroundColor,
     fontSize: `${boardSize.height / 35}px`,

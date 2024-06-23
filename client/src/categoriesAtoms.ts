@@ -1,7 +1,7 @@
 import { PrimitiveAtom, atom } from 'jotai'
 import { CategoryTileState } from './CategoryTileState'
 
-const initialState: CategoryTileState = {
+export const initialCategoryState: CategoryTileState = {
   category: '',
   step: 'logo',
 }
@@ -9,5 +9,5 @@ const initialState: CategoryTileState = {
 export const categoriesAtoms: PrimitiveAtom<CategoryTileState>[] = []
 
 for (let columnIndex = 0; columnIndex < 6; columnIndex++) {
-  categoriesAtoms.push(atom(initialState))
+  categoriesAtoms.push(atom(initialCategoryState))
 }
