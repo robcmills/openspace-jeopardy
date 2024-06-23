@@ -11,7 +11,6 @@ import { Video } from './Video'
 import { GameLobby } from './GameLobby'
 
 export function Game() {
-  console.log('Game component render')
   useHostKeyBindings()
   const { gameState } = useGameState()
   const game = useAtomValue(gameAtom)

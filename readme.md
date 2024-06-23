@@ -27,11 +27,11 @@
 - [x] Disable all actions for non-hosts
 - [x] Remove transition when closing clues
 - [x] Ellipsify long names
-- [ ] Make jeopardy round visually distinct from double jeopardy
+- [x] Make jeopardy round visually distinct from double jeopardy
 - [x] Implement GameLayout
 - [x] Join as contestant 
 - [x] Join as spectator
-- [ ] Move css into inline styles to be consistent
+- [x] Move css into inline styles to be consistent
 - [x] Combine gameState and setGameState hooks
 - [ ] Remove clues from src and load from env variable
 - [ ] Clean up clues type
@@ -39,7 +39,8 @@
 - [ ] Implement mute for all contestants (to avoid echo)
 - [ ] Disable or hide disconnected contestants
 - [ ] Improve error page
-- [ ] Implement ability for host to set active player, or implement automatic activation of previous active contestant in case player answers incorrectly
+- [x] Implement ability for host to set active player
+- [ ] Implement automatic activation of previous active contestant in case player answers incorrectly
 - [ ] Refactor contestantsAtom to use an atom per contestant instead of one atom for all contestants
 - [ ] Add strictmode
 - [x] Incorrect responses should deactivate contestant

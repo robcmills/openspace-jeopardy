@@ -1,5 +1,4 @@
 import { CSSProperties, useRef } from 'react'
-import { jeopardy } from './clues'
 import { getCenterTransform } from './getCenterTransform'
 import { Round } from './Round'
 import { tilesAtoms } from './tilesAtoms'
@@ -31,12 +30,11 @@ export const tileStyle: CSSProperties = {
 
 interface TileProps {
   column: number;
-  item: typeof jeopardy[number]['items'][number];
   round: Round;
   row: number;
 }
 
-export function Tile({ column, item, round, row }: TileProps) {
+export function Tile({ column, round, row }: TileProps) {
   const game = useAtomValue(gameAtom)
   const setActiveContestant = useSetAtom(activeContestantAtom)
   const isHost = useIsHost()
@@ -44,19 +42,19 @@ export function Tile({ column, item, round, row }: TileProps) {
   const tileRef = useRef<HTMLDivElement>(null)
 
   const tileStateAtom = tilesAtoms[column][row]
-  const [state, setState] = useAtom(tileStateAtom)
+  const [tileState, setTileState] = useAtom(tileStateAtom)
 
   const cycle = () => {
     if (!isHost) return
-    const nextState = ({
+    const nextStep = ({
       logo: 'money',
-      money: item.dailyDouble ? 'dailyDouble' : 'answer',
+      money: tileState.isDailyDouble ? 'dailyDouble' : 'answer',
       dailyDouble: 'answer',
       answer: 'blank',
       blank: 'logo',
-    } as const)[state]
-    setState(nextState)
-    if (nextState === 'answer' && state !== 'dailyDouble') {
+    } as const)[tileState.step]
+    setTileState(prev => ({ ...prev, step: nextStep }))
+    if (nextStep === 'answer' && tileState.step !== 'dailyDouble') {
       setActiveContestant(null)
       socket.emit('setActiveContestant', {
         contestantId: null,
@@ -67,7 +65,7 @@ export function Tile({ column, item, round, row }: TileProps) {
       column,
       gameId: game.id,
       row,
-      state: nextState,
+      state: { ...tileState, step: nextStep },
     })
   }
 
@@ -83,21 +81,21 @@ export function Tile({ column, item, round, row }: TileProps) {
   const node = {
     logo: <LogoBackground column={column} row={row} />,
     money: money,
-    answer: item.answer,
+    answer: tileState.answer,
     dailyDouble: <DailyDouble />,
     blank: '',
-  }[state]
+  }[tileState.step]
 
-  const className = state
+  const className = tileState.step
 
   const containerStyle: CSSProperties = {
     position: 'relative',
   }
-  const shouldZoom = ['answer', 'dailyDouble'].includes(state)
+  const shouldZoom = ['answer', 'dailyDouble'].includes(tileState.step)
 
   const borderColor = shouldZoom ? BLUE_BACKGROUND : 'black'
 
-  const transition = state === 'blank' ? 'none' : 'transform 1s'
+  const transition = tileState.step === 'blank' ? 'none' : 'transform 1s'
 
   const backdropStyle: CSSProperties = {
     ...tileStyle,

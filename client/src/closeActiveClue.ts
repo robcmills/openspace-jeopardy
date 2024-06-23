@@ -6,13 +6,13 @@ import { tilesAtoms } from './tilesAtoms';
 export function closeActiveClue() {
   for (const [columnIndex, column] of tilesAtoms.entries()) {
     for (const [rowIndex, tileAtom] of column.entries()) {
-      if (jotaiStore.get(tileAtom) === 'answer') {
-        jotaiStore.set(tileAtom, 'blank')
+      if (jotaiStore.get(tileAtom).step === 'answer') {
+        jotaiStore.set(tileAtom, (prev) => ({ ...prev, step: 'blank' }))
         socket.emit('setTileState', {
           column: columnIndex,
           gameId: jotaiStore.get(gameAtom).id,
           row: rowIndex,
-          state: 'blank',
+          state: { step: 'blank' },
         })
         return
       }

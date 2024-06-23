@@ -1,8 +1,11 @@
+import { GameState } from '../client/src/GameState'
+import type { TileState } from '../client/src/TileState'
 import type { UserState } from '../client/src/UserState'
 import type { Server } from './Server'
 import type { Socket } from './Socket'
 import { contestantStore } from './contestantStore'
 import { gameStore } from './gameStore'
+import { getAnswer } from './getAnswer'
 import { sessionStore } from './sessionStore'
 import { spectatorStore } from './spectatorStore'
 
@@ -109,9 +112,9 @@ export function onGameEvents(socket: Socket, io: Server) {
     const game = gameStore.getById(gameId)
     if (game) {
       for (let column = 0; column < 6; column++) {
-        game.categories[column] = 'logo'
-        for (let row = 0; row < 6; row++) {
-          game.tiles[column][row] = 'logo'
+        game.categories[column].step = 'logo'
+        for (let row = 0; row < 5; row++) {
+          game.tiles[column][row].step = 'logo'
         }
       }
     } else {
@@ -128,8 +131,8 @@ export function onGameEvents(socket: Socket, io: Server) {
     console.log('revealCategory', { column, gameId })
     const game = gameStore.getById(gameId)
     if (game) {
-      const currentCategory = game.categories[column]
-      game.categories[column] = currentCategory === 'logo'
+      const currentCategoryState = game.categories[column]
+      game.categories[column].step = currentCategoryState.step === 'logo'
         ? 'category'
         : 'logo'
     } else {
@@ -144,7 +147,7 @@ export function onGameEvents(socket: Socket, io: Server) {
     if (game) {
       for (let column = 0; column < 6; column++) {
         for (let row = 0; row < 5; row++) {
-          game.tiles[column][row] = 'money'
+          game.tiles[column][row].step = 'money'
         }
       }
     } else {
@@ -226,15 +229,34 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('setGameState', { gameId, gameState })
   })
 
-  socket.on('setTileState', ({ gameId, ...data }) => {
-    console.log('setTileState', data)
+  socket.on('setTileState', ({ gameId, column, row, state }) => {
+    console.log('setTileState', { gameId, column, row, step: state.step })
     const game = gameStore.getById(gameId)
     if (!game) {
       console.error(`Game not found for gameId: ${gameId}`)
       return
     }
-    game.tiles[data.column][data.row] = data.state
-    io.to(gameId).emit('setTileState', data)
+    const oldState = game.tiles[column][row]
+    const newState: TileState = { ...oldState, ...state }
+    if (['money', 'answer'].includes(newState.step)) {
+      // Hydrate answer from env vars
+      const round = game.state === GameState.Jeopardy
+        ? 1
+        : game.state === GameState.DoubleJeopardy
+        ? 2
+        : 0
+      const answer = getAnswer({ column, row: row + 1, round })
+      if (answer) {
+      	if (newState.step === 'answer') {
+          newState.answer = answer.answer
+        }
+        if (newState.step === 'money') {
+          newState.isDailyDouble = answer.isDailyDouble
+        }
+      }
+    }
+    game.tiles[column][row] = newState
+    io.to(gameId).emit('setTileState', { column, row, state: newState })
   })
 
   socket.on('toggleTimer', ({ gameId }) => {

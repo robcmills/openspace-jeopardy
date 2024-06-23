@@ -101,7 +101,7 @@ export interface ClientToServerEvents {
     column: number,
     gameId: string,
     row: number,
-    state: TileState,
+    state: Partial<TileState>,
   }) => void
   toggleTimer: (data: { gameId: string }) => void
   zoomCategories:

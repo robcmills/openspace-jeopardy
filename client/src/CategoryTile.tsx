@@ -8,30 +8,32 @@ import { gameAtom } from './gameAtom';
 import { useIsHost } from './useIsHost';
 
 interface CategoryTileProps {
-  category: string;
   column: number;
 }
 
-export function CategoryTile({ category, column }: CategoryTileProps) {
+export function CategoryTile({ column }: CategoryTileProps) {
   const isHost = useIsHost()
   const game = useAtomValue(gameAtom)
   const boardSize = useAtomValue(boardSizeAtom)
   const tileStateAtom = categoriesAtoms[column]
-  const [state, setState] = useAtom(tileStateAtom)
+  const [tileState, setTileState] = useAtom(tileStateAtom)
 
   const toggleState = () => {
     if (!isHost) return
-    setState(state === 'logo' ? 'category' : 'logo')
+    setTileState((prev) => ({
+      ...prev,
+      step: tileState.step === 'logo' ? 'category' : 'logo',
+    }))
     socket.emit('revealCategory', { column, gameId: game.id })
   }
 
-  const content = state === 'logo' 
+  const content = tileState.step === 'logo' 
     ? <LogoImage />
-    : category
+    : tileState.category
 
   const style = {
     ...tileStyle,
-    backgroundColor: state === 'logo'
+    backgroundColor: tileState.step === 'logo'
       ? 'black' :
       tileStyle.backgroundColor,
     fontSize: `${boardSize.height / 35}px`,

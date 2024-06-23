@@ -2,17 +2,15 @@ import { Board } from './Board';
 import { GameLayout } from './GameLayout';
 import { Round } from './Round';
 import { Side } from './Side';
-import { doubleJeopardy, jeopardy } from './clues';
 
 interface JeopardyProps {
-  round?: Round;
+  round: Round;
 }
 
-export function Jeopardy({ round = 1 }: JeopardyProps) {
-  const columns = round === 1 ? jeopardy : doubleJeopardy;
+export function Jeopardy({ round }: JeopardyProps) {
   return (
     <GameLayout
-      left={<Board columns={columns} round={round} />}
+      left={<Board round={round} />}
       right={<Side />}
     />
   )

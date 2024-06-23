@@ -16,7 +16,12 @@ function removeRandomItem<T>(array: T[]): T | undefined {
 
 function revealRandomTile(atoms: PrimitiveAtom<TileState>[]) {
   const atom = removeRandomItem(atoms)
-  if (atom) jotaiStore.set(atom, 'money' as TileState)
+  if (atom) {
+    jotaiStore.set(atom, (prev) => ({
+      ...prev,
+      step: 'money',
+    }))
+  }
   if (atoms.length) {
     setTimeout(() => {
       revealRandomTile(atoms)

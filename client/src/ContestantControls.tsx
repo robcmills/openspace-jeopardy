@@ -54,7 +54,7 @@ export function ContestantControls() {
   }
 
   if (gameState === GameState.FinalJeopardy) {
-    if (finalJeopardyState === 'answer') {
+    if (finalJeopardyState.step === 'answer') {
       return <ContestantWagerForm />
     }
     return null

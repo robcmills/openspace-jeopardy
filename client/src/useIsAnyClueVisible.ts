@@ -5,5 +5,5 @@ export function useIsAnyClueVisible() {
   const tileStates = tilesAtoms
     .flat()
     .map((tileAtom) => useAtomValue(tileAtom))
-  return tileStates.some((tileState) => tileState === 'answer')
+  return tileStates.some((tileState) => tileState.step === 'answer')
 }

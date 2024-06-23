@@ -1,7 +1,6 @@
 import { getGameState } from './getGameState'
 import { jotaiStore } from './jotaiStore'
 import { tilesAtoms } from './tilesAtoms'
-import { doubleJeopardy, jeopardy } from './clues';
 import { GameState } from './GameState'
 
 export function getActiveClue() {
@@ -12,13 +11,11 @@ export function getActiveClue() {
   ) {
     return null
   }
-  const clues = gameState === GameState.Jeopardy ? jeopardy : doubleJeopardy
 
-  for (const [columnIndex, column] of tilesAtoms.entries()) {
-    for (const [rowIndex, tileAtom] of column.entries()) {
-      if (jotaiStore.get(tileAtom) === 'answer') {
-        return clues[columnIndex].items[rowIndex]
-      }
+  for (const tileAtom of tilesAtoms.flat()) {
+    const tileState = jotaiStore.get(tileAtom)
+    if (tileState.step === 'answer') {
+      return tileState
     }
   }
 }

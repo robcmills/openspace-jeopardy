@@ -80,7 +80,7 @@ export function ContestantWagerForm() {
         column: location.column,
         gameId: game.id,
         row: location.row,
-        state: 'answer',
+        state: { step: 'answer' },
       })
     }
   }
@@ -97,9 +97,9 @@ export function ContestantWagerForm() {
     const callback: ServerToClientEvents['setFinalJeopardyState'] = ({
       state
     }) => {
-      if (state === 'logo') {
+      if (state.step === 'logo') {
         submit()
-        setFinalJeopardyState('logo')
+        setFinalJeopardyState((prev) => ({ ...prev, step: 'logo' }))
       }
     }
 

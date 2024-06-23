@@ -1,1 +1,4 @@
-export type CategoryTileState = 'logo' | 'category'
+export type CategoryTileState = {
+  category: string
+  step: 'logo' | 'category'
+}

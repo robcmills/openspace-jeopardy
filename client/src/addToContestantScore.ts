@@ -33,7 +33,7 @@ export function addToContestantScore(sign: number) {
   for (const column of tilesAtoms) {
     for (const [rowIndex, tileAtom] of column.entries()) {
       const tileState = jotaiStore.get(tileAtom)
-      if (tileState === 'answer') {
+      if (tileState.step === 'answer') {
         const round = gameState === GameState.DoubleJeopardy ? 2 : 1
         const activeClueValue = (rowIndex + 1) * 200 * round * sign
         const newScore = activeContestant.score + (

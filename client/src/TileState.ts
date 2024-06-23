@@ -1,1 +1,5 @@
-export type TileState = 'logo' | 'money' | 'answer' | 'dailyDouble' | 'blank'
+export type TileState = {
+  step: 'logo' | 'money' | 'answer' | 'dailyDouble' | 'blank'
+  isDailyDouble: boolean
+  answer: string
+}

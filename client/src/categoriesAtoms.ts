@@ -1,7 +1,10 @@
 import { PrimitiveAtom, atom } from 'jotai'
 import { CategoryTileState } from './CategoryTileState'
 
-const initialState = 'logo' as CategoryTileState
+const initialState: CategoryTileState = {
+  category: '',
+  step: 'logo',
+}
 
 export const categoriesAtoms: PrimitiveAtom<CategoryTileState>[] = []
 

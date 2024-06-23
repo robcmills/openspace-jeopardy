@@ -1,5 +1,4 @@
-import { CSSProperties, useEffect, useState } from 'react';
-import { jeopardy } from './clues'
+import { CSSProperties, ReactNode, useEffect, useState } from 'react';
 import { Column } from './Column'
 import { Round } from './Round';
 import { getFitDimensions } from './getFitDimensions';
@@ -8,11 +7,10 @@ import { useAtom } from 'jotai';
 import { boardSizeAtom } from './boardSizeAtom';
 
 interface BoardProps {
-  columns: typeof jeopardy;
   round: Round;
 }
 
-export function Board({ columns, round }: BoardProps) {
+export function Board({ round }: BoardProps) {
   const [boardSize, setBoardSize] = useAtom(boardSizeAtom)
   const [boardElement, setBoardElement] =
     useState<HTMLElement | null>(null)
@@ -41,16 +39,10 @@ export function Board({ columns, round }: BoardProps) {
     width: width || '100%',
   }
 
-  const columnNodes = columns.map((column, index) => {
-    return (
-      <Column
-        column={column}
-        index={index}
-        key={column.category}
-        round={round}
-      />
-    )
-  })
+  const columnNodes: ReactNode[] = []
+  for (let i = 0; i < 6; i++) {
+    columnNodes.push(<Column index={i} key={i} round={round} />)
+  }
 
   return (
     <div

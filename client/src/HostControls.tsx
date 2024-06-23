@@ -84,7 +84,7 @@ export function HostControls() {
   const onClickIncorrect = () => {
     addToContestantScore(-1)
     resetContestantWager()
-    if (getActiveClue()?.dailyDouble) {
+    if (getActiveClue()?.isDailyDouble) {
       closeActiveClue()
       clearTimer()
       socket.emit('clearTimer', { gameId: game.id })

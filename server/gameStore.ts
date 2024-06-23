@@ -10,8 +10,8 @@ export const gameStore = {
   new(hostUserId: string, name: string): ServerGame {
     const newGame: ServerGame = {
       activeContestantId: null,
-      categories: Array(6).fill('logo'),
-      finalJeopardy: 'logo',
+      categories: Array(6).fill({ category: '', step: 'logo' }),
+      finalJeopardy: { answer: '', category: '', step: 'logo' },
       id: randomId(),
       hostUserId,
       name,

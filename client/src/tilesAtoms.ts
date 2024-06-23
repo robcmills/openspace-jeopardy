@@ -1,7 +1,11 @@
 import { PrimitiveAtom, atom } from 'jotai'
 import { TileState } from './TileState';
 
-export const initialTileState = 'logo' as TileState
+export const initialTileState: TileState = {
+  step: 'logo',
+  isDailyDouble: false,
+  answer: '',
+}
 
 export const tilesAtoms: PrimitiveAtom<TileState>[][] = []
 

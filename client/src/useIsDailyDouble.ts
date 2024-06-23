@@ -5,6 +5,6 @@ export function useIsDailyDouble() {
   const tileStates = tilesAtoms
     .flat()
     .map((tileAtom) => useAtomValue(tileAtom))
-  return tileStates.some((tileState) => tileState === 'dailyDouble')
+  return tileStates.some((tileState) => tileState.step === 'dailyDouble')
 }
 

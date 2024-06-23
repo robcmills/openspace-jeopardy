@@ -1,1 +1,5 @@
-export type FinalJeopardyState = 'logo' | 'category' | 'answer'
+export type FinalJeopardyState = {
+  answer: string
+  category: string
+  step: 'logo' | 'category' | 'answer'
+}

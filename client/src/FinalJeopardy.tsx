@@ -1,6 +1,5 @@
 import { CSSProperties, useEffect, useRef } from 'react'
 import finalJeopardySrc from './assets/final-jeopardy.jpg'
-import { finalJeopardy } from './clues'
 import { BLUE_BACKGROUND } from './colors'
 import finalJeopardyTheme from './assets/final-jeopardy-theme.mp3'
 import { GameLayout } from './GameLayout'
@@ -22,15 +21,21 @@ export function FinalJeopardy() {
 
   const cycle = () => {
     if (!isHost) return
-    const nextState = ({
+    const nextStep = ({
       logo: 'category',
       category: 'answer',
       answer: 'logo',
-    } as const)[state]
-    setState(nextState)
+    } as const)[state.step]
+    setState((prev) => ({
+      ...prev,
+      step: nextStep,
+    }))
     socket.emit('setFinalJeopardyState', {
       gameId: game.id,
-      state: nextState,
+      state: {
+        ...state,
+        step: nextStep,
+      },
     })
   }
 
@@ -74,7 +79,7 @@ export function FinalJeopardy() {
 
   const category = (
     <div style={style}>
-      {finalJeopardy.category}
+      {state.category}
     </div>
   )
 
@@ -86,7 +91,7 @@ export function FinalJeopardy() {
 
   const answer = (
     <div style={style}>
-      {finalJeopardy.answer}
+      {state.answer}
       <audio id="theme" controls={isHost} ref={audioRef} style={audioStyle}>
         <source src={finalJeopardyTheme} type="audio/mpeg" />
       </audio>
@@ -97,7 +102,7 @@ export function FinalJeopardy() {
     logo,
     category,
     answer, 
-  }[state]
+  }[state.step]
 
   const left = (
     <div onClick={cycle} ref={containerRef} style={containerStyle}>
