@@ -63,6 +63,11 @@ export interface ClientToServerEvents {
   }) => void
   clearTimer: (data: { gameId: string }) => void
   contestantBuzzer: (data: { contestantId: string, gameId: string }) => void
+  cycleTileState: (data: {
+    column: number
+    gameId: string
+    row: number
+  }) => void
   getGame: (gameId: string) => void
   hello: () => void
   hostNewGame: (gameName: string) => void

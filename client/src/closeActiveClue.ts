@@ -8,11 +8,10 @@ export function closeActiveClue() {
     for (const [rowIndex, tileAtom] of column.entries()) {
       if (jotaiStore.get(tileAtom).step === 'answer') {
         jotaiStore.set(tileAtom, (prev) => ({ ...prev, step: 'blank' }))
-        socket.emit('setTileState', {
+        socket.emit('cycleTileState', {
           column: columnIndex,
           gameId: jotaiStore.get(gameAtom).id,
           row: rowIndex,
-          state: { step: 'blank' },
         })
         return
       }

@@ -238,33 +238,45 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('setGameState', { gameId, gameState })
   })
 
-  socket.on('setTileState', ({ gameId, column, row, state }) => {
-    console.log('setTileState', { gameId, column, row, step: state.step })
+  socket.on('cycleTileState', ({ gameId, column, row }) => {
+    console.log('setTileState', { gameId, column, row })
     const game = gameStore.getById(gameId)
     if (!game) {
       console.error(`Game not found for gameId: ${gameId}`)
       return
     }
+
+    // Get answer from env vars
+    const round = game.state === GameState.Jeopardy
+      ? 1
+      : game.state === GameState.DoubleJeopardy
+      ? 2
+      : 0
+    const answer = getAnswer({ column, row: row + 1, round })
+
     const oldState = game.tiles[column][row]
-    const newState: TileState = { ...oldState, ...state }
-    if (['money', 'answer'].includes(newState.step)) {
-      // Hydrate answer from env vars
-      const round = game.state === GameState.Jeopardy
-        ? 1
-        : game.state === GameState.DoubleJeopardy
-        ? 2
-        : 0
-      const answer = getAnswer({ column, row: row + 1, round })
-      if (answer) {
-      	if (newState.step === 'answer') {
-          newState.answer = answer.answer
-        }
-        if (newState.step === 'money') {
-          newState.isDailyDouble = answer.isDailyDouble
-        }
-      }
+
+    const nextStep = ({
+      logo: 'money',
+      money: answer?.isDailyDouble ? 'dailyDouble' : 'answer',
+      dailyDouble: 'answer',
+      answer: 'blank',
+      blank: 'logo',
+    } as const)[oldState.step]
+
+    const newState: TileState = { ...oldState, step: nextStep }
+
+    if (answer && nextStep === 'answer') {
+      newState.answer = answer.answer
+      newState.isDailyDouble = answer.isDailyDouble
     }
+
     game.tiles[column][row] = newState
+
+    if (nextStep === 'answer' && oldState.step !== 'dailyDouble') {
+      game.activeContestantId = null
+      io.to(gameId).emit('setActiveContestant', { contestantId: null })
+    }
     io.to(gameId).emit('setTileState', { column, row, state: newState })
   })
 

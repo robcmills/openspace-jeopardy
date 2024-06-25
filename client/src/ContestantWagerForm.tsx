@@ -76,11 +76,10 @@ export function ContestantWagerForm() {
       // Daily Double
       const location = revealDailyDoubleClue()
       if (!location) return
-      socket.emit('setTileState', {
+      socket.emit('cycleTileState', {
         column: location.column,
         gameId: game.id,
         row: location.row,
-        state: { step: 'answer' },
       })
     }
   }

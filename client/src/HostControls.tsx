@@ -13,16 +13,6 @@ import { setActiveContestant } from './setActiveContestant'
 import { getActiveClue } from './getActiveClue'
 import { clearTimer, restartTimer } from './timerActions'
 
-const controlsStyle: CSSProperties = {
-  borderTop: '1px solid white',
-  display: 'grid',
-  gridTemplateRows: 'auto auto auto',
-  justifyContent: 'center',
-  padding: 16,
-  placeItems: 'center',
-  textAlign: 'center',
-}
-
 const buttonsStyle: CSSProperties = {
   display: 'grid',
   gap: 16,
@@ -104,7 +94,17 @@ export function HostControls() {
     ? <p>Wager: ${activeContestant.contestant.wager.toLocaleString()}</p>
     : null
 
-  controlsStyle.gap = wager ? 8 : 0
+
+  const controlsStyle: CSSProperties = {
+    borderTop: '1px solid white',
+    display: 'grid',
+    gap: wager ? 8 : 0,
+    gridTemplateRows: 'auto auto auto',
+    justifyContent: 'center',
+    padding: 16,
+    placeItems: 'center',
+    textAlign: 'center',
+  }
 
   return (
     <div style={controlsStyle}>

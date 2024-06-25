@@ -1,6 +1,7 @@
 
 ### Todo
 
+- [ ] Spectators
 - [x] Don't use useGameRouteData-refactor to use atoms
 - [x] First game state should be splash screen with music and side bar
 - [x] Implement socket events to handle game state transitions and playing video
@@ -33,11 +34,11 @@
 - [x] Join as spectator
 - [x] Move css into inline styles to be consistent
 - [x] Combine gameState and setGameState hooks
-- [ ] Remove clues from src and load from env variable
+- [x] Remove clues from src and load from env variable
 - [ ] Clean up clues type
 - [ ] Implement admin api endpoints
 - [ ] Implement mute for all contestants (to avoid echo)
-- [ ] Disable or hide disconnected contestants
+- [x] Disable or hide disconnected contestants
 - [ ] Improve error page
 - [x] Implement ability for host to set active player
 - [ ] Implement automatic activation of previous active contestant in case player answers incorrectly
@@ -45,4 +46,4 @@
 - [ ] Add strictmode
 - [x] Incorrect responses should deactivate contestant
 - [ ] Implement ability to change username
-- [ ] Add padding to game board
+- [x] Add padding to game board

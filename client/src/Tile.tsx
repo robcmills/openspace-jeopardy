@@ -2,7 +2,7 @@ import { CSSProperties, useRef } from 'react'
 import { getCenterTransform } from './getCenterTransform'
 import { Round } from './Round'
 import { tilesAtoms } from './tilesAtoms'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import { LogoBackground } from './LogoBackground'
 import { getScaleTransform } from './getScaleTransform'
 import { BLUE_BACKGROUND } from './colors'
@@ -12,7 +12,6 @@ import { boardSizeAtom } from './boardSizeAtom'
 import { socket } from './socket'
 import { gameAtom } from './gameAtom'
 import { useIsHost } from './useIsHost'
-import { activeContestantAtom } from './activeContestantAtom'
 
 export const tileStyle: CSSProperties = {
   backgroundColor: 'rgb(0, 30, 155)',
@@ -36,36 +35,19 @@ interface TileProps {
 
 export function Tile({ column, round, row }: TileProps) {
   const game = useAtomValue(gameAtom)
-  const setActiveContestant = useSetAtom(activeContestantAtom)
   const isHost = useIsHost()
   const boardSize = useAtomValue(boardSizeAtom)
   const tileRef = useRef<HTMLDivElement>(null)
 
   const tileStateAtom = tilesAtoms[column][row]
-  const [tileState, setTileState] = useAtom(tileStateAtom)
+  const tileState = useAtomValue(tileStateAtom)
 
   const cycle = () => {
     if (!isHost) return
-    const nextStep = ({
-      logo: 'money',
-      money: tileState.isDailyDouble ? 'dailyDouble' : 'answer',
-      dailyDouble: 'answer',
-      answer: 'blank',
-      blank: 'logo',
-    } as const)[tileState.step]
-    setTileState(prev => ({ ...prev, step: nextStep }))
-    if (nextStep === 'answer' && tileState.step !== 'dailyDouble') {
-      setActiveContestant(null)
-      socket.emit('setActiveContestant', {
-        contestantId: null,
-        gameId: game.id,
-      })
-    }
-    socket.emit('setTileState', {
+    socket.emit('cycleTileState', {
       column,
       gameId: game.id,
       row,
-      state: { ...tileState, step: nextStep },
     })
   }
 
