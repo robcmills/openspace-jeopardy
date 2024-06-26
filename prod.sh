@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "Installing bun..."
 curl -fsSL https://bun.sh/install | bash
