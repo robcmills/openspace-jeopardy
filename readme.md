@@ -1,6 +1,7 @@
 
 ### Todo
 
+- [ ] Improve login page
 - [ ] Spectators
 - [x] Don't use useGameRouteData-refactor to use atoms
 - [x] First game state should be splash screen with music and side bar

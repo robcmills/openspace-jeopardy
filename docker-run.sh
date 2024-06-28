@@ -1,6 +1,7 @@
 docker run --rm -it \
   -v "$(pwd):/app" \
   -v /app/client/node_modules \
+  -v /app/server/node_modules \
   -p 3000:3000 \
   --workdir /app \
   --ulimit memlock=-1:-1 \
