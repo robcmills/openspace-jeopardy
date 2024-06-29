@@ -49,10 +49,10 @@ img.logo {
 }
 
 .buzzer {
-  background-color: hsl(0 0 40%);
+  background-color: hsl(0 0% 40%);
 }
 .buzzer:hover {
-  background-color: hsl(0 0 30%);
+  background-color: hsl(0 0% 30%);
 }
 .buzzer:active {
   background-color: white;
