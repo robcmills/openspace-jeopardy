@@ -223,6 +223,22 @@ export function onGameEvents(socket: Socket, io: Server) {
     } else {
       console.error(`Game not found for gameId: ${gameId}`)
     }
+    if (state.step === 'category') {
+      const category = process.env.FINAL_CATEGORY
+      if (!category) {
+        console.error('No FINAL_CATEGORY env var found')
+      } else {
+        state.category = category
+      }
+    }
+    if (state.step === 'answer') {
+      const answer = process.env.FINAL_ANSWER
+      if (!answer) {
+        console.error('No FINAL_ANSWER env var found')
+      } else {
+        state.answer = answer
+      }
+    }
     io.to(gameId).emit('setFinalJeopardyState', { state })
   })
 
@@ -239,7 +255,7 @@ export function onGameEvents(socket: Socket, io: Server) {
   })
 
   socket.on('cycleTileState', ({ gameId, column, row }) => {
-    console.log('setTileState', { gameId, column, row })
+    console.log('cycleTileState', { gameId, column, row })
     const game = gameStore.getById(gameId)
     if (!game) {
       console.error(`Game not found for gameId: ${gameId}`)
