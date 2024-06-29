@@ -11,6 +11,8 @@ import { useGameState } from './useGameState'
 import { GameState } from './GameState'
 import { finalJeopardyAtom } from './finalJeopardyAtom'
 import { clearTimer } from './timerActions'
+import { socketAtom } from './socketAtom'
+import { useActiveContestant } from './useActiveContestant'
 
 const buzzerContainerStyle: CSSProperties = {
   borderTop: '1px solid white',
@@ -37,16 +39,19 @@ const buttonStyle: CSSProperties = {
 
 export function ContestantControls() {
   const { color } = useContestantControlsSignal()
+  const activeContestant = useActiveContestant()
   const contestant = useContestant()
   const game = useAtomValue(gameAtom)
   const { gameState } = useGameState()
   const finalJeopardyState = useAtomValue(finalJeopardyAtom)
+  const { userId } = useAtomValue(socketAtom)
+  const isActiveContestant = activeContestant?.user.id === userId
 
   const [disabled, setDisabled] = useState(false)
 
   const isDailyDouble = useIsDailyDouble()
   if (
-    isDailyDouble ||
+    (isDailyDouble && isActiveContestant) ||
     contestant?.contestant.wager &&
     !contestant?.contestant.question
   ) {

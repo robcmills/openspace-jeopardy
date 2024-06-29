@@ -2,9 +2,9 @@
 ### Todo
 
 - [ ] Improve login page
+  + [ ] Check for username uniqueness
 - [ ] Spectators
 - [ ] Clean up logging
-- [ ] Add (me) hint to contestant/spectator rows
 - [x] Don't use useGameRouteData-refactor to use atoms
 - [x] First game state should be splash screen with music and side bar
 - [x] Implement socket events to handle game state transitions and playing video
