@@ -14,7 +14,7 @@ export function getActiveClue() {
 
   for (const tileAtom of tilesAtoms.flat()) {
     const tileState = jotaiStore.get(tileAtom)
-    if (tileState.step === 'answer') {
+    if (['answer', 'dailyDouble'].includes(tileState.step)) {
       return tileState
     }
   }

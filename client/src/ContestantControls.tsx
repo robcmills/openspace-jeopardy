@@ -50,17 +50,20 @@ export function ContestantControls() {
   const [disabled, setDisabled] = useState(false)
 
   const isDailyDouble = useIsDailyDouble()
+
+  if (!contestant) return null
+
   if (
     (isDailyDouble && isActiveContestant) ||
     contestant?.contestant.wager &&
     !contestant?.contestant.question
   ) {
-    return <ContestantWagerForm />
+    return <ContestantWagerForm contestant={contestant.contestant} />
   }
 
   if (gameState === GameState.FinalJeopardy) {
     if (finalJeopardyState.step === 'answer') {
-      return <ContestantWagerForm />
+      return <ContestantWagerForm contestant={contestant.contestant} />
     }
     return null
   }

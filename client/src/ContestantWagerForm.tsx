@@ -5,7 +5,6 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { useContestant } from './useContestant'
 import { useSetContestant } from './useSetContestant'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { gameAtom } from './gameAtom'
@@ -15,6 +14,8 @@ import { useGameState } from './useGameState'
 import { GameState } from './GameState'
 import { finalJeopardyAtom } from './finalJeopardyAtom'
 import { ServerToClientEvents } from '../../server/socket-types'
+import { Contestant } from '../../server/Contestant'
+import { getActiveCategory } from './getActiveCategory'
 
 const containerStyle: CSSProperties = {
   borderTop: '1px solid white',
@@ -29,24 +30,29 @@ const wagerContainerStyle: CSSProperties = {
   gridTemplateColumns: '1fr 1fr',
 }
 
-export function ContestantWagerForm() {
-  const contestant = useContestant()
+type ContestantWagerFormProps = {
+  contestant: Contestant
+}
+
+export function ContestantWagerForm({
+  contestant
+}: ContestantWagerFormProps) {
+  const activeCategory = getActiveCategory()
   const setContestant = useSetContestant()
   const game = useAtomValue(gameAtom)
   const { gameState } = useGameState()
   const setFinalJeopardyState = useSetAtom(finalJeopardyAtom)
 
-  const [question, setQuestion] = useState(
-    contestant?.contestant.question || ''
-  )
+  const [question, setQuestion] = useState(contestant.question || '')
   const [wager, setWager] = useState<number | string>(
-    contestant?.contestant.wager || ''
+    contestant.wager || ''
   )
 
-  if (!contestant) return null
-  const disabled = contestant.contestant.wager > 0
+  const disabled = contestant.wager > 0
 
-  const onChangeQuestion: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+  const onChangeQuestion: ChangeEventHandler<HTMLTextAreaElement> = (
+    event
+  ) => {
     setQuestion(event.target.value)
   }
 
@@ -57,18 +63,18 @@ export function ContestantWagerForm() {
   const submit = () => {
     if (typeof wager !== 'number') return
 
-    setContestant({ id: contestant.contestant.id, wager })
+    setContestant({ id: contestant.id, wager })
     socket.emit('setContestantWager', {
-      contestantId: contestant.contestant.id,
+      contestantId: contestant.id,
       gameId: game.id,
       wager,
     })
 
     if (gameState === GameState.FinalJeopardy) {
       // Final Jeopardy
-      setContestant({ id: contestant.contestant.id, question })
+      setContestant({ id: contestant.id, question })
       socket.emit('setContestantQuestion', {
-        contestantId: contestant.contestant.id,
+        contestantId: contestant.id,
         gameId: game.id,
         question,
       })
@@ -121,11 +127,12 @@ export function ContestantWagerForm() {
     )
     : null
 
-  const max = Math.max(contestant.contestant.score, 100)
+  const max = Math.max(contestant.score, 100)
 
   return (
     <form onSubmit={onSubmit}>
       <div style={containerStyle}>
+        <p>Category: <i>{activeCategory}</i></p>
         {questionInput}
         <div style={wagerContainerStyle}>
           <input
