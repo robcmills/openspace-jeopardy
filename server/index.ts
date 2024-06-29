@@ -1,5 +1,6 @@
 import express from 'express'
-import { createServer } from 'http'
+import { createServer as createHttpServer } from 'http'
+import { createServer as createHttpsServer } from 'https'
 import { Server } from 'socket.io'
 import type {
   ClientToServerEvents,
@@ -13,11 +14,21 @@ import { onGameEvents } from './onGameEvents'
 import { join } from 'path'
 import { useApiEndpoints } from './useApiEndpoints'
 import { onLobbyEvents } from './onLobbyEvents'
+import { readFileSync } from 'fs'
 
-const PORT = 3000
+const IS_PROD = !!process.env.PRODUCTION
+const PORT = IS_PROD ? 443 : 3000
 
 const app = express()
-const httpServer = createServer(app)
+
+const options = {
+  key: readFileSync('../ssl/www_jeopardyweb_app.key'),
+  cert: readFileSync('../ssl/www_jeopardyweb_app.crt'),
+}
+const httpServer = IS_PROD
+  ? createHttpsServer(options, app)
+  : createHttpServer(app)
+
 const io = new Server<
   ClientToServerEvents,
   ServerToClientEvents,
@@ -62,5 +73,5 @@ io.on('connection', (socket) => {
 })
 
 httpServer.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`)
+  console.log(`Http Server listening on port ${PORT}`)
 })
