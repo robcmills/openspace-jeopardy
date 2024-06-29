@@ -13,6 +13,7 @@ import { GameState } from './GameState'
 import { Timer } from './Timer'
 import { activeContestantAtom } from './activeContestantAtom'
 import { ellipsify } from './styles'
+import { useIsContestant } from './useIsContestant'
 
 const sideStyle: CSSProperties = {
   display: 'grid',
@@ -41,6 +42,7 @@ const hostNameStyle: CSSProperties = {
 export function Side() {
   const game = useAtomValue(gameAtom)
   const host = useHost()
+  const isContestant = useIsContestant()
   const isHost = useIsHost()
   const { gameState } = useGameState()
   const activeContestantId = useAtomValue(activeContestantAtom)
@@ -53,7 +55,9 @@ export function Side() {
 
   const controls = isHost
     ? <HostControls />
-    : <ContestantControls />
+    : isContestant
+    ? <ContestantControls />
+    : null
 
   return (
     <div style={sideStyle}>
