@@ -20,6 +20,7 @@ import { activateRandomContestant } from './activateRandomContestant'
 import { activeContestantAtom } from './activeContestantAtom'
 import { setContestant } from './setContestant'
 import { clearTimer, restartTimer, toggleTimer } from './timerActions'
+import { getIsContestant } from './getIsContestant'
 
 export function onSocketGameEvents(socket: SocketClient) {
   socket.on('activateRandomContestant', ({ contestantId }) => {
@@ -93,7 +94,12 @@ export function onSocketGameEvents(socket: SocketClient) {
 
   socket.on('setFinalJeopardyState', ({ state }) => {
     console.log('setFinalJeopardyState', state)
-    if (state.step === 'logo') return
+    const isContestant = getIsContestant()
+    // Host will cycle the finalJeopardyState when 30 second audio ends.
+    // Contestants will have their local form state submitted at this
+    // point (if they haven't already submitted), so we need to listen to
+    // this event in the form component (instead of here).
+    if (isContestant && state.step === 'logo') return
     jotaiStore.set(finalJeopardyAtom, state)
   })
 

@@ -64,7 +64,7 @@ export function Side() {
       <div style={scrollStyle}>
         <h2 style={gameNameStyle} title={game.name}>{game.name}</h2>
         <div style={{ overflow: 'hidden', padding: '0 4px' }}>
-          <p style={hostNameStyle}>Host: {host.username}</p>
+          <p style={hostNameStyle}>Host: {host?.username}</p>
           <Timer isActive={!activeContestantId} />
         </div>
         <Contestants />

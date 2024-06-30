@@ -282,7 +282,7 @@ export function onGameEvents(socket: Socket, io: Server) {
 
     const newState: TileState = { ...oldState, step: nextStep }
 
-    if (answer && nextStep === 'answer') {
+    if (answer && ['dailyDouble', 'answer'].includes(nextStep)) {
       newState.answer = answer.answer
       newState.isDailyDouble = answer.isDailyDouble
     }
