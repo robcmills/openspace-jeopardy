@@ -1,21 +1,12 @@
 ### Bugs
 
-- Start a game as host and advance to double jeopardy and refresh
-- In Brave, join as contestant
-- In Safari, join as contestant
-- Error thrown in Brave
-  Cannot read properties of undefined (reading 'username')
-  children: ["Host: ", t.username]
-- In Chrome, login
-- Error thrown in Safari
-  TypeError: undefined is not an object (evaluating 't.username')
-  (same error)
 
 ### Todo
 
+- [ ] Fix final jeopardy logo img in landscape container
 - [ ] Improve login page
   + [ ] Check for username uniqueness
-- [ ] Spectators
+- [x] Spectators
 - [ ] Clean up logging
 - [x] Don't use useGameRouteData-refactor to use atoms
 - [x] First game state should be splash screen with music and side bar

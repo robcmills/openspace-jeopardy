@@ -57,6 +57,7 @@ export function FinalJeopardy() {
   const imgStyle: CSSProperties = {
     height: '100%',
     objectFit: 'contain',
+    position: 'absolute',
     width: '100%',
   }
 
