@@ -3,7 +3,8 @@
 
 ### Todo
 
-- [ ] Fix final jeopardy logo img in landscape container
+- [x] Fix final jeopardy logo img in landscape container
+- [x] Implement keyboard shortcuts for contestants (space for buzzer)
 - [ ] Improve login page
   + [ ] Check for username uniqueness
 - [x] Spectators
