@@ -1,4 +1,3 @@
-import { socket } from './socket';
 import { ConnectionStatus } from './ConnectionStatus';
 import { useAtomValue } from 'jotai';
 import { socketAtom } from './socketAtom';
@@ -20,15 +19,6 @@ export function Lobby() {
     <main style={style}>
       <h1>Lobby</h1>
       <p><ConnectionStatus /></p>
-      <div style={{
-        display: 'grid',
-        gap: '1rem',
-        gridAutoFlow: 'column',
-        justifyContent: 'start'
-      }}>
-        <button onClick={() => { socket.connect() }}>Connect</button>
-        <button onClick={() => { socket.disconnect() }}>Disconnect</button>
-      </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
         {isSessionEstablished && <LiveGames />}
         {isSessionEstablished && <ConnectedUsers />}

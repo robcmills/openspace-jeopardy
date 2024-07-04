@@ -7,5 +7,6 @@ docker run --rm -it \
   -p 443:443 \
   --workdir /app \
   --ulimit memlock=-1:-1 \
+  --name app \
   oven/bun \
   bash -c "./prod.sh"

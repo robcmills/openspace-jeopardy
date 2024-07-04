@@ -5,8 +5,9 @@
 
 - [x] Fix final jeopardy logo img in landscape container
 - [x] Implement keyboard shortcuts for contestants (space for buzzer)
-- [ ] Improve login page
-  + [ ] Check for username uniqueness
+- [x] Improve login page
+- [ ] Check for username uniqueness
+- [ ] Make GameLayout responsive
 - [x] Spectators
 - [ ] Clean up logging
 - [x] Don't use useGameRouteData-refactor to use atoms
@@ -50,7 +51,7 @@
 - [x] Implement ability for host to set active player
 - [ ] Implement automatic activation of previous active contestant in case player answers incorrectly
 - [ ] Refactor contestantsAtom to use an atom per contestant instead of one atom for all contestants
-- [ ] Add strictmode
+- [x] Add strictmode
 - [x] Incorrect responses should deactivate contestant
 - [ ] Implement ability to change username
 - [x] Add padding to game board

@@ -4,6 +4,10 @@ import { socketAtom } from './socketAtom'
 import { socket } from './socket'
 import { centerFill } from './styles'
 
+const mainStyle = {
+  ...centerFill,
+}
+
 export function UsernameForm() {
   const setSocketAtom = useSetAtom(socketAtom)
 
@@ -22,8 +26,9 @@ export function UsernameForm() {
   }
 
   return (
-    <main style={centerFill}>
+    <main style={mainStyle}>
       <form>
+        <h1>Jeopardy!</h1>
         <div>
           <label>Username: &nbsp; </label>
         </div>
@@ -33,7 +38,7 @@ export function UsernameForm() {
             disabled={!isUsernameValid}
             onClick={submit}
           >
-            Submit
+            Login
           </button>
         </div>
       </form>
