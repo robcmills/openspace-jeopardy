@@ -26,10 +26,10 @@ const lightContainerStyle: CSSProperties = {
 }
 
 const buttonStyle: CSSProperties = {
-  borderRadius: 32,
+  borderRadius: 25,
   cursor: 'pointer',
-  height: 32,
-  width: 64,
+  height: 50,
+  width: 100,
 }
 
 export function ContestantBuzzer() {
@@ -68,11 +68,11 @@ export function ContestantBuzzer() {
 
   const lightStyle: CSSProperties = {
     backgroundColor: disabled ? 'red' : color,
-    borderRadius: 8,
-    height: 16,
-    marginLeft: -96,
+    borderRadius: 16,
+    height: 32,
+    marginLeft: -150,
     transform: 'translate(-50%, -50%)',
-    width: 16,
+    width: 32,
   }
 
   return (
