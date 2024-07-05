@@ -93,7 +93,7 @@ export function Tile({ column, round, row }: TileProps) {
     ...tileStyle,
     ...typography,
     borderColor,
-    fontSize: `${boardSize.height / 128}px`,
+    fontSize: `${boardSize.height / 90}px`,
     inset: 0,
     position: 'absolute',
     transition,

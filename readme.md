@@ -1,9 +1,18 @@
 ### Bugs
 
+- user logged in on mobile
+- user wagered on daily double
+- host assigned points for correct answer
+- somehow user was disconnected and taken to "join as" page
+- joining as contestant (again) resulted in duplicate contestants with the same name but different scores
+
 
 ### Todo
 
+- [ ] Increase default font size
+- [ ] Encapsulate lobby events in a room
 - [x] Make GameLayout responsive
+- [ ] Implement winners stage
 - [ ] Clean up logging
 - [ ] Check for username uniqueness
 - [ ] Add eslint
@@ -15,6 +24,7 @@
 - [ ] Refactor contestantsAtom to use an atom per contestant instead of one atom for all contestants
 - [ ] Implement ability to change username
 - [ ] Fix pan categories in Safari
+- [ ] Add host controls ui for mobile hosts (not just keyboard shortcuts)
 - [x] Fix final jeopardy logo img in landscape container
 - [x] Implement keyboard shortcuts for contestants (space for buzzer)
 - [x] Improve login page

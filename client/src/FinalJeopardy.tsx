@@ -17,7 +17,6 @@ export function FinalJeopardy() {
   const [state, setState] = useAtom(finalJeopardyAtom)
 
   const audioRef = useRef<HTMLAudioElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
 
   const cycle = () => {
     if (!isHost) return
@@ -63,18 +62,12 @@ export function FinalJeopardy() {
 
   const logo = <img src={finalJeopardySrc} style={imgStyle} />
 
-  let fontSize = '18px'
-  if (containerRef.current) {
-    const containerRect = containerRef.current.getBoundingClientRect()
-    fontSize = containerRect.width / 32 + 'px'
-  }
-
   const style: CSSProperties = {
     ...typography,
     background: BLUE_BACKGROUND,
     display: 'grid',
-    fontSize,
-    padding: '4rem',
+    fontSize: '18px',
+    padding: '1rem',
     placeItems: 'center',
   }
 
@@ -106,7 +99,7 @@ export function FinalJeopardy() {
   }[state.step]
 
   const left = (
-    <div onClick={cycle} ref={containerRef} style={containerStyle}>
+    <div onClick={cycle} style={containerStyle}>
       {node}
     </div>
   )
