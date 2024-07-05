@@ -5,13 +5,13 @@ import { closeActiveClue } from './closeActiveClue'
 import { useActiveContestant } from './useActiveContestant'
 import { useAtomValue } from 'jotai'
 import { gameAtom } from './gameAtom'
-import { setContestant } from './setContestant'
 import { socket } from './socket'
 import { useGameState } from './useGameState'
 import { GameState } from './GameState'
 import { setActiveContestant } from './setActiveContestant'
 import { getActiveClue } from './getActiveClue'
 import { clearTimer, restartTimer } from './timerActions'
+import { resetActiveContestantWager } from './resetActiveContestantWager'
 
 const buttonsStyle: CSSProperties = {
   display: 'grid',
@@ -44,36 +44,17 @@ export function HostControls() {
     return null
   }
 
-  const resetContestantWager = () => {
-    if (!activeContestant.contestant.wager) return
-    setContestant({
-      id: activeContestant.contestant.id,
-      question: '',
-      wager: 0,
-    })
-    socket.emit('setContestantQuestion', {
-      contestantId: activeContestant.contestant.id,
-      gameId: game.id,
-      question: '',
-    })
-    socket.emit('setContestantWager', {
-      contestantId: activeContestant.contestant.id,
-      gameId: game.id,
-      wager: 0,
-    })
-  }
-
   const onClickCorrect = () => {
     addToContestantScore(1)
     closeActiveClue()
-    resetContestantWager()
+    resetActiveContestantWager()
     clearTimer()
     socket.emit('clearTimer', { gameId: game.id })
   }
 
   const onClickIncorrect = () => {
     addToContestantScore(-1)
-    resetContestantWager()
+    resetActiveContestantWager()
     if (getActiveClue()?.isDailyDouble) {
       closeActiveClue()
       clearTimer()

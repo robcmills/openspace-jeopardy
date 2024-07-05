@@ -9,7 +9,8 @@
 
 ### Todo
 
-- [ ] Increase default font size
+- [ ] Add host controls ui for mobile hosts (not just keyboard shortcuts)
+- [x] Increase default font size
 - [ ] Encapsulate lobby events in a room
 - [x] Make GameLayout responsive
 - [ ] Implement winners stage
@@ -24,7 +25,6 @@
 - [ ] Refactor contestantsAtom to use an atom per contestant instead of one atom for all contestants
 - [ ] Implement ability to change username
 - [ ] Fix pan categories in Safari
-- [ ] Add host controls ui for mobile hosts (not just keyboard shortcuts)
 - [x] Fix final jeopardy logo img in landscape container
 - [x] Implement keyboard shortcuts for contestants (space for buzzer)
 - [x] Improve login page
