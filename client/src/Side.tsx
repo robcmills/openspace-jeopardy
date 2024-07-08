@@ -17,21 +17,29 @@ import { useIsContestant } from './useIsContestant'
 
 const sideStyle: CSSProperties = {
   display: 'grid',
-  gridTemplateRows: '1fr auto',
+  gridTemplateRows: 'auto 1fr auto',
   overflow: 'hidden',
 }
 
 const scrollStyle: CSSProperties = {
   alignContent: 'start',
   display: 'grid',
-  gap: 4,
+  gap: 10,
   overflowY: 'auto',
 }
 
 const gameNameStyle: CSSProperties = {
   ...ellipsify,
+  height: 42,
   padding: '4px 10px',
   backgroundColor: BLUE_BACKGROUND,
+}
+
+const hostStyle: CSSProperties = {
+  borderBottom: '1px solid white',
+  height: 45,
+  overflow: 'hidden',
+  padding: '6px',
 }
 
 const hostNameStyle: CSSProperties = {
@@ -61,15 +69,17 @@ export function Side() {
 
   return (
     <div style={sideStyle}>
-      <div style={scrollStyle}>
+      <header>
         <h2 style={gameNameStyle} title={game.name}>{game.name}</h2>
-        <div style={{ overflow: 'hidden', padding: '0 4px' }}>
+        <div style={hostStyle}>
           <p style={hostNameStyle}>Host: {host?.username}</p>
           <Timer isActive={!activeContestantId} />
         </div>
+      </header>
+      <section style={scrollStyle}>
         <Contestants />
         <Spectators />
-      </div>
+      </section>
       {controlsVisible && controls}
     </div>
   )

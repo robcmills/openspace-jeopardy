@@ -6,9 +6,24 @@
 - somehow user was disconnected and taken to "join as" page
 - joining as contestant (again) resulted in duplicate contestants with the same name but different scores
 
+- login via an incognito window
+- open another incognito window
+- close that second window
+- rejoin as contestant in first window
+- duplicate contestants created
+
 
 ### Todo
 
+- [x] Fix sidebar css scroll
+- [ ] Implement scroll-to-active contestant if not visible
+- [ ] Widen gap between "join as contestant" and "join as spectator" buttons
+- [x] Widen gap between contestants and spectators in sidebar
+- [ ] Make audio controls smaller (for mobile)
+- [ ] Improve deployment process
+  + [ ] Automate all parts with a script
+  + [ ] Record deployed git hash
+- [ ] Implement database backed storage
 - [ ] Add host controls ui for mobile hosts (not just keyboard shortcuts)
 - [x] Increase default font size
 - [ ] Encapsulate lobby events in a room
