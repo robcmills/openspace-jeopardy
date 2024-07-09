@@ -7,7 +7,7 @@ import { gameAtom } from './gameAtom'
 
 const style: CSSProperties = {
   display: 'grid',
-  gap: 8,
+  gap: 32,
   position: 'absolute',
   inset: 0,
   placeItems: 'center',
