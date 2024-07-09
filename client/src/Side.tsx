@@ -68,7 +68,7 @@ export function Side() {
     : null
 
   return (
-    <div style={sideStyle}>
+    <div id='Side' style={sideStyle}>
       <header>
         <h2 style={gameNameStyle} title={game.name}>{game.name}</h2>
         <div style={hostStyle}>
@@ -76,7 +76,7 @@ export function Side() {
           <Timer isActive={!activeContestantId} />
         </div>
       </header>
-      <section style={scrollStyle}>
+      <section id='ScrollSection' style={scrollStyle}>
         <Contestants />
         <Spectators />
       </section>

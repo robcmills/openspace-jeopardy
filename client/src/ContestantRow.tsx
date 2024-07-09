@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react'
+import { CSSProperties, useEffect, useRef } from 'react'
 import { UserState } from './UserState'
 import { Contestant } from '../../server/Contestant'
 import { BLUE_BACKGROUND, DARK_GRAY } from './colors'
@@ -9,6 +9,7 @@ import { socket } from './socket'
 import { Timer } from './Timer'
 import { ellipsify } from './styles'
 import { timerAtom } from './timerAtom'
+import { isElementVisible } from './isElementVisible'
 
 const rowStyle: CSSProperties = { }
 
@@ -46,6 +47,23 @@ export function ContestantRow(props: ContestantRowProps) {
   const isHost = useIsHost()
   const timerValue = useAtomValue(timerAtom)
 
+  const rowRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (isActive && rowRef.current) {
+      const parent = document.querySelector('#Side #ScrollSection')
+      if (!parent || !(parent instanceof HTMLElement)) return
+      const isVisible = isElementVisible(
+        rowRef.current,
+        parent
+      )
+      if (isVisible) return
+      rowRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+  }, [isActive])
+
   const toggleActive = () => {
     const nextActiveContestantId = isActive ? null : contestant.id
     setActiveContestantId(nextActiveContestantId)
@@ -65,7 +83,7 @@ export function ContestantRow(props: ContestantRowProps) {
   const score = contestant.score.toLocaleString()
 
   return (
-    <div style={rowStyle}>
+    <div ref={rowRef} style={rowStyle}>
       <div style={contestantStyle}>
         <div style={scoreStyle}>${score}</div>
         <div style={highlightStyle} onClick={onClickHighlight}></div>
