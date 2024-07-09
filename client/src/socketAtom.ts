@@ -5,6 +5,7 @@ export type SocketState = {
   isConnectionError: boolean;
   isSessionEstablished: boolean;
   sessionId: string | null;
+  socketId: string | null;
   userId: string | null;
   username: string | null;
 };
@@ -14,6 +15,7 @@ export const socketAtom = atom<SocketState>({
   isConnectionError: false,
   isSessionEstablished: false,
   sessionId: null,
+  socketId: null,
   userId: null,
   username: null,
 })

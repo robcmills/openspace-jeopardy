@@ -28,7 +28,7 @@ button {
   cursor: pointer;
 }
 
-button, input {
+button, input, textarea {
   font-size: 20px;
 }
 

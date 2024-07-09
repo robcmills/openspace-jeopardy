@@ -14,16 +14,16 @@ export function onSocketSessionEvents(socket: SocketClient) {
     socket.connect()
   }
 
-  socket.on('session', ({ sessionId, userId, username }) => {
-    console.log('session', { sessionId, userId, username })
+  socket.on('session', ({ sessionId, socketId, userId, username }) => {
+    console.log('session', { sessionId, socketId, userId, username })
     // attach the session ID to the next reconnection attempts
     socket.auth = { sessionId }
     localStorage.setItem('sessionId', sessionId)
-    // socket.data.userID = userID
     jotaiStore.set(socketAtom, state => ({
       ...state,
       isSessionEstablished: true,
       sessionId,
+      socketId,
       userId,
       username,
     }))

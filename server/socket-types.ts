@@ -127,6 +127,7 @@ export interface InterServerEvents {
 
 export interface SocketData {
   sessionId: string
+  socketId: string
   userId: string
   username: string
 }

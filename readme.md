@@ -15,10 +15,11 @@
 
 ### Todo
 
+- [x] setContestantQuestion should not broadcast to all contestants
 - [ ] Implement final jeopardy scoring state
 - [x] Fix sidebar css scroll
 - [x] Implement scroll-to-active contestant if not visible
-- [ ] Widen gap between "join as contestant" and "join as spectator" buttons
+- [x] Widen gap between "join as contestant" and "join as spectator" buttons
 - [x] Widen gap between contestants and spectators in sidebar
 - [ ] Make audio controls smaller (for mobile)
 - [ ] Improve deployment process

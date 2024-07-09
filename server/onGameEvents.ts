@@ -176,7 +176,11 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('setActiveContestant', { contestantId })
   })
 
-  socket.on('setContestantQuestion', ({ contestantId, gameId, question }) => {
+  socket.on('setContestantQuestion', ({
+    contestantId,
+    gameId,
+    question,
+  }) => {
     console.log('setContestantQuestion', { contestantId, gameId, question })
     const contestant = contestantStore.contestantsById.get(contestantId)
     if (!contestant) {
@@ -186,7 +190,20 @@ export function onGameEvents(socket: Socket, io: Server) {
       return
     }
     contestant.question = question
-    io.to(gameId).emit('setContestantQuestion', { contestantId, question })
+    const game = gameStore.getById(gameId)
+    if (!game) {
+      console.error(`Game not found for gameId: ${gameId}`)
+      return
+    }
+    const host = sessionStore.getByUserId(game.hostUserId)
+    if (!host) {
+      console.error(`Host not found for hostUserId: ${game.hostUserId}`)
+      return
+    }
+    io.to(host.socketId).emit('setContestantQuestion', {
+      contestantId,
+      question,
+    })
   })
 
   socket.on('setContestantScore', ({ contestantId, gameId, score }) => {
@@ -212,7 +229,17 @@ export function onGameEvents(socket: Socket, io: Server) {
       return
     }
     contestant.wager = wager
-    io.to(gameId).emit('setContestantWager', { contestantId, wager })
+    const game = gameStore.getById(gameId)
+    if (!game) {
+      console.error(`Game not found for gameId: ${gameId}`)
+      return
+    }
+    const host = sessionStore.getByUserId(game.hostUserId)
+    if (!host) {
+      console.error(`Host not found for hostUserId: ${game.hostUserId}`)
+      return
+    }
+    io.to(host.socketId).emit('setContestantWager', { contestantId, wager })
   })
 
   socket.on('setFinalJeopardyState', ({ gameId, state }) => {

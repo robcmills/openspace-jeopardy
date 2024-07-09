@@ -6,6 +6,7 @@ export function onConnection(socket: Socket) {
   sessionStore.set(socket.data.sessionId, {
     isConnected: true,
     sessionId: socket.data.sessionId,
+    socketId: socket.id,
     userId: socket.data.userId,
     username: socket.data.username,
   })
@@ -13,6 +14,7 @@ export function onConnection(socket: Socket) {
   // Emit session details
   socket.emit('session', {
     sessionId: socket.data.sessionId,
+    socketId: socket.id,
     userId: socket.data.userId,
     username: socket.data.username,
   })
@@ -24,10 +26,11 @@ export function onConnection(socket: Socket) {
     if (!isDisconnected) return
     socket.broadcast.emit('userDisconnected', socket.data.userId)
     sessionStore.set(socket.data.sessionId, {
-      userId: socket.data.userId,
-      username: socket.data.username,
       isConnected: false,
       sessionId: socket.data.sessionId,
+      socketId: socket.id,
+      userId: socket.data.userId,
+      username: socket.data.username,
     })
   })
 }
