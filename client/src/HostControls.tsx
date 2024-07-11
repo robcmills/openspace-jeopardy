@@ -50,6 +50,7 @@ export function HostControls() {
     resetActiveContestantWager()
     clearTimer()
     socket.emit('clearTimer', { gameId: game.id })
+    if (gameState === GameState.FinalJeopardy) setActiveContestant(null)
   }
 
   const onClickIncorrect = () => {
@@ -65,6 +66,7 @@ export function HostControls() {
       restartTimer()
       socket.emit('restartTimer', { gameId: game.id })
     }
+    if (gameState === GameState.FinalJeopardy) setActiveContestant(null)
   }
 
   const question = activeContestant.contestant.question

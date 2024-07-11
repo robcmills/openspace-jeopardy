@@ -10,6 +10,7 @@ import { Timer } from './Timer'
 import { ellipsify } from './styles'
 import { timerAtom } from './timerAtom'
 import { isElementVisible } from './isElementVisible'
+import { finalJeopardyAtom } from './finalJeopardyAtom'
 
 const rowStyle: CSSProperties = { }
 
@@ -46,6 +47,7 @@ export function ContestantRow(props: ContestantRowProps) {
   const isActive = activeContestantId === contestant.id
   const isHost = useIsHost()
   const timerValue = useAtomValue(timerAtom)
+  const finalJeopardyState = useAtomValue(finalJeopardyAtom)
 
   const rowRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -75,8 +77,17 @@ export function ContestantRow(props: ContestantRowProps) {
 
   const onClickHighlight = isHost ? toggleActive : undefined
 
+  const isGreen = (
+    isHost &&
+    contestant.question &&
+    finalJeopardyState.step !== 'answer'
+  )
   const highlightStyle: CSSProperties = {
-    background: isActive ? 'white' : DARK_GRAY,
+    background: isActive
+      ? 'white'
+      : isGreen
+      ? 'green'
+      : DARK_GRAY,
     cursor: isHost ? 'pointer' : 'default',
   }
 

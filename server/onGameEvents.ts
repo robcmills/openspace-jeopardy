@@ -190,6 +190,14 @@ export function onGameEvents(socket: Socket, io: Server) {
       return
     }
     contestant.question = question
+    // Resetting is fine to broadcast to all contestants
+    if (question === '') {
+      io.to(contestant.gameId).emit('setContestantQuestion', {
+        contestantId,
+        question,
+      })
+      return
+    }
     const game = gameStore.getById(gameId)
     if (!game) {
       console.error(`Game not found for gameId: ${gameId}`)
@@ -200,6 +208,7 @@ export function onGameEvents(socket: Socket, io: Server) {
       console.error(`Host not found for hostUserId: ${game.hostUserId}`)
       return
     }
+    // Setting question should not be broadcast to all contestants
     io.to(host.socketId).emit('setContestantQuestion', {
       contestantId,
       question,
@@ -229,6 +238,15 @@ export function onGameEvents(socket: Socket, io: Server) {
       return
     }
     contestant.wager = wager
+    // Resetting wager is fine to broadcast to all contestants
+    if (wager === 0) {
+      io.to(contestant.gameId).emit('setContestantWager', {
+        contestantId,
+        wager,
+      })
+      return
+    }
+    // Setting wager should not be broadcast to all contestants
     const game = gameStore.getById(gameId)
     if (!game) {
       console.error(`Game not found for gameId: ${gameId}`)

@@ -22,8 +22,7 @@ export function ContestantControls() {
 
   if (
     (isDailyDouble && isActiveContestant) ||
-    contestant?.contestant.wager &&
-    !contestant?.contestant.question
+    (contestant?.contestant.wager && !contestant?.contestant.question)
   ) {
     return <ContestantWagerForm contestant={contestant.contestant} />
   }
