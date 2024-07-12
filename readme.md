@@ -15,8 +15,9 @@
 
 ### Todo
 
+- [ ] Add host controls ui for mobile hosts (not just keyboard shortcuts)
 - [x] setContestantQuestion should not broadcast to all contestants
-- [ ] Implement final jeopardy scoring state
+- [x] Implement final jeopardy scoring state
 - [x] Fix sidebar css scroll
 - [x] Implement scroll-to-active contestant if not visible
 - [x] Widen gap between "join as contestant" and "join as spectator" buttons
@@ -26,7 +27,6 @@
   + [ ] Automate all parts with a script
   + [ ] Record deployed git hash
 - [ ] Implement database backed storage
-- [ ] Add host controls ui for mobile hosts (not just keyboard shortcuts)
 - [x] Increase default font size
 - [ ] Encapsulate lobby events in a room
 - [x] Make GameLayout responsive
