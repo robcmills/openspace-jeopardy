@@ -89,6 +89,10 @@ export function HostControls() {
     textAlign: 'center',
   }
 
+  // Ⅲ	3R	2162	8546	ROMAN NUMERAL THREE
+  // ⅲ	3r	2172	8562	SMALL ROMAN NUMERAL THREE
+  // ≡	=3	2261	8801	IDENTICAL TO
+
   return (
     <div style={controlsStyle}>
       {question}

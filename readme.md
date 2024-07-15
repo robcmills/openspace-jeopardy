@@ -16,6 +16,12 @@
 ### Todo
 
 - [ ] Add host controls ui for mobile hosts (not just keyboard shortcuts)
+  + prev/next game state
+  + toggle timer
+  + reveal money tiles
+  + activate random contestant
+  + zoom in/out categories
+  + pan categories
 - [x] setContestantQuestion should not broadcast to all contestants
 - [x] Implement final jeopardy scoring state
 - [x] Fix sidebar css scroll

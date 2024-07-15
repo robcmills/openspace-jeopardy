@@ -22,7 +22,7 @@ export function GameLobby() {
   const left = (
     <>
       <img src={logo} style={imgStyle} />
-      <audio autoPlay id="theme" controls style={audioStyle}>
+      <audio id="theme" controls style={audioStyle}>
         <source src={theme} type="audio/mpeg" />
       </audio>
     </>

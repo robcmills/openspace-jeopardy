@@ -64,6 +64,7 @@ export function onGameEvents(socket: Socket, io: Server) {
 
   socket.on('joinGame', ({ gameId, userRole }) => {
     console.log('joinGame', { gameId, userRole })
+    socket.leave('lobby')
     socket.join(gameId)
 
     const session = sessionStore.getByUserId(socket.data.userId)
