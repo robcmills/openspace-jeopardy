@@ -15,7 +15,11 @@
 
 ### Todo
 
-- [ ] Prevent negative scores
+- [ ] Add eslint and prettier
+- [ ] Pull tsconfig into root and configure aliases to get rid of all relative imports
+- [ ] Implement database backed storage
+- [ ] Add correct response reveal to host controls
+- [ ] Prevent negative scores (easy mode)
 - [ ] Add host controls ui for mobile hosts (not just keyboard shortcuts)
   + prev/next game state
   + toggle timer
@@ -33,7 +37,6 @@
 - [ ] Improve deployment process
   + [ ] Automate all parts with a script
   + [ ] Record deployed git hash
-- [ ] Implement database backed storage
 - [x] Increase default font size
 - [ ] Encapsulate lobby events in a room
 - [x] Make GameLayout responsive
