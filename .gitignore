@@ -1,6 +1,8 @@
-.DS_Store
-node_modules
-dist
 *.pem
+.DS_Store
+.env
 aws.md
+clues
+dist
+node_modules
 ssl

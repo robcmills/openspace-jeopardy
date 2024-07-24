@@ -15,6 +15,7 @@
 
 ### Todo
 
+- [ ] Prevent negative scores
 - [ ] Add host controls ui for mobile hosts (not just keyboard shortcuts)
   + prev/next game state
   + toggle timer
