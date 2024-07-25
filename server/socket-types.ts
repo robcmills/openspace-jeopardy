@@ -12,8 +12,7 @@ export interface ServerToClientEvents {
   activateRandomContestant: (data: { contestantId: string }) => void
   basicEmit: (a: number, b: string, c: Buffer) => void
   clearTimer: () => void
-  contestantJoined:
-    (data: { contestant: Contestant, user: UserState }) => void
+  contestantJoined: (data: { contestant: Contestant; user: UserState }) => void
   game: (game: ServerGame) => void
   gameCreated: (game: ServerGame) => void
   gameJoined: (game: ServerGame) => void
@@ -24,30 +23,21 @@ export interface ServerToClientEvents {
   revealTiles: () => void
   session: (data: SocketData) => void
   setActiveContestant: (data: { contestantId: string | null }) => void
-  setCategoryState: (data: {
-    column: number
-    state: CategoryTileState
-  }) => void
+  setCategoryState: (data: { column: number; state: CategoryTileState }) => void
   setContestantQuestion: (data: {
     contestantId: string
     question: string
   }) => void
-  setContestantScore: (data: {
-    contestantId: string
-    score: number
-  }) => void
-  setContestantWager: (data: {
-    contestantId: string
-    wager: number
-  }) => void
+  setContestantScore: (data: { contestantId: string; score: number }) => void
+  setContestantWager: (data: { contestantId: string; wager: number }) => void
   setFinalJeopardyState: (data: { state: FinalJeopardyState }) => void
-  setGameState: (data: { gameId: string, gameState: GameState }) => void
+  setGameState: (data: { gameId: string; gameState: GameState }) => void
   setTileState: (data: {
     column: number
     row: number
     state: TileState
   }) => void
-  spectatorJoined: (data: { spectator: Spectator, user: UserState }) => void
+  spectatorJoined: (data: { spectator: Spectator; user: UserState }) => void
   toggleTimer: () => void
   userConnected: (data: UserState) => void
   userDisconnected: (userId: string) => void
@@ -62,7 +52,7 @@ export interface ClientToServerEvents {
     gameId: string
   }) => void
   clearTimer: (data: { gameId: string }) => void
-  contestantBuzzer: (data: { contestantId: string, gameId: string }) => void
+  contestantBuzzer: (data: { contestantId: string; gameId: string }) => void
   cycleTileState: (data: {
     column: number
     gameId: string
@@ -71,7 +61,7 @@ export interface ClientToServerEvents {
   getGame: (gameId: string) => void
   hello: () => void
   hostNewGame: (gameName: string) => void
-  joinGame: (data: { gameId: string, userRole: UserRole }) => void
+  joinGame: (data: { gameId: string; userRole: UserRole }) => void
   joinLobby: () => void
   leaveLobby: () => void
   panCategories: (data: { gameId: string }) => void
@@ -106,10 +96,13 @@ export interface ClientToServerEvents {
     gameId: string
     state: FinalJeopardyState
   }) => void
-  setGameState: (data: {
-    gameId: string
-    gameState: GameState
-  }, callback: () => void) => void
+  setGameState: (
+    data: {
+      gameId: string
+      gameState: GameState
+    },
+    callback: () => void,
+  ) => void
   setTileState: (data: {
     column: number
     gameId: string
@@ -117,8 +110,7 @@ export interface ClientToServerEvents {
     state: Partial<TileState>
   }) => void
   toggleTimer: (data: { gameId: string }) => void
-  zoomCategories:
-    (data: { direction: 'in' | 'out', gameId: string }) => void
+  zoomCategories: (data: { direction: 'in' | 'out'; gameId: string }) => void
 }
 
 export interface InterServerEvents {

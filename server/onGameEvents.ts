@@ -53,10 +53,7 @@ export function onGameEvents(socket: Socket, io: Server) {
 
   socket.on('hostNewGame', (name: string) => {
     console.log('hostNewGame')
-    const newGame = gameStore.new(
-      socket.data.userId,
-      name,
-    )
+    const newGame = gameStore.new(socket.data.userId, name)
     socket.join(newGame.id)
     socket.emit('gameCreated', newGame)
     socket.emit('games', gameStore.getAll())
@@ -80,8 +77,9 @@ export function onGameEvents(socket: Socket, io: Server) {
 
     if (userRole === 'contestant') {
       const contestants = contestantStore.getByGameId(gameId)
-      const contestant = contestants
-        .find(({ userId }) => userId === socket.data.userId)
+      const contestant = contestants.find(
+        ({ userId }) => userId === socket.data.userId,
+      )
       if (!contestant) {
         console.error('Contestant not found', {
           username: user.username,
@@ -92,12 +90,13 @@ export function onGameEvents(socket: Socket, io: Server) {
 
       io.to(gameId).emit('contestantJoined', { contestant, user })
       return
-    } 
+    }
 
     if (userRole === 'spectator') {
       const spectators = spectatorStore.getByGameId(gameId)
-      const spectator = spectators
-        .find(({ userId }) => userId === socket.data.userId)
+      const spectator = spectators.find(
+        ({ userId }) => userId === socket.data.userId,
+      )
       if (!spectator) {
         console.error('Spectator not found', {
           username: user.username,
@@ -141,11 +140,12 @@ export function onGameEvents(socket: Socket, io: Server) {
     const state = game.categories[column]
     state.step = step
     if (step === 'category') {
-      const round = game.state === GameState.Jeopardy
-        ? 1
-        : game.state === GameState.DoubleJeopardy
-        ? 2
-        : 0
+      const round =
+        game.state === GameState.Jeopardy
+          ? 1
+          : game.state === GameState.DoubleJeopardy
+            ? 2
+            : 0
       state.category = getCategory({ column, round })
     }
     io.to(gameId).emit('setCategoryState', { column, state })
@@ -177,17 +177,11 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('setActiveContestant', { contestantId })
   })
 
-  socket.on('setContestantQuestion', ({
-    contestantId,
-    gameId,
-    question,
-  }) => {
+  socket.on('setContestantQuestion', ({ contestantId, gameId, question }) => {
     console.log('setContestantQuestion', { contestantId, gameId, question })
     const contestant = contestantStore.contestantsById.get(contestantId)
     if (!contestant) {
-      console.error(
-        `Contestant not found for contestantId: ${contestantId}`
-      )
+      console.error(`Contestant not found for contestantId: ${contestantId}`)
       return
     }
     contestant.question = question
@@ -220,9 +214,7 @@ export function onGameEvents(socket: Socket, io: Server) {
     console.log('setContestantScore', { contestantId, gameId, score })
     const contestant = contestantStore.contestantsById.get(contestantId)
     if (!contestant) {
-      console.error(
-        `Contestant not found for contestantId: ${contestantId}`
-      )
+      console.error(`Contestant not found for contestantId: ${contestantId}`)
       return
     }
     contestant.score = score
@@ -233,9 +225,7 @@ export function onGameEvents(socket: Socket, io: Server) {
     console.log('setContestantWager', { contestantId, gameId, wager })
     const contestant = contestantStore.contestantsById.get(contestantId)
     if (!contestant) {
-      console.error(
-        `Contestant not found for contestantId: ${contestantId}`
-      )
+      console.error(`Contestant not found for contestantId: ${contestantId}`)
       return
     }
     contestant.wager = wager
@@ -309,22 +299,25 @@ export function onGameEvents(socket: Socket, io: Server) {
     }
 
     // Get answer from env vars
-    const round = game.state === GameState.Jeopardy
-      ? 1
-      : game.state === GameState.DoubleJeopardy
-      ? 2
-      : 0
+    const round =
+      game.state === GameState.Jeopardy
+        ? 1
+        : game.state === GameState.DoubleJeopardy
+          ? 2
+          : 0
     const answer = getAnswer({ column, row: row + 1, round })
 
     const oldState = game.tiles[column][row]
 
-    const nextStep = ({
-      logo: 'money',
-      money: answer?.isDailyDouble ? 'dailyDouble' : 'answer',
-      dailyDouble: 'answer',
-      answer: 'blank',
-      blank: 'logo',
-    } as const)[oldState.step]
+    const nextStep = (
+      {
+        logo: 'money',
+        money: answer?.isDailyDouble ? 'dailyDouble' : 'answer',
+        dailyDouble: 'answer',
+        answer: 'blank',
+        blank: 'logo',
+      } as const
+    )[oldState.step]
 
     const newState: TileState = { ...oldState, step: nextStep }
 

@@ -1,7 +1,7 @@
-import { GameState } from '../client/src/GameState';
-import type { ServerGame } from './ServerGame';
-import { initialTilesState } from './TilesState';
-import { randomId } from './randomId';
+import { GameState } from '../client/src/GameState'
+import type { ServerGame } from './ServerGame'
+import { initialTilesState } from './TilesState'
+import { randomId } from './randomId'
 
 export const gameStore = {
   gamesById: new Map<string, ServerGame>(),

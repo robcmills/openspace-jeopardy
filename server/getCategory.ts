@@ -4,8 +4,8 @@ type GetCategoryArgs = {
 }
 
 export function getCategory({ column, round }: GetCategoryArgs) {
-  let key = `${round}_${column}`
-  let envVar = process.env[key]
+  const key = `${round}_${column}`
+  const envVar = process.env[key]
   if (envVar) {
     return envVar
   }

@@ -21,14 +21,10 @@ export function useApiEndpoints(app: Express, io: Server) {
     const contestants = contestantStore.getByGameId(gameId)
     const spectators = spectatorStore.getByGameId(gameId)
 
-    const users = [
-      ...contestants,
-      ...spectators,
-      { userId: game.hostUserId}
-    ]
+    const users = [...contestants, ...spectators, { userId: game.hostUserId }]
       .map(({ userId }) => sessionStore.getByUserId(userId))
       .filter((session): session is Session => Boolean(session))
-      .map(session => {
+      .map((session) => {
         const user: UserState = {
           id: session.userId,
           isConnected: session.isConnected,

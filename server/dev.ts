@@ -1,34 +1,34 @@
-import { watch } from 'fs';
-import { spawn, ChildProcess } from 'child_process';
+import { watch } from 'fs'
+import { spawn, ChildProcess } from 'child_process'
 
-const CLIENT_WATCH_PATH = '../client/src';
-const SERVER_WATCH_PATH = '../server';
+const CLIENT_WATCH_PATH = '../client/src'
+const SERVER_WATCH_PATH = '../server'
 
-let serverProcess: ChildProcess | undefined;
+let serverProcess: ChildProcess | undefined
 
 const startServer = () => {
   serverProcess = spawn('bun', ['run', 'index.ts'], {
     stdio: 'inherit',
-  });
+  })
 
   serverProcess.on('close', (code) => {
     if (code === 0) {
-      console.log('Server stopped gracefully.');
+      console.log('Server stopped gracefully.')
     } else {
-      console.log(`Server stopped with code ${code}.`);
-      startServer();
+      console.log(`Server stopped with code ${code}.`)
+      startServer()
     }
-  });
-};
+  })
+}
 
-let serverTimer: Timer | undefined;
+let serverTimer: Timer | undefined
 
 const restartServer = () => {
   if (serverTimer) {
-    clearTimeout(serverTimer);
+    clearTimeout(serverTimer)
   }
   serverTimer = setTimeout(() => {
-    console.log('Restarting server...');
+    console.log('Restarting server...')
     if (serverProcess) {
       serverProcess.kill()
     } else {
@@ -42,28 +42,27 @@ watch(SERVER_WATCH_PATH, { recursive: true }, (eventType, filename) => {
     console.log(`EventType: ${eventType} Filename: ${filename}`)
     restartServer()
   }
-});
+})
 
-startServer();
+startServer()
 
-
-let clientBuildProcess: ChildProcess | undefined;
+let clientBuildProcess: ChildProcess | undefined
 
 const buildClient = () => {
   clientBuildProcess = spawn('npm', ['run', 'build'], {
     cwd: '../client',
     stdio: 'inherit',
-  });
+  })
 }
 
-let clientTimer: Timer | undefined;
+let clientTimer: Timer | undefined
 
 const rebuildClient = () => {
   if (clientTimer) {
-    clearTimeout(clientTimer);
+    clearTimeout(clientTimer)
   }
   clientTimer = setTimeout(() => {
-    console.log('Rebuilding client...');
+    console.log('Rebuilding client...')
     if (clientBuildProcess) {
       clientBuildProcess.kill()
     }
@@ -76,6 +75,6 @@ watch(CLIENT_WATCH_PATH, { recursive: true }, (eventType, filename) => {
     console.log(`EventType: ${eventType} Filename: ${filename}`)
     rebuildClient()
   }
-});
+})
 
 rebuildClient()

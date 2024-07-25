@@ -1,5 +1,5 @@
 export type Spectator = {
-  gameId: string,
-  id: string,
-  userId: string,
+  gameId: string
+  id: string
+  userId: string
 }

@@ -1,5 +1,5 @@
-import type { Spectator } from './Spectator';
-import { randomId } from './randomId';
+import type { Spectator } from './Spectator'
+import { randomId } from './randomId'
 
 export const spectatorStore = {
   spectatorsById: new Map<string, Spectator>(),
@@ -19,7 +19,7 @@ export const spectatorStore = {
     const spectatorIds = this.indexByGameId.get(gameId)
     if (!spectatorIds) return []
     return [...spectatorIds]
-      .map(id => this.spectatorsById.get(id))
+      .map((id) => this.spectatorsById.get(id))
       .filter((spectator): spectator is Spectator => Boolean(spectator))
   },
 

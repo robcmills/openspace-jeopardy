@@ -36,32 +36,28 @@ const io = new Server<
   SocketData
 >(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST"]
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST'],
   },
-});
+})
 
 app.get('/', (_, res) => {
-  res.redirect('/lobby');
-});
+  res.redirect('/lobby')
+})
 
 app.get('/hello', (_, res) => {
   res.send('<h1>Hello world</h1>')
-});
+})
 
 useApiEndpoints(app, io)
 
 app.use(express.static('../client/dist'))
 
 // Catch-all route to serve index.html for client-side routing
-const CLIENT_INDEX_HTML = join(
-  __dirname,
-  '../client/dist',
-  'index.html'
-)
+const CLIENT_INDEX_HTML = join(__dirname, '../client/dist', 'index.html')
 app.get('*', (_, res) => {
   res.sendFile(CLIENT_INDEX_HTML)
-});
+})
 
 useSessionMiddleware(io)
 
