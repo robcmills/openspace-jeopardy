@@ -1,11 +1,9 @@
-import js from "@eslint/js";
+import eslint from '@eslint/js'
+import tseslint from 'typescript-eslint'
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
 export default [
-  js.configs.all,
-  {
-    rules: {
-      "no-undef": "warn",
-      "no-unused-vars": "warn",
-    }
-  }
-];
+  eslint.configs.recommended,
+  ...tseslint.configs.strict,
+  eslintPluginPrettierRecommended,
+]
