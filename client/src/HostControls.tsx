@@ -39,7 +39,8 @@ export function HostControls() {
   if (
     !activeContestant ||
     (!isAnyClueVisible && gameState !== GameState.FinalJeopardy) ||
-    (gameState === GameState.FinalJeopardy && !activeContestant.contestant.wager)
+    (gameState === GameState.FinalJeopardy &&
+      !activeContestant.contestant.wager)
   ) {
     return null
   }
@@ -69,14 +70,13 @@ export function HostControls() {
     if (gameState === GameState.FinalJeopardy) setActiveContestant(null)
   }
 
-  const question = activeContestant.contestant.question
-    ? <p>{activeContestant.contestant.question}</p>
-    : null
+  const question = activeContestant.contestant.question ? (
+    <p>{activeContestant.contestant.question}</p>
+  ) : null
 
-  const wager = activeContestant.contestant.wager
-    ? <p>Wager: ${activeContestant.contestant.wager.toLocaleString()}</p>
-    : null
-
+  const wager = activeContestant.contestant.wager ? (
+    <p>Wager: ${activeContestant.contestant.wager.toLocaleString()}</p>
+  ) : null
 
   const controlsStyle: CSSProperties = {
     borderTop: '1px solid white',
@@ -99,14 +99,14 @@ export function HostControls() {
       {wager}
       <div style={buttonsStyle}>
         <button
-          className='correct'
+          className="correct"
           onClick={onClickCorrect}
           style={buttonStyle}
         >
           ✓
         </button>
         <button
-          className='incorrect'
+          className="incorrect"
           onClick={onClickIncorrect}
           style={buttonStyle}
         >

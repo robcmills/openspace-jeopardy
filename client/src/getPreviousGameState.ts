@@ -1,4 +1,4 @@
-import { GameState } from './GameState';
+import { GameState } from './GameState'
 
 export function getPreviousGameState(gameState: GameState): GameState {
   const index = Object.values(GameState).indexOf(gameState)

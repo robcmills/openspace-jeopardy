@@ -1,5 +1,5 @@
-import { jotaiStore } from './jotaiStore';
-import { tilesAtoms } from './tilesAtoms';
+import { jotaiStore } from './jotaiStore'
+import { tilesAtoms } from './tilesAtoms'
 
 export function revealDailyDoubleClue() {
   for (const [columnIndex, column] of tilesAtoms.entries()) {

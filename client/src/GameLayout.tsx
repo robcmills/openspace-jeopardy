@@ -11,8 +11,8 @@ const leftStyle: CSSProperties = {
 }
 
 interface GameLayoutProps {
-  left: React.ReactNode;
-  right: React.ReactNode;
+  left: React.ReactNode
+  right: React.ReactNode
 }
 
 export function GameLayout({ left, right }: GameLayoutProps) {
@@ -23,8 +23,7 @@ export function GameLayout({ left, right }: GameLayoutProps) {
     display: 'grid',
     ...(isPortrait
       ? { gridTemplateRows: '1fr 2fr' }
-      : { gridTemplateColumns: '2fr 1fr' }
-    ),
+      : { gridTemplateColumns: '2fr 1fr' }),
   }
 
   const rightStyle: CSSProperties = {
@@ -32,16 +31,15 @@ export function GameLayout({ left, right }: GameLayoutProps) {
     overflow: 'hidden',
     ...(isPortrait
       ? { borderTop: '1px solid lightgray' }
-      : { borderLeft: '1px solid lightgray' }
-    ),
+      : { borderLeft: '1px solid lightgray' }),
   }
 
   return (
     <div style={containerStyle}>
-      <div id='left' style={leftStyle}>
+      <div id="left" style={leftStyle}>
         {left}
       </div>
-      <div id='right' style={rightStyle}>
+      <div id="right" style={rightStyle}>
         {right}
       </div>
     </div>

@@ -44,7 +44,7 @@ const hostStyle: CSSProperties = {
 
 const hostNameStyle: CSSProperties = {
   ...ellipsify,
-  padding: '0 6px 4px'
+  padding: '0 6px 4px',
 }
 
 export function Side() {
@@ -61,22 +61,24 @@ export function Side() {
     GameState.FinalJeopardy,
   ].includes(gameState)
 
-  const controls = isHost
-    ? <HostControls />
-    : isContestant
-    ? <ContestantControls />
-    : null
+  const controls = isHost ? (
+    <HostControls />
+  ) : isContestant ? (
+    <ContestantControls />
+  ) : null
 
   return (
-    <div id='Side' style={sideStyle}>
+    <div id="Side" style={sideStyle}>
       <header>
-        <h2 style={gameNameStyle} title={game.name}>{game.name}</h2>
+        <h2 style={gameNameStyle} title={game.name}>
+          {game.name}
+        </h2>
         <div style={hostStyle}>
           <p style={hostNameStyle}>Host: {host?.username}</p>
           <Timer isActive={!activeContestantId} />
         </div>
       </header>
-      <section id='ScrollSection' style={scrollStyle}>
+      <section id="ScrollSection" style={scrollStyle}>
         <Contestants />
         <Spectators />
       </section>

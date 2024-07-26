@@ -17,7 +17,7 @@ export function getActiveCategory() {
     for (const atom of columnAtoms) {
       const { step } = jotaiStore.get(atom)
       if (['answer', 'dailyDouble'].includes(step)) {
-      	return jotaiStore.get(categoriesAtoms[column]).category
+        return jotaiStore.get(categoriesAtoms[column]).category
       }
     }
   }

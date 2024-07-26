@@ -5,9 +5,6 @@ export function getRandomContestantId() {
   const { contestantsById } = jotaiStore.get(contestantsAtom)
   const contestantIds = Object.keys(contestantsById)
   const randomIndex = Math.floor(Math.random() * contestantIds.length)
-  console.log(
-    'randomContestant',
-    contestantsById[contestantIds[randomIndex]]
-  )
+  console.log('randomContestant', contestantsById[contestantIds[randomIndex]])
   return contestantIds[randomIndex]
 }

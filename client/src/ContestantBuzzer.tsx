@@ -56,10 +56,13 @@ export function ContestantBuzzer() {
     buzzer()
   }
 
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    event.preventDefault()
-    if (event.keyCode === SPACE_KEY_CODE) buzzer()
-  }, [buzzer])
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      event.preventDefault()
+      if (event.keyCode === SPACE_KEY_CODE) buzzer()
+    },
+    [buzzer],
+  )
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown)
@@ -81,11 +84,11 @@ export function ContestantBuzzer() {
         <span style={lightStyle}></span>
       </div>
       <button
-      	className='buzzer'
-      	disabled={disabled}
-      	onPointerDown={onPointerDown}
-      	style={buttonStyle}
-      	title='<spacebar>'
+        className="buzzer"
+        disabled={disabled}
+        onPointerDown={onPointerDown}
+        style={buttonStyle}
+        title="<spacebar>"
       />
     </div>
   )

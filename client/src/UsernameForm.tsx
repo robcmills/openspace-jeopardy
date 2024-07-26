@@ -20,7 +20,7 @@ export function UsernameForm() {
 
   const submit: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.preventDefault()
-    setSocketAtom(prev => ({ ...prev, username: value }))
+    setSocketAtom((prev) => ({ ...prev, username: value }))
     socket.auth = { username: value }
     socket.connect()
   }
@@ -33,11 +33,8 @@ export function UsernameForm() {
           <label>Username: &nbsp; </label>
         </div>
         <div style={{ display: 'grid', gap: 3 }}>
-          <input onChange={onChange} type='text' value={value} />
-          <button
-            disabled={!isUsernameValid}
-            onClick={submit}
-          >
+          <input onChange={onChange} type="text" value={value} />
+          <button disabled={!isUsernameValid} onClick={submit}>
             Login
           </button>
         </div>

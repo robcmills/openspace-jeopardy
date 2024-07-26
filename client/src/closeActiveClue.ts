@@ -1,7 +1,7 @@
-import { gameAtom } from './gameAtom';
-import { jotaiStore } from './jotaiStore';
-import { socket } from './socket';
-import { tilesAtoms } from './tilesAtoms';
+import { gameAtom } from './gameAtom'
+import { jotaiStore } from './jotaiStore'
+import { socket } from './socket'
+import { tilesAtoms } from './tilesAtoms'
 
 export function closeActiveClue() {
   for (const [columnIndex, column] of tilesAtoms.entries()) {

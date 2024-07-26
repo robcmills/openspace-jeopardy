@@ -12,7 +12,7 @@ import { timerAtom } from './timerAtom'
 import { isElementVisible } from './isElementVisible'
 import { finalJeopardyAtom } from './finalJeopardyAtom'
 
-const rowStyle: CSSProperties = { }
+const rowStyle: CSSProperties = {}
 
 const contestantStyle: CSSProperties = {
   display: 'grid',
@@ -37,13 +37,14 @@ type ContestantRowProps = {
   contestant: {
     contestant: Contestant
     user: UserState
-  },
+  }
 }
 
 export function ContestantRow(props: ContestantRowProps) {
   const contestant = props.contestant.contestant
   const user = props.contestant.user
-  const [activeContestantId, setActiveContestantId] = useAtom(activeContestantAtom)
+  const [activeContestantId, setActiveContestantId] =
+    useAtom(activeContestantAtom)
   const isActive = activeContestantId === contestant.id
   const isHost = useIsHost()
   const timerValue = useAtomValue(timerAtom)
@@ -54,10 +55,7 @@ export function ContestantRow(props: ContestantRowProps) {
     if (isActive && rowRef.current) {
       const parent = document.querySelector('#Side #ScrollSection')
       if (!parent || !(parent instanceof HTMLElement)) return
-      const isVisible = isElementVisible(
-        rowRef.current,
-        parent
-      )
+      const isVisible = isElementVisible(rowRef.current, parent)
       if (isVisible) return
       rowRef.current.scrollIntoView({
         behavior: 'smooth',
@@ -77,17 +75,10 @@ export function ContestantRow(props: ContestantRowProps) {
 
   const onClickHighlight = isHost ? toggleActive : undefined
 
-  const isGreen = (
-    isHost &&
-    contestant.question &&
-    finalJeopardyState.step !== 'answer'
-  )
+  const isGreen =
+    isHost && contestant.question && finalJeopardyState.step !== 'answer'
   const highlightStyle: CSSProperties = {
-    background: isActive
-      ? 'white'
-      : isGreen
-      ? 'green'
-      : DARK_GRAY,
+    background: isActive ? 'white' : isGreen ? 'green' : DARK_GRAY,
     cursor: isHost ? 'pointer' : 'default',
   }
 

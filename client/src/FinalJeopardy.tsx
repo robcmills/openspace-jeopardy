@@ -20,11 +20,13 @@ export function FinalJeopardy() {
 
   const cycle = () => {
     if (!isHost) return
-    const nextStep = ({
-      logo: 'category',
-      category: 'answer',
-      answer: 'logo',
-    } as const)[state.step]
+    const nextStep = (
+      {
+        logo: 'category',
+        category: 'answer',
+        answer: 'logo',
+      } as const
+    )[state.step]
     setState((prev) => ({
       ...prev,
       step: nextStep,
@@ -71,11 +73,7 @@ export function FinalJeopardy() {
     placeItems: 'center',
   }
 
-  const category = (
-    <div style={style}>
-      {state.category}
-    </div>
-  )
+  const category = <div style={style}>{state.category}</div>
 
   const audioStyle: CSSProperties = {
     bottom: '1rem',
@@ -95,7 +93,7 @@ export function FinalJeopardy() {
   const node = {
     logo,
     category,
-    answer, 
+    answer,
   }[state.step]
 
   const left = (
@@ -104,10 +102,5 @@ export function FinalJeopardy() {
     </div>
   )
 
-  return (
-    <GameLayout
-      left={left}
-      right={<Side />}
-    />
-  )
+  return <GameLayout left={left} right={<Side />} />
 }

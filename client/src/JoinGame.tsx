@@ -30,12 +30,8 @@ export function JoinGame() {
 
   return (
     <div style={style}>
-      <button onClick={onClickJoinAs('contestant')}>
-        Join as Contestant
-      </button>
-      <button onClick={onClickJoinAs('spectator')}>
-        Join as Spectator
-      </button>
+      <button onClick={onClickJoinAs('contestant')}>Join as Contestant</button>
+      <button onClick={onClickJoinAs('spectator')}>Join as Spectator</button>
     </div>
   )
 }

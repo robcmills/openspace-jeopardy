@@ -17,8 +17,8 @@ export function Video() {
   }, [])
 
   return (
-    <video autoPlay className='fullscreen' ref={videoRef} controls>
-      <source src={intro} type='video/mp4' />
+    <video autoPlay className="fullscreen" ref={videoRef} controls>
+      <source src={intro} type="video/mp4" />
     </video>
   )
 }

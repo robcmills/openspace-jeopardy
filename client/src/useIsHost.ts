@@ -1,6 +1,6 @@
-import { useAtomValue } from 'jotai';
-import { gameAtom } from './gameAtom';
-import { socketAtom } from './socketAtom';
+import { useAtomValue } from 'jotai'
+import { gameAtom } from './gameAtom'
+import { socketAtom } from './socketAtom'
 
 export function useIsHost() {
   const { userId } = useAtomValue(socketAtom)

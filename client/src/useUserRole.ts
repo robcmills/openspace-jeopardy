@@ -15,13 +15,11 @@ export function useUserRole() {
   if (isHost) return 'host'
 
   const isContestant = contestants.some(
-    contestant => contestant.user.id === userId
+    (contestant) => contestant.user.id === userId,
   )
   if (isContestant) return 'contestant'
 
-  const isSpectator = spectators.some(
-    spectator => spectator.id === userId
-  )
+  const isSpectator = spectators.some((spectator) => spectator.id === userId)
   if (isSpectator) return 'spectator'
 
   return null

@@ -1,6 +1,6 @@
-import { categoriesAtoms, initialCategoryState } from './categoriesAtoms';
-import { jotaiStore } from './jotaiStore';
-import { initialTileState, tilesAtoms } from './tilesAtoms';
+import { categoriesAtoms, initialCategoryState } from './categoriesAtoms'
+import { jotaiStore } from './jotaiStore'
+import { initialTileState, tilesAtoms } from './tilesAtoms'
 
 export function resetTiles() {
   console.log('resetTiles')

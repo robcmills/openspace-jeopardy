@@ -1,8 +1,8 @@
-import { atom } from 'jotai';
+import { atom } from 'jotai'
 
 export interface BoardSize {
-  height: number;
-  width: number;
+  height: number
+  width: number
 }
 
 const initialBoardSize: BoardSize = {

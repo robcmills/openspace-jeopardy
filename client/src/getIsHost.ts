@@ -1,6 +1,6 @@
-import { gameAtom } from './gameAtom';
-import { socketAtom } from './socketAtom';
-import { jotaiStore } from './jotaiStore';
+import { gameAtom } from './gameAtom'
+import { socketAtom } from './socketAtom'
+import { jotaiStore } from './jotaiStore'
 
 export function getIsHost() {
   const { userId } = jotaiStore.get(socketAtom)

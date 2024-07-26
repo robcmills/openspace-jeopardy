@@ -21,11 +21,11 @@ export function Game() {
     socket.emit('joinGame', { gameId: game.id, userRole })
   }, [userRole])
 
-  return ({
+  return {
     lobby: <GameLobby />,
     video: <Video />,
     jeopardy: <Jeopardy round={1} />,
     doubleJeopardy: <Jeopardy round={2} />,
     finalJeopardy: <FinalJeopardy />,
-  })[gameState]
+  }[gameState]
 }

@@ -1,6 +1,6 @@
-import { CategoryTileState } from './CategoryTileState';
-import { categoriesAtoms } from './categoriesAtoms';
-import { jotaiStore } from './jotaiStore';
+import { CategoryTileState } from './CategoryTileState'
+import { categoriesAtoms } from './categoriesAtoms'
+import { jotaiStore } from './jotaiStore'
 
 type SetCategoryStateArgs = {
   column: number

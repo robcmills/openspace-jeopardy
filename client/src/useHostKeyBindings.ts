@@ -23,57 +23,56 @@ export function useHostKeyBindings() {
   const game = useAtomValue(gameAtom)
   const isHost = useIsHost()
 
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    event.preventDefault()
-    console.log(event.key, event.keyCode)
-    if (event.key === 'r') {
-      window.location.reload()
-    } else if (event.key === 'n') {
-      socket.emit('resetTiles', { gameId: game.id })
-      const nextGameState = getNextGameState(gameState)
-      setGameState(nextGameState)
-      if (nextGameState === GameState.FinalJeopardy) {
-        setActiveContestant(null)
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      event.preventDefault()
+      console.log(event.key, event.keyCode)
+      if (event.key === 'r') {
+        window.location.reload()
+      } else if (event.key === 'n') {
+        socket.emit('resetTiles', { gameId: game.id })
+        const nextGameState = getNextGameState(gameState)
+        setGameState(nextGameState)
+        if (nextGameState === GameState.FinalJeopardy) {
+          setActiveContestant(null)
+        }
+      } else if (event.key === 'p') {
+        resetTiles()
+        socket.emit('resetTiles', { gameId: game.id })
+        const previousGameState = getPreviousGameState(gameState)
+        setGameState(previousGameState)
+      } else if (
+        event.keyCode === SPACE_KEY_CODE &&
+        [GameState.Jeopardy, GameState.DoubleJeopardy].includes(gameState)
+      ) {
+        toggleTimer()
+        socket.emit('toggleTimer', { gameId: game.id })
+      } else if (
+        event.key === 'v' &&
+        [GameState.Jeopardy, GameState.DoubleJeopardy].includes(gameState)
+      ) {
+        revealTiles()
+        socket.emit('revealTiles', { gameId: game.id })
+      } else if (event.key === 'a' && gameState === GameState.Jeopardy) {
+        const randomContestantId = getRandomContestantId()
+        activateRandomContestant(randomContestantId)
+        socket.emit('activateRandomContestant', {
+          contestantId: randomContestantId,
+          gameId: game.id,
+        })
+      } else if (event.key === 'c') {
+        zoomInCategories()
+        socket.emit('zoomCategories', { direction: 'in', gameId: game.id })
+      } else if (event.key === 'C') {
+        zoomOutCategories()
+        socket.emit('zoomCategories', { direction: 'out', gameId: game.id })
+      } else if (event.key === 'ArrowRight') {
+        panCategories()
+        socket.emit('panCategories', { gameId: game.id })
       }
-    } else if (event.key === 'p') {
-      resetTiles()
-      socket.emit('resetTiles', { gameId: game.id })
-      const previousGameState = getPreviousGameState(gameState)
-      setGameState(previousGameState)
-    } else if (
-      event.keyCode === SPACE_KEY_CODE &&
-      [GameState.Jeopardy, GameState.DoubleJeopardy]
-        .includes(gameState)
-    ) {
-      toggleTimer()
-      socket.emit('toggleTimer', { gameId: game.id })
-    } else if (
-      event.key === 'v' &&
-      [GameState.Jeopardy, GameState.DoubleJeopardy]
-        .includes(gameState)
-    ) {
-      revealTiles()
-      socket.emit('revealTiles', { gameId: game.id })
-    } else if (
-      event.key === 'a' && gameState === GameState.Jeopardy
-    ) {
-      const randomContestantId = getRandomContestantId()
-      activateRandomContestant(randomContestantId)
-      socket.emit('activateRandomContestant', {
-        contestantId: randomContestantId,
-        gameId: game.id,
-      })
-    } else if (event.key === 'c') {
-      zoomInCategories()
-      socket.emit('zoomCategories', { direction: 'in', gameId: game.id })
-    } else if (event.key === 'C') {
-      zoomOutCategories()
-      socket.emit('zoomCategories', { direction: 'out', gameId: game.id })
-    } else if (event.key === 'ArrowRight') {
-      panCategories()
-      socket.emit('panCategories', { gameId: game.id })
-    }
-  }, [game, gameState])
+    },
+    [game, gameState],
+  )
 
   useEffect(() => {
     if (!isHost) return

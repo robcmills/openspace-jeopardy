@@ -34,9 +34,7 @@ type ContestantWagerFormProps = {
   contestant: Contestant
 }
 
-export function ContestantWagerForm({
-  contestant
-}: ContestantWagerFormProps) {
+export function ContestantWagerForm({ contestant }: ContestantWagerFormProps) {
   const activeCategory = getActiveCategory()
   const setContestant = useSetContestant()
   const game = useAtomValue(gameAtom)
@@ -44,15 +42,11 @@ export function ContestantWagerForm({
   const setFinalJeopardyState = useSetAtom(finalJeopardyAtom)
 
   const [question, setQuestion] = useState(contestant.question || '')
-  const [wager, setWager] = useState<number | string>(
-    contestant.wager || ''
-  )
+  const [wager, setWager] = useState<number | string>(contestant.wager || '')
 
   const disabled = contestant.wager > 0
 
-  const onChangeQuestion: ChangeEventHandler<HTMLTextAreaElement> = (
-    event
-  ) => {
+  const onChangeQuestion: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setQuestion(event.target.value)
   }
 
@@ -97,10 +91,10 @@ export function ContestantWagerForm({
 
   useEffect(() => {
     // Server will transition finalJeopardyState when 30 second audio ends.
-    // At this point all contestants should have submitted their questions
+    // At this point all contestants should have submitted their questions
     // and wagers, and if not we force submission.
     const callback: ServerToClientEvents['setFinalJeopardyState'] = ({
-      state
+      state,
     }) => {
       if (state.step === 'logo') {
         submit()
@@ -115,24 +109,25 @@ export function ContestantWagerForm({
     }
   }, [submit])
 
-  const questionInput = gameState === GameState.FinalJeopardy
-    ? (
+  const questionInput =
+    gameState === GameState.FinalJeopardy ? (
       <textarea
         disabled={disabled}
         onChange={onChangeQuestion}
-        placeholder='Question'
+        placeholder="Question"
         required
         value={question}
       />
-    )
-    : null
+    ) : null
 
   const max = Math.max(contestant.score, 100)
 
   return (
     <form onSubmit={onSubmit}>
       <div style={containerStyle}>
-        <p>Category: <i>{activeCategory}</i></p>
+        <p>
+          Category: <i>{activeCategory}</i>
+        </p>
         {questionInput}
         <div style={wagerContainerStyle}>
           <input
@@ -140,13 +135,15 @@ export function ContestantWagerForm({
             max={max}
             min={100}
             onChange={onChangeWager}
-            placeholder='Wager'
+            placeholder="Wager"
             required
             style={{ width: 'calc(100% - 8px)' }}
-            type='number'
+            type="number"
             value={wager}
           />
-          <button disabled={disabled} type='submit'>Submit</button>
+          <button disabled={disabled} type="submit">
+            Submit
+          </button>
         </div>
       </div>
     </form>

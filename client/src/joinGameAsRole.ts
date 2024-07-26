@@ -8,10 +8,13 @@ export type JoinGameAsRoleParams = {
   userId: string
 }
 
-export async function joinGameAsRole({ gameId, role, userId }: JoinGameAsRoleParams) {
-  await fetch(
-    `/api/games/${gameId}/join?role=${role}&userId=${userId}`,
-    { method: 'POST' }
-  )
+export async function joinGameAsRole({
+  gameId,
+  role,
+  userId,
+}: JoinGameAsRoleParams) {
+  await fetch(`/api/games/${gameId}/join?role=${role}&userId=${userId}`, {
+    method: 'POST',
+  })
   navigate.to(getGamePath(gameId))
 }

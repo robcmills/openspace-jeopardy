@@ -6,7 +6,7 @@ export function GameRouteError() {
     return (
       <>
         <p>Game not found.</p>
-        <Link to='/lobby'>Go back to the lobby</Link>
+        <Link to="/lobby">Go back to the lobby</Link>
       </>
     )
   }

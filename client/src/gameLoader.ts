@@ -22,7 +22,7 @@ export const gameLoader: LoaderFunction = async ({ params }) => {
   if (response.status === 404) {
     throw new Response('Not Found', { status: 404 })
   }
-  const json = await response.json() as GetGameResponse
+  const json = (await response.json()) as GetGameResponse
 
   if (json.game.state !== params.gameState) {
     // When host transitions game state, we update the game.state on server
@@ -50,24 +50,33 @@ export const gameLoader: LoaderFunction = async ({ params }) => {
   jotaiStore.set(finalJeopardyAtom, json.game.finalJeopardy)
 
   jotaiStore.set(contestantsAtom, {
-    contestantsById: json.contestants.reduce((acc, contestant) => {
-      acc[contestant.id] = contestant
-      return acc
-    }, {} as Record<string, Contestant>),
+    contestantsById: json.contestants.reduce(
+      (acc, contestant) => {
+        acc[contestant.id] = contestant
+        return acc
+      },
+      {} as Record<string, Contestant>,
+    ),
   })
 
   jotaiStore.set(spectatorsAtom, {
-    spectatorsById: json.spectators.reduce((acc, spectator) => {
-      acc[spectator.id] = spectator
-      return acc
-    }, {} as Record<string, Spectator>),
+    spectatorsById: json.spectators.reduce(
+      (acc, spectator) => {
+        acc[spectator.id] = spectator
+        return acc
+      },
+      {} as Record<string, Spectator>,
+    ),
   })
 
   jotaiStore.set(usersAtom, {
-    usersById: json.users.reduce((acc, user) => {
-      acc[user.id] = user
-      return acc
-    }, {} as Record<string, UserState>),
+    usersById: json.users.reduce(
+      (acc, user) => {
+        acc[user.id] = user
+        return acc
+      },
+      {} as Record<string, UserState>,
+    ),
   })
 
   return json
