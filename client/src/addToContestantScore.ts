@@ -1,12 +1,12 @@
-import { GameState } from './GameState';
-import { contestantsAtom } from './contestantsAtom';
-import { gameAtom } from './gameAtom';
-import { getActiveContestant } from './getActiveContestant';
-import { getGameState } from './getGameState';
-import { jotaiStore } from './jotaiStore';
-import { setContestant } from './setContestant';
-import { socket } from './socket';
-import { tilesAtoms } from './tilesAtoms';
+import { GameState } from './GameState'
+import { contestantsAtom } from './contestantsAtom'
+import { gameAtom } from './gameAtom'
+import { getActiveContestant } from './getActiveContestant'
+import { getGameState } from './getGameState'
+import { jotaiStore } from './jotaiStore'
+import { setContestant } from './setContestant'
+import { socket } from './socket'
+import { tilesAtoms } from './tilesAtoms'
 
 export function addToContestantScore(sign: number) {
   const activeContestant = getActiveContestant()
@@ -36,11 +36,11 @@ export function addToContestantScore(sign: number) {
       if (tileState.step === 'answer') {
         const round = gameState === GameState.DoubleJeopardy ? 2 : 1
         const activeClueValue = (rowIndex + 1) * 200 * round * sign
-        const newScore = activeContestant.score + (
-          activeContestant.wager
+        const newScore =
+          activeContestant.score +
+          (activeContestant.wager
             ? activeContestant.wager * sign
-            : activeClueValue
-        )
+            : activeClueValue)
         jotaiStore.set(contestantsAtom, ({ contestantsById }) => ({
           contestantsById: {
             ...contestantsById,
