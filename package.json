@@ -2,9 +2,11 @@
   "name": "jeopardy web app",
   "type": "module",
   "scripts": {
-    "dev": "bun run --watch dev.ts",
+    "build": "cd client && vite build",
+    "dev": "bun --watch dev.ts",
     "lint": "eslint .",
-    "prod": "./prod.sh"
+    "prod": "./prod.sh",
+    "server": "cd server && bun index.ts"
   },
   "dependencies": {
     "express": "^4.19.2",
