@@ -180,6 +180,7 @@ export function onSocketGameEvents(socket: SocketClient) {
       const contestantsById = { ...state.contestantsById }
       for (const id in contestantsById) {
         if (contestantsById[id].userId === userId) {
+          // eslint-disable-next-line
           delete contestantsById[id]
         }
       }
@@ -193,6 +194,7 @@ export function onSocketGameEvents(socket: SocketClient) {
       const spectatorsById = { ...state.spectatorsById }
       for (const id in spectatorsById) {
         if (spectatorsById[id].userId === userId) {
+          // eslint-disable-next-line
           delete spectatorsById[id]
         }
       }
