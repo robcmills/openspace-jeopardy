@@ -5,7 +5,9 @@
     "build": "cd client && vite build",
     "dev": "bun --watch dev.ts",
     "lint": "eslint .",
+    "parse": "bun data/parse.ts",
     "prod": "./prod.sh",
+    "scrape": "bun data/scrape.ts",
     "server": "cd server && bun index.ts"
   },
   "dependencies": {
@@ -29,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "cheerio": "^1.0.0-rc.12",
     "eslint": "^9.7.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
