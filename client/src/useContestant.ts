@@ -8,7 +8,5 @@ export function useContestant() {
   const contestants = useContestants(game.id)
   const { userId } = useAtomValue(socketAtom)
 
-  return contestants.find(
-    contestant => contestant.user.id === userId
-  )
+  return contestants.find((contestant) => contestant.user.id === userId)
 }

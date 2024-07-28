@@ -16,15 +16,18 @@ export function Spectators() {
   const game = useAtomValue(gameAtom)
   const spectators = useSpectators(game.id)
 
-  const spectatorsNodes = spectators.map(spectator => (
+  const spectatorsNodes = spectators.map((spectator) => (
     <div key={spectator.id} style={spectatorStyle}>
       {spectator.username}
     </div>
   ))
 
-  const content = spectators.length === 0
-    ? <div style={spectatorStyle}>Awaiting spectators...</div>
-    : spectatorsNodes
+  const content =
+    spectators.length === 0 ? (
+      <div style={spectatorStyle}>Awaiting spectators...</div>
+    ) : (
+      spectatorsNodes
+    )
 
   return (
     <div>

@@ -1,15 +1,15 @@
 import { LogoImage } from './LogoImage'
-import { tileStyle } from './Tile';
-import { useAtom, useAtomValue } from 'jotai';
-import { boardSizeAtom } from './boardSizeAtom';
-import { categoriesAtoms } from './categoriesAtoms';
-import { socket } from './socket';
-import { gameAtom } from './gameAtom';
-import { useIsHost } from './useIsHost';
-import { CategoryTileState } from './CategoryTileState';
+import { tileStyle } from './Tile'
+import { useAtom, useAtomValue } from 'jotai'
+import { boardSizeAtom } from './boardSizeAtom'
+import { categoriesAtoms } from './categoriesAtoms'
+import { socket } from './socket'
+import { gameAtom } from './gameAtom'
+import { useIsHost } from './useIsHost'
+import { CategoryTileState } from './CategoryTileState'
 
 interface CategoryTileProps {
-  column: number;
+  column: number
 }
 
 export function CategoryTile({ column }: CategoryTileProps) {
@@ -34,20 +34,18 @@ export function CategoryTile({ column }: CategoryTileProps) {
     })
   }
 
-  const content = categoryState.step === 'logo'
-    ? <LogoImage />
-    : categoryState.category
+  const content =
+    categoryState.step === 'logo' ? <LogoImage /> : categoryState.category
 
   const style = {
     ...tileStyle,
-    backgroundColor: categoryState.step === 'logo'
-      ? 'black' :
-      tileStyle.backgroundColor,
+    backgroundColor:
+      categoryState.step === 'logo' ? 'black' : tileStyle.backgroundColor,
     fontSize: `${boardSize.height / 35}px`,
   }
 
   return (
-    <div className='category tile' onClick={toggleState} style={style}>
+    <div className="category tile" onClick={toggleState} style={style}>
       {content}
     </div>
   )

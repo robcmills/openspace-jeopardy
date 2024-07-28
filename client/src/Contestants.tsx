@@ -31,20 +31,21 @@ export function Contestants() {
       }
       return a.user.username.localeCompare(b.user.username)
     })
-    .map(contestant => (
+    .map((contestant) => (
       <ContestantRow key={contestant.user.id} contestant={contestant} />
     ))
 
-  const content = contestants.length === 0
-    ? <div style={emptyStyle}>Awaiting contestants...</div>
-    : contestantsNodes
+  const content =
+    contestants.length === 0 ? (
+      <div style={emptyStyle}>Awaiting contestants...</div>
+    ) : (
+      contestantsNodes
+    )
 
   return (
     <div>
       <h3 style={headerStyle}>Contestants:</h3>
-      <div style={contestantsStyle}>
-        {content}
-      </div>
+      <div style={contestantsStyle}>{content}</div>
     </div>
   )
 }

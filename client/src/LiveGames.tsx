@@ -19,11 +19,11 @@ export function LiveGames() {
         </Link>
       </div>
     ))
-    .concat([(
-      <div key='new'>
+    .concat([
+      <div key="new">
         <HostNewGameButton />
-      </div>
-    )])
+      </div>,
+    ])
 
   const containerStyle = {
     border: '1px solid gray',
@@ -46,9 +46,7 @@ export function LiveGames() {
   return (
     <div style={containerStyle}>
       <h3 style={headerStyle}>Live Games</h3>
-      <div style={gamesStyle}>
-        {gamesItems}
-      </div>
+      <div style={gamesStyle}>{gamesItems}</div>
     </div>
   )
 }

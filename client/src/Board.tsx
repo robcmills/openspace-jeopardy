@@ -1,28 +1,29 @@
-import { CSSProperties, ReactNode, useEffect, useState } from 'react';
+import { CSSProperties, ReactNode, useEffect, useState } from 'react'
 import { Column } from './Column'
-import { Round } from './Round';
-import { getFitDimensions } from './getFitDimensions';
-import { boardAspect } from './constants';
-import { useAtom } from 'jotai';
-import { boardSizeAtom } from './boardSizeAtom';
+import { Round } from './Round'
+import { getFitDimensions } from './getFitDimensions'
+import { boardAspect } from './constants'
+import { useAtom } from 'jotai'
+import { boardSizeAtom } from './boardSizeAtom'
 
 interface BoardProps {
-  round: Round;
+  round: Round
 }
 
 export function Board({ round }: BoardProps) {
   const [boardSize, setBoardSize] = useAtom(boardSizeAtom)
-  const [boardElement, setBoardElement] =
-    useState<HTMLElement | null>(null)
+  const [boardElement, setBoardElement] = useState<HTMLElement | null>(null)
 
   useEffect(() => {
     if (!boardElement) return
     const rect = boardElement.getBoundingClientRect()
-    setBoardSize(getFitDimensions({
-      aspectRatio: boardAspect,
-      height: rect.height,
-      width: rect.width,
-    }))
+    setBoardSize(
+      getFitDimensions({
+        aspectRatio: boardAspect,
+        height: rect.height,
+        width: rect.width,
+      }),
+    )
   }, [boardElement])
 
   const { height, width } = boardSize
@@ -45,12 +46,7 @@ export function Board({ round }: BoardProps) {
   }
 
   return (
-    <div
-      className='board'
-      id='Board'
-      ref={setBoardElement}
-      style={boardStyle}
-    >
+    <div className="board" id="Board" ref={setBoardElement} style={boardStyle}>
       {columnNodes}
     </div>
   )

@@ -13,9 +13,7 @@ export function LogoImage() {
     width: '100%',
   }
 
-  const src = gameState === GameState.DoubleJeopardy
-    ? double
-    : jeopardy
+  const src = gameState === GameState.DoubleJeopardy ? double : jeopardy
 
   return <img src={src} style={style} />
 }

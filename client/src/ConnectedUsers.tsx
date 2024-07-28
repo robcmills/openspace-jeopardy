@@ -5,12 +5,8 @@ export function ConnectedUsers() {
   const { usersById } = useAtomValue(usersAtom)
 
   const users = Object.values(usersById)
-    .filter(user => user.isConnected)
-    .map(({ id, username }) => (
-      <div key={id}>
-        {username}
-      </div>
-    ))
+    .filter((user) => user.isConnected)
+    .map(({ id, username }) => <div key={id}>{username}</div>)
 
   const containerStyle = {
     border: '1px solid gray',
@@ -33,9 +29,7 @@ export function ConnectedUsers() {
   return (
     <div style={containerStyle}>
       <h3 style={headerStyle}>Connected Users</h3>
-      <div style={usersStyle}>
-        {users}
-      </div>
+      <div style={usersStyle}>{users}</div>
     </div>
   )
 }

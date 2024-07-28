@@ -1,6 +1,6 @@
 export function isElementVisible(
   element: HTMLElement,
-  parent: HTMLElement = document.documentElement
+  parent: HTMLElement = document.documentElement,
 ): boolean {
   const elementRect = element.getBoundingClientRect()
   const parentRect = parent.getBoundingClientRect()

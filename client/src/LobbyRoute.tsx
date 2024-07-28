@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { Lobby } from './Lobby';
-import { socket } from './socket';
+import { useEffect } from 'react'
+import { Lobby } from './Lobby'
+import { socket } from './socket'
 
 export function LobbyRoute() {
   useEffect(() => {
@@ -9,7 +9,5 @@ export function LobbyRoute() {
       socket.emit('leaveLobby')
     }
   }, [])
-  return (
-    <Lobby />
-  )
+  return <Lobby />
 }

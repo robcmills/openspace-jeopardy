@@ -124,9 +124,7 @@ export function onSocketGameEvents(socket: SocketClient) {
   socket.on('zoomCategories', ({ direction }) => {
     console.log('zoomCategories', direction)
     if (getIsHost()) return
-    direction === 'in'
-      ? zoomInCategories()
-      : zoomOutCategories()
+    direction === 'in' ? zoomInCategories() : zoomOutCategories()
   })
 
   socket.on('panCategories', () => {
@@ -137,7 +135,7 @@ export function onSocketGameEvents(socket: SocketClient) {
 
   socket.on('contestantJoined', ({ contestant, user }) => {
     console.log('contestantJoined', { contestant, user })
-    jotaiStore.set(contestantsAtom, state => {
+    jotaiStore.set(contestantsAtom, (state) => {
       return {
         ...state,
         contestantsById: {
@@ -146,7 +144,7 @@ export function onSocketGameEvents(socket: SocketClient) {
         },
       }
     })
-    jotaiStore.set(usersAtom, state => ({
+    jotaiStore.set(usersAtom, (state) => ({
       ...state,
       usersById: {
         ...state.usersById,
@@ -157,7 +155,7 @@ export function onSocketGameEvents(socket: SocketClient) {
 
   socket.on('spectatorJoined', ({ spectator, user }) => {
     console.log('spectatorJoined', { spectator, user })
-    jotaiStore.set(spectatorsAtom, state => {
+    jotaiStore.set(spectatorsAtom, (state) => {
       return {
         ...state,
         spectatorsById: {
@@ -166,7 +164,7 @@ export function onSocketGameEvents(socket: SocketClient) {
         },
       }
     })
-    jotaiStore.set(usersAtom, state => ({
+    jotaiStore.set(usersAtom, (state) => ({
       ...state,
       usersById: {
         ...state.usersById,
@@ -178,10 +176,11 @@ export function onSocketGameEvents(socket: SocketClient) {
   socket.on('userDisconnected', (userId: string) => {
     console.log('userDisconnected', userId)
 
-    jotaiStore.set(contestantsAtom, state => {
+    jotaiStore.set(contestantsAtom, (state) => {
       const contestantsById = { ...state.contestantsById }
       for (const id in contestantsById) {
         if (contestantsById[id].userId === userId) {
+          // eslint-disable-next-line
           delete contestantsById[id]
         }
       }
@@ -191,10 +190,11 @@ export function onSocketGameEvents(socket: SocketClient) {
       }
     })
 
-    jotaiStore.set(spectatorsAtom, state => {
+    jotaiStore.set(spectatorsAtom, (state) => {
       const spectatorsById = { ...state.spectatorsById }
       for (const id in spectatorsById) {
         if (spectatorsById[id].userId === userId) {
+          // eslint-disable-next-line
           delete spectatorsById[id]
         }
       }

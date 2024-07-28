@@ -6,7 +6,7 @@ export function onSocketSessionEvents(socket: SocketClient) {
   const sessionId = localStorage.getItem('sessionId')
 
   if (sessionId) {
-    jotaiStore.set(socketAtom, state => ({
+    jotaiStore.set(socketAtom, (state) => ({
       ...state,
       sessionId,
     }))
@@ -19,7 +19,7 @@ export function onSocketSessionEvents(socket: SocketClient) {
     // attach the session ID to the next reconnection attempts
     socket.auth = { sessionId }
     localStorage.setItem('sessionId', sessionId)
-    jotaiStore.set(socketAtom, state => ({
+    jotaiStore.set(socketAtom, (state) => ({
       ...state,
       isSessionEstablished: true,
       sessionId,
@@ -31,7 +31,7 @@ export function onSocketSessionEvents(socket: SocketClient) {
 
   socket.on('connect', () => {
     console.log('connected')
-    jotaiStore.set(socketAtom, state => ({
+    jotaiStore.set(socketAtom, (state) => ({
       ...state,
       isConnected: true,
       isConnectionError: false,
@@ -40,7 +40,7 @@ export function onSocketSessionEvents(socket: SocketClient) {
 
   socket.on('disconnect', () => {
     console.log('disconnected')
-    jotaiStore.set(socketAtom, state => ({
+    jotaiStore.set(socketAtom, (state) => ({
       ...state,
       isConnected: false,
       isConnectionError: false,
@@ -52,7 +52,7 @@ export function onSocketSessionEvents(socket: SocketClient) {
     if (error.message === 'Invalid session') {
       localStorage.removeItem('sessionId')
     }
-    jotaiStore.set(socketAtom, state => ({
+    jotaiStore.set(socketAtom, (state) => ({
       ...state,
       isConnectionError: true,
       sessionId: null,

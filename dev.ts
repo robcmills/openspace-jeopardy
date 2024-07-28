@@ -1,13 +1,15 @@
 import { watch } from 'fs'
 import { spawn, ChildProcess } from 'child_process'
 
-const CLIENT_WATCH_PATH = '../client/src'
-const SERVER_WATCH_PATH = '../server'
+const CLIENT_WATCH_PATH = 'client/src'
+const SERVER_WATCH_PATH = 'server'
+
+// Server
 
 let serverProcess: ChildProcess | undefined
 
 const startServer = () => {
-  serverProcess = spawn('bun', ['run', 'index.ts'], {
+  serverProcess = spawn('bun', ['run', 'server'], {
     stdio: 'inherit',
   })
 
@@ -46,11 +48,12 @@ watch(SERVER_WATCH_PATH, { recursive: true }, (eventType, filename) => {
 
 startServer()
 
+// Client
+
 let clientBuildProcess: ChildProcess | undefined
 
 const buildClient = () => {
-  clientBuildProcess = spawn('npm', ['run', 'build'], {
-    cwd: '../client',
+  clientBuildProcess = spawn('bun', ['run', 'build'], {
     stdio: 'inherit',
   })
 }

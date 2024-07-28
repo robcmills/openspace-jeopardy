@@ -1,8 +1,8 @@
-import { GameState } from './GameState';
+import { GameState } from './GameState'
 
 export function getGamePath(
   gameId: string,
-  gameState: GameState = GameState.Lobby
+  gameState: GameState = GameState.Lobby,
 ) {
   return `/games/${gameId}/${gameState}`
 }

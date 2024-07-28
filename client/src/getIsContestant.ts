@@ -8,6 +8,6 @@ export function getIsContestant() {
   const { userId } = jotaiStore.get(socketAtom)
   const { contestantsById } = jotaiStore.get(contestantsAtom)
   return Object.values(contestantsById)
-    .filter(contestant => contestant.gameId === game.id)
-    .some(contestant => contestant.userId === userId)
+    .filter((contestant) => contestant.gameId === game.id)
+    .some((contestant) => contestant.userId === userId)
 }

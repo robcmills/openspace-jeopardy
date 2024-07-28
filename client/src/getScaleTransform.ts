@@ -15,11 +15,9 @@ export function getScaleTransform({
   const containerHeight = containerRect.height
   const containerWidth = containerRect.width
 
-  const scaleX = containerWidth / elementRect.width;
-  const scaleY = containerHeight / elementRect.height;
-  const scale = Math.min(scaleX, scaleY);
+  const scaleX = containerWidth / elementRect.width
+  const scaleY = containerHeight / elementRect.height
+  const scale = Math.min(scaleX, scaleY)
 
-  return contain
-    ? `scale(${scale})`
-    : `scale(${scaleX}, ${scaleY})`
+  return contain ? `scale(${scale})` : `scale(${scaleX}, ${scaleY})`
 }

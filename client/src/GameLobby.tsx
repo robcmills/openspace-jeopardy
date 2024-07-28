@@ -28,10 +28,5 @@ export function GameLobby() {
     </>
   )
 
-  return (
-    <GameLayout
-      left={left}
-      right={<Side />}
-    />
-  )
+  return <GameLayout left={left} right={<Side />} />
 }

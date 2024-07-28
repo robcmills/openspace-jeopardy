@@ -1,5 +1,5 @@
 export interface UserState {
-  isConnected: boolean;
-  id: string;
-  username: string;
+  isConnected: boolean
+  id: string
+  username: string
 }

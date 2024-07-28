@@ -14,14 +14,16 @@ export function HostNewGameButton() {
   return clicked ? (
     <>
       <input
-        type='text'
-        placeholder='Game name'
+        type="text"
+        placeholder="Game name"
         disabled={disabled}
-        onChange={e => setGameName(e.target.value)}
+        onChange={(e) => setGameName(e.target.value)}
         value={gameName}
       />
       &nbsp;
-      <button disabled={disabled} onClick={hostNewGame}>Submit</button>
+      <button disabled={disabled} onClick={hostNewGame}>
+        Submit
+      </button>
     </>
   ) : (
     <button disabled={disabled} onClick={() => setClicked(true)}>

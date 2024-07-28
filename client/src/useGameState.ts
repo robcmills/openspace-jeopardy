@@ -1,9 +1,9 @@
-import { useParams } from 'react-router-dom';
-import { GameState } from './GameState';
-import { isGameState } from './isGameState';
-import { getGamePath } from './getGamePath';
-import { navigate } from './navigate';
-import { socket } from './socket';
+import { useParams } from 'react-router-dom'
+import { GameState } from './GameState'
+import { isGameState } from './isGameState'
+import { getGamePath } from './getGamePath'
+import { navigate } from './navigate'
+import { socket } from './socket'
 
 export function useGameState() {
   const { gameId, gameState } = useParams()

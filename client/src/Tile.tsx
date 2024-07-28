@@ -28,9 +28,9 @@ export const tileStyle: CSSProperties = {
 }
 
 interface TileProps {
-  column: number;
-  round: Round;
-  row: number;
+  column: number
+  round: Round
+  row: number
 }
 
 export function Tile({ column, round, row }: TileProps) {
@@ -52,11 +52,13 @@ export function Tile({ column, round, row }: TileProps) {
   }
 
   const money = (
-    <span style={{
-      color: 'rgb(254, 199, 95)',
-      fontSize: `${boardSize.height / 16}px`
-    }}>
-     {`$${(row + 1) * 200 * round}`}
+    <span
+      style={{
+        color: 'rgb(254, 199, 95)',
+        fontSize: `${boardSize.height / 16}px`,
+      }}
+    >
+      {`$${(row + 1) * 200 * round}`}
     </span>
   )
 
@@ -112,7 +114,7 @@ export function Tile({ column, round, row }: TileProps) {
         element: tileRef.current,
         container,
         contain: true,
-      })
+      }),
     ].join(' ')
     backdropStyle.transform = [
       getCenterTransform(tileRef.current, container),
@@ -120,7 +122,7 @@ export function Tile({ column, round, row }: TileProps) {
         element: tileRef.current,
         container,
         contain: false,
-      })
+      }),
     ].join(' ')
   }
 

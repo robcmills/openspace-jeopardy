@@ -6,6 +6,6 @@ export function useSpectators(gameId: string) {
   const { spectatorsById } = useAtomValue(spectatorsAtom)
   const { usersById } = useAtomValue(usersAtom)
   return Object.values(spectatorsById)
-    .filter(spectator => spectator.gameId === gameId)
-    .map(spectator => usersById[spectator.userId])
+    .filter((spectator) => spectator.gameId === gameId)
+    .map((spectator) => usersById[spectator.userId])
 }

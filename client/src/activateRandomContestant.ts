@@ -1,7 +1,7 @@
-import { jotaiStore } from './jotaiStore';
+import { jotaiStore } from './jotaiStore'
 import fill from './assets/board-fill.mp3'
-import { contestantsAtom } from './contestantsAtom';
-import { activeContestantAtom } from './activeContestantAtom';
+import { contestantsAtom } from './contestantsAtom'
+import { activeContestantAtom } from './activeContestantAtom'
 
 const audio = new Audio(fill)
 
