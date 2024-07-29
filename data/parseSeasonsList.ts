@@ -3,8 +3,7 @@ import { load } from 'cheerio'
 import { insertSeason } from './insertSeason'
 import type { Season } from '../types/Season'
 
-function parseSeasonsList() {
-  console.log('parsing seasons list...')
+export function parseSeasonsList() {
   const html = readFileSync('data/seasons/list.html', 'utf-8')
   const $ = load(html)
   $('table tr').each((_, tr) => {
@@ -36,9 +35,3 @@ function parseSeasonsList() {
     insertSeason(season)
   })
 }
-
-function parse() {
-  parseSeasonsList()
-}
-
-parse()
