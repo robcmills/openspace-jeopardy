@@ -1,3 +1,4 @@
+data/episodes
 database.sqlite
 *.pem
 aws.md

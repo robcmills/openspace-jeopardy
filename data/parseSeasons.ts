@@ -21,24 +21,23 @@ function parseSeason(seasonId: string) {
       seasonId,
       tapedDate: '',
     }
-    $(tr)
-      .find('a')
-      .each((_, a) => {
-        const href = $(a).attr('href')
-        if (!href) throw new Error('href not found')
-        episode.id = href.split('=')[1]
-        const title = $(a).attr('title')
-        if (title) {
-          episode.tapedDate = title.split(' ')[1]
-        }
-        episode.anchorText = $(a).text()
-        if (episode.anchorText.includes('taped')) {
-          const maybeTapedDate = extractDate(episode.anchorText)
-          if (maybeTapedDate) {
-            episode.tapedDate = maybeTapedDate
-          }
-        }
-      })
+
+    const anchor = $(tr).find('a').first()
+    const href = $(anchor).attr('href')
+    if (!href) throw new Error('href not found')
+    episode.id = href.split('=')[1]
+    const title = $(anchor).attr('title')
+    if (title) {
+      episode.tapedDate = title.split(' ')[1]
+    }
+    episode.anchorText = $(anchor).text()
+    if (episode.anchorText.includes('taped')) {
+      const maybeTapedDate = extractDate(episode.anchorText)
+      if (maybeTapedDate) {
+        episode.tapedDate = maybeTapedDate
+      }
+    }
+
     $(tr)
       .find('td')
       .each((i, td) => {
