@@ -1,39 +1,28 @@
 import { database } from './database'
 
-function initSeasonsTable() {
-  // First check if the seasons table exists
-  const result = database
-    .query(
-      'SELECT name FROM sqlite_master WHERE type="table" AND name="seasons"',
-    )
-    .get()
-  if (result) return
-  // If the table does not exist, create it
-  database
-    .query(
-      `CREATE TABLE seasons (
-        id TEXT
-        PRIMARY KEY,
-        title TEXT,
-        airDate TEXT,
-        gamesCount TEXT
+function createCategoriesTable() {
+  database.run(
+    `CREATE TABLE IF NOT EXISTS categories (
+        column INTEGER,
+        comments TEXT,
+        episodeId TEXT,
+        id TEXT PRIMARY KEY,
+        name TEXT,
+        round INTEGER,
+        FOREIGN KEY (episodeId) REFERENCES episodes(id)
       )`,
-    )
-    .run()
+  )
 }
 
-function initEpisodesTable() {
-  // First check if the episodes table exists
-  const result = database
-    .query(
-      'SELECT name FROM sqlite_master WHERE type="table" AND name="episodes"',
-    )
-    .get()
-  if (result) return
-  // If the table does not exist, create it
-  database
-    .query(
-      `CREATE TABLE episodes (
+function createCategoriesIndex() {
+  database.run(
+    'CREATE INDEX IF NOT EXISTS idx_categories_episodeId ON categories(episodeId)',
+  )
+}
+
+function createEpisodesTable() {
+  database.run(
+    `CREATE TABLE IF NOT EXISTS episodes (
         airDate TEXT,
         anchorText TEXT,
         contestants TEXT,
@@ -44,11 +33,31 @@ function initEpisodesTable() {
         tapedDate TEXT,
         FOREIGN KEY (seasonId) REFERENCES seasons(id)
       )`,
-    )
-    .run()
+  )
+}
+
+function createEpisodesIndex() {
+  database.run(
+    'CREATE INDEX IF NOT EXISTS idx_episodes_seasonId ON episodes(seasonId)',
+  )
+}
+
+function createSeasonsTable() {
+  database.run(
+    `CREATE TABLE IF NOT EXISTS seasons (
+        airDate TEXT,
+        gamesCount TEXT,
+        id TEXT PRIMARY KEY,
+        title TEXT
+      )`,
+  )
 }
 
 export function initDatabase() {
-  initSeasonsTable()
-  initEpisodesTable()
+  database.exec('PRAGMA journal_mode = WAL;')
+  createSeasonsTable()
+  createEpisodesTable()
+  createEpisodesIndex()
+  createCategoriesTable()
+  createCategoriesIndex()
 }

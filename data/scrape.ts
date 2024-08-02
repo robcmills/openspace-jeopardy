@@ -19,7 +19,6 @@ async function scrape() {
   parseSeasons()
   console.log('Fetching episodes...')
   await fetchEpisodes()
-  console.log('Finished fetching episodes')
   console.log('Parsing episodes...')
   parseEpisodes()
 }
