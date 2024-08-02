@@ -1,8 +1,10 @@
-import { randomId } from '../server/randomId'
 import type { Category } from '../types/Category'
+import type { Clue } from '../types/Clue'
 import { database } from './database'
 import { insertCategories } from './insertCategories'
+import { insertClues } from './insertClues'
 import { load, type CheerioAPI } from 'cheerio'
+import { randomId } from '../server/randomId'
 import { readFileSync } from 'fs'
 
 function parseRound(round: number, episodeId: string, $: CheerioAPI) {
@@ -22,6 +24,40 @@ function parseRound(round: number, episodeId: string, $: CheerioAPI) {
     })
   })
   insertCategories(categories)
+
+  const clues: Clue[] = []
+  $(`${containerId} td.clue`).each((_, td) => {
+    let column = 1
+    let row = 1
+    let correctResponse = ''
+    let text = ''
+    $(td)
+      .find('.clue_text')
+      .each((_, clueTextElement) => {
+        const id = clueTextElement.attribs.id
+        const parts = id.split('_')
+        column = parseInt(parts[2])
+        row = parseInt(parts[3])
+        const isResponse = parts[4] === 'r'
+        if (isResponse) {
+          correctResponse = $(td).find('.correct_response').text()
+        } else {
+          text = $(clueTextElement).text()
+        }
+      })
+    const isDailyDouble = $(td).find('.clue_value_daily_double').length > 0
+    clues.push({
+      column,
+      correctResponse,
+      episodeId,
+      id: randomId(),
+      isDailyDouble,
+      round,
+      row,
+      text,
+    })
+  })
+  insertClues(clues)
 }
 
 function parseEpisode(id: string) {

@@ -1,5 +1,5 @@
 data/episodes
-database.sqlite
+database.sqlite*
 *.pem
 aws.md
 clues

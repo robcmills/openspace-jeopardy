@@ -1,5 +1,27 @@
 import { database } from './database'
 
+function createCluesTable() {
+  database.run(
+    `CREATE TABLE IF NOT EXISTS clues (
+        column INTEGER,
+      	correctResponse TEXT,
+        episodeId TEXT,
+        id TEXT PRIMARY KEY,
+      	isDailyDouble BOOL,
+        round INTEGER,
+      	row INTEGER,
+      	text TEXT,
+        FOREIGN KEY (episodeId) REFERENCES episodes(id)
+      )`,
+  )
+}
+
+function createCluesIndex() {
+  database.run(
+    'CREATE INDEX IF NOT EXISTS idx_clues_episodeId ON clues(episodeId)',
+  )
+}
+
 function createCategoriesTable() {
   database.run(
     `CREATE TABLE IF NOT EXISTS categories (
@@ -60,4 +82,6 @@ export function initDatabase() {
   createEpisodesIndex()
   createCategoriesTable()
   createCategoriesIndex()
+  createCluesTable()
+  createCluesIndex()
 }
