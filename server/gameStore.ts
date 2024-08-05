@@ -7,10 +7,11 @@ export const gameStore = {
   gamesById: new Map<string, ServerGame>(),
   indexByHostUserId: new Map<string, string>(),
 
-  new(hostUserId: string, name: string): ServerGame {
+  new(episodeId: string, hostUserId: string, name: string): ServerGame {
     const newGame: ServerGame = {
       activeContestantId: null,
       categories: Array(6).fill({ category: '', step: 'logo' }),
+      episodeId,
       finalJeopardy: { answer: '', category: '', step: 'logo' },
       id: randomId(),
       hostUserId,

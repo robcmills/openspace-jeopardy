@@ -60,7 +60,7 @@ export interface ClientToServerEvents {
   }) => void
   getGame: (gameId: string) => void
   hello: () => void
-  hostNewGame: (gameName: string) => void
+  hostNewGame: (data: { episodeId: string; name: string }) => void
   joinGame: (data: { gameId: string; userRole: UserRole }) => void
   joinLobby: () => void
   leaveLobby: () => void

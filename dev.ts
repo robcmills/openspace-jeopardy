@@ -9,16 +9,21 @@ const SERVER_WATCH_PATH = 'server'
 let serverProcess: ChildProcess | undefined
 
 const startServer = () => {
-  serverProcess = spawn('bun', ['run', 'server'], {
+  console.log('Starting server...')
+  serverProcess = spawn('bun', ['run', 'index.ts'], {
+    cwd: 'server',
     stdio: 'inherit',
   })
 
-  serverProcess.on('close', (code) => {
+  serverProcess.on('error', (err) => {
+    console.error(err)
+  })
+
+  serverProcess.on('exit', (code, signal) => {
     if (code === 0) {
-      console.log('Server stopped gracefully.')
+      console.log('Server exited gracefully.')
     } else {
-      console.log(`Server stopped with code ${code}.`)
-      startServer()
+      console.log(`Server exited with code ${code} signal ${signal}`)
     }
   })
 }
@@ -32,6 +37,7 @@ const restartServer = () => {
   serverTimer = setTimeout(() => {
     console.log('Restarting server...')
     if (serverProcess) {
+      serverProcess.on('close', () => startServer())
       serverProcess.kill()
     } else {
       startServer()

@@ -51,9 +51,9 @@ export function onGameEvents(socket: Socket, io: Server) {
     socket.emit('game', game)
   })
 
-  socket.on('hostNewGame', (name: string) => {
+  socket.on('hostNewGame', ({ episodeId, name }) => {
     console.log('hostNewGame')
-    const newGame = gameStore.new(socket.data.userId, name)
+    const newGame = gameStore.new(episodeId, socket.data.userId, name)
     socket.join(newGame.id)
     socket.emit('gameCreated', newGame)
     socket.emit('games', gameStore.getAll())
