@@ -6,7 +6,6 @@ import { Tile } from './Tile'
 const columnStyle = {
   display: 'grid',
   gridTemplateRows: 'repeat(6, 1fr)',
-  overflow: 'hidden',
   placeContent: 'stretch',
   placeItems: 'stretch',
 }

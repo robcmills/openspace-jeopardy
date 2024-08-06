@@ -1,30 +1,37 @@
-type EnvKeyArgs = {
-  column: number
-  isDailyDouble: number
-  round: number
-  row: number
-}
+import { database } from '../data/database'
 
-const envKey = ({ column, row, round, isDailyDouble }: EnvKeyArgs) =>
-  `${round}_${column}_${row}_${isDailyDouble}`
+let getAnswerQuery: ReturnType<typeof database.prepare> | null = null
 
 type GetAnswerArgs = {
   column: number
+  episodeId: string
   round: number
   row: number
 }
 
-export function getAnswer({ column, round, row }: GetAnswerArgs) {
-  let key = envKey({ column, row, round, isDailyDouble: 0 })
-  let envVar = process.env[key]
-  if (envVar) {
-    return { answer: envVar, isDailyDouble: false }
+export function getAnswer({ column, episodeId, round, row }: GetAnswerArgs) {
+  if (getAnswerQuery === null) {
+    getAnswerQuery = database.prepare(`
+      select isDailyDouble, text from clues
+      where column = $column
+      and episodeId = $episodeId
+      and round = $round
+      and row = $row
+    `)
   }
-  key = envKey({ column, row, round, isDailyDouble: 1 })
-  envVar = process.env[key]
-  if (envVar) {
-    return { answer: envVar, isDailyDouble: true }
+  const clue = getAnswerQuery.get({
+    $column: column,
+    $episodeId: episodeId,
+    $round: round,
+    $row: row,
+  }) as { isDailyDouble: boolean; text: string }
+
+  if (!clue) {
+    console.error(
+      `No clue found for column ${column} episodeId ${episodeId} round ${round} row ${row}`,
+    )
+    return null
   }
-  console.error(`No answer found for ${round}, ${column}, ${row}`)
-  return null
+
+  return { answer: clue.text, isDailyDouble: clue.isDailyDouble }
 }

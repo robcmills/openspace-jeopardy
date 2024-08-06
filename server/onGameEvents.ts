@@ -302,14 +302,18 @@ export function onGameEvents(socket: Socket, io: Server) {
       return
     }
 
-    // Get answer from env vars
     const round =
       game.state === GameState.Jeopardy
         ? 1
         : game.state === GameState.DoubleJeopardy
           ? 2
           : 0
-    const answer = getAnswer({ column, row: row + 1, round })
+    const answer = getAnswer({
+      column: column + 1,
+      episodeId: game.episodeId,
+      row: row + 1,
+      round,
+    })
 
     const oldState = game.tiles[column][row]
 
