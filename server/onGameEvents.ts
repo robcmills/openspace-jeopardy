@@ -146,7 +146,11 @@ export function onGameEvents(socket: Socket, io: Server) {
           : game.state === GameState.DoubleJeopardy
             ? 2
             : 0
-      state.category = getCategory({ column, round })
+      state.category = getCategory({
+        column,
+        episodeId: game.episodeId,
+        round,
+      })
     }
     io.to(gameId).emit('setCategoryState', { column, state })
   })

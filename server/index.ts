@@ -69,5 +69,5 @@ io.on('connection', (socket) => {
 })
 
 httpServer.listen(PORT, () => {
-  console.log(`Http Server listening on port ${PORT}`)
+  console.log(`\nHttp Server listening on port ${PORT}`)
 })
