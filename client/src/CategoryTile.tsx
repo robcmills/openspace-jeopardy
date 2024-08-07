@@ -41,7 +41,7 @@ export function CategoryTile({ column }: CategoryTileProps) {
     ...tileStyle,
     backgroundColor:
       categoryState.step === 'logo' ? 'black' : tileStyle.backgroundColor,
-    fontSize: `${boardSize.height / 35}px`,
+    fontSize: `${boardSize.height / 45}px`,
     padding: categoryState.step === 'category' ? '2px' : 0,
   }
 

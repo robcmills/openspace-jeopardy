@@ -15,8 +15,9 @@
 
 ### Todo
 
-- [ ] Add eslint and prettier
-- [ ] Pull tsconfig into root and configure aliases to get rid of all relative imports
+- [x] Add eslint and prettier
+- [x] Pull tsconfig into root
+- [ ] Configure aliases to get rid of all relative imports
 - [ ] Implement database backed storage
 - [ ] Add correct response reveal to host controls
 - [ ] Prevent negative scores (easy mode)
