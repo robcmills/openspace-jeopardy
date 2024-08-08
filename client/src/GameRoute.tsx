@@ -10,6 +10,7 @@ export function GameRoute() {
   const game = useAtomValue(gameAtom)
   const { isSessionEstablished, sessionId } = useAtomValue(socketAtom)
   const userRole = useUserRole()
+  console.log({ userRole })
 
   if (!isSessionEstablished || !game || !sessionId) {
     console.log('Loading...')

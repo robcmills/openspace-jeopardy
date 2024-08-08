@@ -45,22 +45,33 @@ export function useApiEndpoints(app: Express, io: Server) {
 
   app.post('/api/games/:gameId/join', (req, res) => {
     const gameId = req.params.gameId
+
     const role = req.query.role
     if (!role || typeof role !== 'string') {
       res.status(400).json({ error: 'role is required' })
       return
     }
+
+    const sessionId = req.query.sessionId
+    if (sessionId && typeof sessionId !== 'string') {
+      res.status(400).json({ error: 'sessionId must be a string' })
+      return
+    }
+
     const userId = req.query.userId
     if (!userId || typeof userId !== 'string') {
       res.status(400).json({ error: 'userId is required' })
       return
     }
 
-    const session = sessionStore.getByUserId(userId)
+    const session = sessionId
+      ? sessionStore.get(sessionId)
+      : sessionStore.getByUserId(userId)
     if (!session) {
       res.status(404).json({ error: 'User not found' })
       return
     }
+
     const user: UserState = {
       id: session.userId,
       isConnected: session.isConnected,
@@ -77,6 +88,26 @@ export function useApiEndpoints(app: Express, io: Server) {
     if (role === 'spectator') {
       const spectator = spectatorStore.new(gameId, userId)
       io.to(gameId).emit('spectatorJoined', { spectator, user })
+      res.status(200).send()
+      return
+    }
+
+    if (role === 'host') {
+      if (!sessionId) return
+      const socket = io.sockets.sockets.get(session.socketId)
+      if (!socket) {
+        res.status(404).json({ error: 'Socket not found' })
+        return
+      }
+      socket.data.sessionId = sessionId
+      socket.data.userId = session.userId
+      socket.data.username = session.username
+      io.to(session.socketId).emit('session', {
+        sessionId,
+        socketId: socket.id,
+        userId: session.userId,
+        username: session.username,
+      })
       res.status(200).send()
       return
     }

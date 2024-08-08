@@ -21,7 +21,16 @@ export function JoinGame() {
 
   const onClickJoinAs = (role: UserRole) => () => {
     setIsJoining(true)
-    if (userId) joinGameAsRole({ gameId: game.id, role, userId })
+    let sessionId = ''
+    if (role === 'host') {
+      const input = prompt('Enter session id to join as host')
+      if (!input) {
+        alert('Session id is required')
+        return
+      }
+      sessionId = input
+    }
+    if (userId) joinGameAsRole({ gameId: game.id, role, sessionId, userId })
   }
 
   if (isJoining) {
@@ -32,6 +41,7 @@ export function JoinGame() {
     <div style={style}>
       <button onClick={onClickJoinAs('contestant')}>Join as Contestant</button>
       <button onClick={onClickJoinAs('spectator')}>Join as Spectator</button>
+      <button onClick={onClickJoinAs('host')}>Join as Host</button>
     </div>
   )
 }
