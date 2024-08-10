@@ -3,7 +3,7 @@ import { sessionStore } from './sessionStore'
 
 export function onConnection(socket: Socket) {
   // Persist session
-  sessionStore.set(socket.data.sessionId, {
+  sessionStore.set({
     isConnected: true,
     sessionId: socket.data.sessionId,
     socketId: socket.id,
@@ -25,7 +25,7 @@ export function onConnection(socket: Socket) {
     const isDisconnected = matchingSockets.size === 0
     if (!isDisconnected) return
     socket.broadcast.emit('userDisconnected', socket.data.userId)
-    sessionStore.set(socket.data.sessionId, {
+    sessionStore.set({
       isConnected: false,
       sessionId: socket.data.sessionId,
       socketId: socket.id,

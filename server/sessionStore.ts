@@ -3,6 +3,7 @@ import type { Session } from './Session'
 export const sessionStore = {
   sessionMap: new Map<string, Session>(),
   indexByUserId: new Map<string, string>(),
+  indexByUsername: new Map<string, string>(),
 
   get(id: string) {
     return this.sessionMap.get(id)
@@ -13,9 +14,16 @@ export const sessionStore = {
     return id ? this.sessionMap.get(id) : null
   },
 
-  set(id: string, session: Session) {
-    this.sessionMap.set(id, session)
-    this.indexByUserId.set(session.userId, id)
+  getByUsername(username: string) {
+    const id = this.indexByUsername.get(username)
+    const session = id ? this.sessionMap.get(id) : null
+    return session || null
+  },
+
+  set(session: Session) {
+    this.sessionMap.set(session.sessionId, session)
+    this.indexByUserId.set(session.userId, session.sessionId)
+    this.indexByUsername.set(session.username, session.sessionId)
   },
 
   getAll() {

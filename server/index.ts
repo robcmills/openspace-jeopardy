@@ -15,6 +15,7 @@ import { join } from 'path'
 import { useApiEndpoints } from './useApiEndpoints'
 import { onLobbyEvents } from './onLobbyEvents'
 import { readFileSync } from 'fs'
+import { useLoginEndpoints } from './useLoginEndpoints'
 
 const IS_PROD = !!process.env.PRODUCTION
 const PORT = IS_PROD ? 443 : 3000
@@ -50,6 +51,7 @@ app.get('/hello', (_, res) => {
 })
 
 useApiEndpoints(app, io)
+useLoginEndpoints(app)
 
 app.use(express.static('../client/dist'))
 
