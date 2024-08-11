@@ -24,7 +24,7 @@ export const gameLoader: LoaderFunction = async ({ params }) => {
   }
   const json = (await response.json()) as GetGameResponse
 
-  if (json.game.state !== params.gameState) {
+  if (params.gameState && json.game.state !== params.gameState) {
     // When host transitions game state, we update the game.state on server
     // If a contestant joins later, via a stale link, we need to redirect
     // them to the correct state

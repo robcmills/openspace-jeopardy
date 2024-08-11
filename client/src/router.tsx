@@ -9,11 +9,18 @@ import { GameRoute } from './GameRoute'
 import { gameLoader } from './gameLoader'
 import { GameRouteError } from './GameRouteError'
 import { LobbyRoute } from './LobbyRoute'
+import { HostRoute } from './HostRoute'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootRoute />} errorElement={<ErrorPage />}>
       <Route path="lobby" element={<LobbyRoute />} />
+      <Route
+        path="games/:gameId/host"
+        element={<HostRoute />}
+        errorElement={<GameRouteError />}
+        loader={gameLoader}
+      />
       <Route
         path="games/:gameId/:gameState"
         element={<GameRoute />}
