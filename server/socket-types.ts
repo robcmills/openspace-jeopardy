@@ -120,7 +120,7 @@ export interface InterServerEvents {
 
 export interface SocketData {
   sessionId: string
-  socketId: string
+  socketIds: string[]
   userId: string
   username: string
 }

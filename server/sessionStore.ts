@@ -5,8 +5,8 @@ export const sessionStore = {
   indexByUserId: new Map<string, string>(),
   indexByUsername: new Map<string, string>(),
 
-  get(id: string) {
-    return this.sessionMap.get(id)
+  get(sessionId: string) {
+    return this.sessionMap.get(sessionId)
   },
 
   getByUserId(userId: string) {
@@ -21,9 +21,19 @@ export const sessionStore = {
   },
 
   set(session: Session) {
-    this.sessionMap.set(session.sessionId, session)
+    const existingSession = this.sessionMap.get(session.sessionId)
+    if (existingSession) {
+      existingSession.socketIds.splice(
+        existingSession.socketIds.length,
+        0,
+        ...session.socketIds,
+      )
+    } else {
+      this.sessionMap.set(session.sessionId, session)
+    }
     this.indexByUserId.set(session.userId, session.sessionId)
     this.indexByUsername.set(session.username, session.sessionId)
+    return existingSession || session
   },
 
   getAll() {

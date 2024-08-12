@@ -208,10 +208,12 @@ export function onGameEvents(socket: Socket, io: Server) {
       return
     }
     // Setting question should not be broadcast to all contestants
-    io.to(host.socketId).emit('setContestantQuestion', {
-      contestantId,
-      question,
-    })
+    for (const socketId of host.socketIds) {
+      io.to(socketId).emit('setContestantQuestion', {
+        contestantId,
+        question,
+      })
+    }
   })
 
   socket.on('setContestantScore', ({ contestantId, gameId, score }) => {
@@ -252,7 +254,9 @@ export function onGameEvents(socket: Socket, io: Server) {
       console.error(`Host not found for hostUserId: ${game.hostUserId}`)
       return
     }
-    io.to(host.socketId).emit('setContestantWager', { contestantId, wager })
+    for (const socketId of host.socketIds) {
+      io.to(socketId).emit('setContestantWager', { contestantId, wager })
+    }
   })
 
   socket.on('setFinalJeopardyState', ({ gameId, state }) => {
@@ -335,9 +339,11 @@ export function onGameEvents(socket: Socket, io: Server) {
       // Send correct response to connected hosts
       const host = sessionStore.getByUserId(game.hostUserId)
       if (host) {
-        io.to(host.socketId).emit('setCorrectResponse', {
-          correctResponse: answer.correctResponse,
-        })
+        for (const socketId of host.socketIds) {
+          io.to(socketId).emit('setCorrectResponse', {
+            correctResponse: answer.correctResponse,
+          })
+        }
       }
     }
 
