@@ -30,6 +30,7 @@ export interface ServerToClientEvents {
   }) => void
   setContestantScore: (data: { contestantId: string; score: number }) => void
   setContestantWager: (data: { contestantId: string; wager: number }) => void
+  setCorrectResponse: (data: { correctResponse: string }) => void
   setFinalJeopardyState: (data: { state: FinalJeopardyState }) => void
   setGameState: (data: { gameId: string; gameState: GameState }) => void
   setTileState: (data: {

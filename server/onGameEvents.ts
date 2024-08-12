@@ -332,6 +332,13 @@ export function onGameEvents(socket: Socket, io: Server) {
     if (answer && ['dailyDouble', 'answer'].includes(nextStep)) {
       newState.answer = answer.answer
       newState.isDailyDouble = answer.isDailyDouble
+      // Send correct response to connected hosts
+      const host = sessionStore.getByUserId(game.hostUserId)
+      if (host) {
+        io.to(host.socketId).emit('setCorrectResponse', {
+          correctResponse: answer.correctResponse,
+        })
+      }
     }
 
     game.tiles[column][row] = newState
@@ -340,6 +347,7 @@ export function onGameEvents(socket: Socket, io: Server) {
       game.activeContestantId = null
       io.to(gameId).emit('setActiveContestant', { contestantId: null })
     }
+
     io.to(gameId).emit('setTileState', { column, row, state: newState })
   })
 

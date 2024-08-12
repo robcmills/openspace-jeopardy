@@ -1,48 +1,43 @@
 import { useEffect, useState } from 'react'
-import { GameState } from './GameState'
 import { absoluteFill, gridCenter } from './styles'
 import { socket } from './socket'
 import { useParams } from 'react-router-dom'
+import { ServerToClientEvents } from '../../server/socket-types'
 
 const mainStyle = {
   ...absoluteFill,
   ...gridCenter,
+  gap: '1rem',
 }
 
 export function HostView() {
   const { gameId } = useParams()
-  const [gameState, setGameState] = useState<GameState>(GameState.Lobby)
+  const [correctResponse, setCorrectResponse] = useState<string | null>(null)
+
+  const setCorrectResponseHandler: ServerToClientEvents['setCorrectResponse'] =
+    ({ correctResponse }) => {
+      console.log(correctResponse)
+      setCorrectResponse(correctResponse)
+    }
 
   useEffect(() => {
     if (gameId) {
       socket.emit('joinGame', { gameId, userRole: 'host' })
     }
-    const setGameStateHandler = ({ gameState }: { gameState: GameState }) => {
-      setGameState(gameState)
-    }
-    socket.on('setGameState', setGameStateHandler)
+    socket.on('setCorrectResponse', setCorrectResponseHandler)
     return () => {
-      socket.off('setGameState', setGameStateHandler)
+      socket.off('setCorrectResponse', setCorrectResponseHandler)
     }
   }, [])
 
-  if (
-    ![
-      GameState.Jeopardy,
-      GameState.DoubleJeopardy,
-      GameState.FinalJeopardy,
-    ].includes(gameState)
-  ) {
-    return (
-      <main style={mainStyle}>
-        <h3>Awaiting clue...</h3>
-      </main>
-    )
-  }
-
-  return (
-    <main style={mainStyle}>
+  const content = correctResponse ? (
+    <>
       <h3>Correct response:</h3>
-    </main>
+      <p>{correctResponse}</p>
+    </>
+  ) : (
+    <h3>Awaiting clue...</h3>
   )
+
+  return <main style={mainStyle}>{content}</main>
 }

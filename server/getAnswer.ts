@@ -12,7 +12,7 @@ type GetAnswerArgs = {
 export function getAnswer({ column, episodeId, round, row }: GetAnswerArgs) {
   if (getAnswerQuery === null) {
     getAnswerQuery = database.prepare(`
-      select isDailyDouble, text from clues
+      select correctResponse, isDailyDouble, text from clues
       where column = $column
       and episodeId = $episodeId
       and round = $round
@@ -24,7 +24,7 @@ export function getAnswer({ column, episodeId, round, row }: GetAnswerArgs) {
     $episodeId: episodeId,
     $round: round,
     $row: row,
-  }) as { isDailyDouble: boolean; text: string }
+  }) as { correctResponse: string; isDailyDouble: boolean; text: string }
 
   if (!clue) {
     console.error(
@@ -33,5 +33,9 @@ export function getAnswer({ column, episodeId, round, row }: GetAnswerArgs) {
     return null
   }
 
-  return { answer: clue.text, isDailyDouble: clue.isDailyDouble }
+  return {
+    answer: clue.text,
+    correctResponse: clue.correctResponse,
+    isDailyDouble: clue.isDailyDouble,
+  }
 }
