@@ -60,12 +60,41 @@ function parseRound(round: number, episodeId: string, $: CheerioAPI) {
   insertClues(clues)
 }
 
-function parseEpisode(id: string) {
-  console.log(`Parsing episode ${id}...`)
-  const html = readFileSync(`data/episodes/${id}.html`, 'utf-8')
+function parseFinalJeopardy(episodeId: string, $: CheerioAPI) {
+  const category = $('.final_round .category_name').text()
+  insertCategories([
+    {
+      column: 0,
+      comments: '',
+      episodeId,
+      id: randomId(),
+      name: category,
+      round: 3,
+    },
+  ])
+  const clue = $('.final_round #clue_FJ').text()
+  const correctResponse = $('.final_round .correct_response').text()
+  insertClues([
+    {
+      column: 1,
+      correctResponse,
+      episodeId,
+      id: randomId(),
+      isDailyDouble: false,
+      round: 3,
+      row: 1,
+      text: clue,
+    },
+  ])
+}
+
+function parseEpisode(episodeId: string) {
+  console.log(`Parsing episode ${episodeId}...`)
+  const html = readFileSync(`data/episodes/${episodeId}.html`, 'utf-8')
   const $ = load(html)
-  parseRound(1, id, $)
-  parseRound(2, id, $)
+  parseRound(1, episodeId, $)
+  parseRound(2, episodeId, $)
+  parseFinalJeopardy(episodeId, $)
 }
 
 export function parseEpisodes() {

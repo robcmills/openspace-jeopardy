@@ -13,10 +13,15 @@
 - duplicate contestants created
 
 
+- final jeopardy auto-submit not working
+
+
 ### Todo
 
+- [ ] Disconnected contestants should not disappear (add an online status indicator)
 - [x] Add eslint and prettier
 - [x] Pull tsconfig into root
+- [x] Scrape final jeopardy clues
 - [ ] Configure aliases to get rid of all relative imports
 - [ ] Implement database backed storage
 - [ ] Add correct response reveal to host controls
