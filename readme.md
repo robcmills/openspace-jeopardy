@@ -18,13 +18,16 @@
 
 ### Todo
 
+- [ ] Pull final jeopardy clues from database
 - [ ] Disconnected contestants should not disappear (add an online status indicator)
 - [x] Add eslint and prettier
 - [x] Pull tsconfig into root
 - [x] Scrape final jeopardy clues
 - [ ] Configure aliases to get rid of all relative imports
 - [ ] Implement database backed storage
-- [ ] Add correct response reveal to host controls
+  - [ ] for games
+  - [ ] for sessions
+- [x] Implement host route for displaying correct responses in a separate window
 - [ ] Prevent negative scores (easy mode)
 - [ ] Add host controls ui for mobile hosts (not just keyboard shortcuts)
   + prev/next game state
@@ -44,13 +47,13 @@
   + [ ] Automate all parts with a script
   + [ ] Record deployed git hash
 - [x] Increase default font size
-- [ ] Encapsulate lobby events in a room
+- [x] Encapsulate lobby events in a room
 - [x] Make GameLayout responsive
 - [ ] Implement winners stage
 - [ ] Clean up logging
-- [ ] Check for username uniqueness
-- [ ] Add eslint
-- [ ] Purge remaining semi-colons
+- [x] Check for username uniqueness
+- [x] Add eslint
+- [x] Purge remaining semi-colons
 - [ ] Clean up clues type
 - [ ] Implement admin api endpoints
 - [ ] Implement mute for all contestants (to avoid echo)

@@ -262,25 +262,34 @@ export function onGameEvents(socket: Socket, io: Server) {
   socket.on('setFinalJeopardyState', ({ gameId, state }) => {
     console.log('setFinalJeopardyState', { gameId, state })
     const game = gameStore.getById(gameId)
-    if (game) {
-      game.finalJeopardy = state
-    } else {
+    if (!game) {
       console.error(`Game not found for gameId: ${gameId}`)
+      return
     }
+    game.finalJeopardy = state
     if (state.step === 'category') {
-      const category = process.env.FINAL_CATEGORY
+      const category = getCategory({
+        column: 0,
+        episodeId: game.episodeId,
+        round: 3,
+      })
       if (!category) {
-        console.error('No FINAL_CATEGORY env var found')
+        console.error('Final Jeopardy category not found')
       } else {
         state.category = category
       }
     }
     if (state.step === 'answer') {
-      const answer = process.env.FINAL_ANSWER
+      const answer = getAnswer({
+        column: 1,
+        episodeId: game.episodeId,
+        row: 1,
+        round: 3,
+      })
       if (!answer) {
-        console.error('No FINAL_ANSWER env var found')
+        console.error('Final Jeopardy answer not found')
       } else {
-        state.answer = answer
+        state.answer = answer.answer
       }
     }
     io.to(gameId).emit('setFinalJeopardyState', { state })
