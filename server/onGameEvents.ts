@@ -290,6 +290,15 @@ export function onGameEvents(socket: Socket, io: Server) {
         console.error('Final Jeopardy answer not found')
       } else {
         state.answer = answer.answer
+        // Send correct response to connected hosts
+        const host = sessionStore.getByUserId(game.hostUserId)
+        if (host) {
+          for (const socketId of host.socketIds) {
+            io.to(socketId).emit('setCorrectResponse', {
+              correctResponse: answer.correctResponse,
+            })
+          }
+        }
       }
     }
     io.to(gameId).emit('setFinalJeopardyState', { state })
