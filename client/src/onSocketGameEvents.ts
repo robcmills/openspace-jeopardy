@@ -172,36 +172,4 @@ export function onSocketGameEvents(socket: SocketClient) {
       },
     }))
   })
-
-  socket.on('userDisconnected', (userId: string) => {
-    console.log('userDisconnected', userId)
-
-    jotaiStore.set(contestantsAtom, (state) => {
-      const contestantsById = { ...state.contestantsById }
-      for (const id in contestantsById) {
-        if (contestantsById[id].userId === userId) {
-          // eslint-disable-next-line
-          delete contestantsById[id]
-        }
-      }
-      return {
-        ...state,
-        contestantsById,
-      }
-    })
-
-    jotaiStore.set(spectatorsAtom, (state) => {
-      const spectatorsById = { ...state.spectatorsById }
-      for (const id in spectatorsById) {
-        if (spectatorsById[id].userId === userId) {
-          // eslint-disable-next-line
-          delete spectatorsById[id]
-        }
-      }
-      return {
-        ...state,
-        spectatorsById,
-      }
-    })
-  })
 }

@@ -1,21 +1,3 @@
-### Bugs
-
-- user logged in on mobile
-- user wagered on daily double
-- host assigned points for correct answer
-- somehow user was disconnected and taken to "join as" page
-- joining as contestant (again) resulted in duplicate contestants with the same name but different scores
-
-- login via an incognito window
-- open another incognito window
-- close that second window
-- rejoin as contestant in first window
-- duplicate contestants created
-
-
-- final jeopardy auto-submit not working
-
-
 ### Todo
 
 - [x] Pull final jeopardy clues from database
@@ -103,3 +85,21 @@
 - [x] Add strictmode
 - [x] Incorrect responses should deactivate contestant
 - [x] Add padding to game board
+
+
+### Bugs
+
+- user logged in on mobile
+- user wagered on daily double
+- host assigned points for correct answer
+- somehow user was disconnected and taken to "join as" page
+- joining as contestant (again) resulted in duplicate contestants with the same name but different scores
+
+- login via an incognito window
+- open another incognito window
+- close that second window
+- rejoin as contestant in first window
+- duplicate contestants created
+
+
+

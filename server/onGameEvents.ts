@@ -71,7 +71,7 @@ export function onGameEvents(socket: Socket, io: Server) {
     }
     const user: UserState = {
       id: session.userId,
-      isConnected: session.isConnected,
+      isConnected: true,
       username: session.username,
     }
 

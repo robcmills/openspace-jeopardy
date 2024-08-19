@@ -2,6 +2,7 @@ import type { Socket } from './Socket'
 import { sessionStore } from './sessionStore'
 
 export function onConnection(socket: Socket) {
+  console.log('onConnection', socket.data)
   // Persist session
   const session = sessionStore.set({
     isConnected: true,
@@ -16,6 +17,12 @@ export function onConnection(socket: Socket) {
     sessionId: session.sessionId,
     socketIds: session.socketIds,
     userId: session.userId,
+    username: session.username,
+  })
+
+  socket.broadcast.emit('userConnected', {
+    isConnected: true,
+    id: session.userId,
     username: session.username,
   })
 

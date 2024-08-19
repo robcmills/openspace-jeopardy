@@ -120,8 +120,6 @@ export function ContestantWagerForm({ contestant }: ContestantWagerFormProps) {
       />
     ) : null
 
-  const max = Math.max(contestant.score, 100)
-
   return (
     <form onSubmit={onSubmit}>
       <div style={containerStyle}>
@@ -132,7 +130,7 @@ export function ContestantWagerForm({ contestant }: ContestantWagerFormProps) {
         <div style={wagerContainerStyle}>
           <input
             disabled={disabled}
-            max={max}
+            max={contestant.score}
             min={0}
             onChange={onChangeWager}
             placeholder="Wager"

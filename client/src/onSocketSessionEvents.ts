@@ -21,6 +21,7 @@ export function onSocketSessionEvents(socket: SocketClient) {
     localStorage.setItem('sessionId', sessionId)
     jotaiStore.set(socketAtom, (state) => ({
       ...state,
+      isConnected: true,
       isSessionEstablished: true,
       sessionId,
       socketId,

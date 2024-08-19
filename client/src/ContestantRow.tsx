@@ -77,8 +77,15 @@ export function ContestantRow(props: ContestantRowProps) {
 
   const isGreen =
     isHost && contestant.question && finalJeopardyState.step !== 'answer'
+  const isRed = !user.isConnected
   const highlightStyle: CSSProperties = {
-    background: isActive ? 'white' : isGreen ? 'green' : DARK_GRAY,
+    background: isActive
+      ? 'white'
+      : isRed
+        ? 'darkred'
+        : isGreen
+          ? 'green'
+          : DARK_GRAY,
     cursor: isHost ? 'pointer' : 'default',
   }
 
