@@ -18,7 +18,7 @@
 
 ### Todo
 
-- [ ] Pull final jeopardy clues from database
+- [x] Pull final jeopardy clues from database
 - [ ] Disconnected contestants should not disappear (add an online status indicator)
 - [x] Add eslint and prettier
 - [x] Pull tsconfig into root

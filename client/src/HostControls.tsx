@@ -40,7 +40,7 @@ export function HostControls() {
     !activeContestant ||
     (!isAnyClueVisible && gameState !== GameState.FinalJeopardy) ||
     (gameState === GameState.FinalJeopardy &&
-      !activeContestant.contestant.wager)
+      activeContestant.contestant.wager < 0)
   ) {
     return null
   }
@@ -74,9 +74,10 @@ export function HostControls() {
     <p>{activeContestant.contestant.question}</p>
   ) : null
 
-  const wager = activeContestant.contestant.wager ? (
-    <p>Wager: ${activeContestant.contestant.wager.toLocaleString()}</p>
-  ) : null
+  const wager =
+    activeContestant.contestant.wager >= 0 ? (
+      <p>Wager: ${activeContestant.contestant.wager.toLocaleString()}</p>
+    ) : null
 
   const controlsStyle: CSSProperties = {
     borderTop: '1px solid white',

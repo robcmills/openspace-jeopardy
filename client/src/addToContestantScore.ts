@@ -38,7 +38,7 @@ export function addToContestantScore(sign: number) {
         const activeClueValue = (rowIndex + 1) * 200 * round * sign
         const newScore =
           activeContestant.score +
-          (activeContestant.wager
+          (activeContestant.wager >= 0
             ? activeContestant.wager * sign
             : activeClueValue)
         jotaiStore.set(contestantsAtom, ({ contestantsById }) => ({

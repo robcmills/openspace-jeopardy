@@ -236,7 +236,7 @@ export function onGameEvents(socket: Socket, io: Server) {
     }
     contestant.wager = wager
     // Resetting wager is fine to broadcast to all contestants
-    if (wager === 0) {
+    if (wager < 0) {
       io.to(contestant.gameId).emit('setContestantWager', {
         contestantId,
         wager,

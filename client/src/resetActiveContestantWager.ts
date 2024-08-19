@@ -6,12 +6,12 @@ import { socket } from './socket'
 
 export function resetActiveContestantWager() {
   const activeContestant = getActiveContestant()
-  if (!activeContestant?.wager) return
+  if (!activeContestant || activeContestant.wager < 0) return
   const game = jotaiStore.get(gameAtom)
   setContestant({
     id: activeContestant.id,
     question: '',
-    wager: 0,
+    wager: -1,
   })
   socket.emit('setContestantQuestion', {
     contestantId: activeContestant.id,
@@ -21,6 +21,6 @@ export function resetActiveContestantWager() {
   socket.emit('setContestantWager', {
     contestantId: activeContestant.id,
     gameId: game.id,
-    wager: 0,
+    wager: -1,
   })
 }

@@ -42,26 +42,26 @@ export function ContestantWagerForm({ contestant }: ContestantWagerFormProps) {
   const setFinalJeopardyState = useSetAtom(finalJeopardyAtom)
 
   const [question, setQuestion] = useState(contestant.question || '')
-  const [wager, setWager] = useState<number | string>(contestant.wager || '')
+  const [wager, setWager] = useState(contestant.wager)
 
-  const disabled = contestant.wager > 0
+  const disabled = contestant.wager >= 0
 
   const onChangeQuestion: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setQuestion(event.target.value)
   }
 
   const onChangeWager: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setWager(event.target.value ? event.target.valueAsNumber : '')
+    setWager(event.target.valueAsNumber)
   }
 
   const submit = () => {
-    if (typeof wager !== 'number') return
+    const submitWager = wager < 0 ? 0 : wager
 
-    setContestant({ id: contestant.id, wager })
+    setContestant({ id: contestant.id, wager: submitWager })
     socket.emit('setContestantWager', {
       contestantId: contestant.id,
       gameId: game.id,
-      wager,
+      wager: submitWager,
     })
 
     if (gameState === GameState.FinalJeopardy) {
@@ -133,13 +133,13 @@ export function ContestantWagerForm({ contestant }: ContestantWagerFormProps) {
           <input
             disabled={disabled}
             max={max}
-            min={100}
+            min={0}
             onChange={onChangeWager}
             placeholder="Wager"
             required
             style={{ width: 'calc(100% - 8px)' }}
             type="number"
-            value={wager}
+            value={wager >= 0 ? wager : ''}
           />
           <button disabled={disabled} type="submit">
             Submit

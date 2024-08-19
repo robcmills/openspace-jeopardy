@@ -12,7 +12,7 @@ export const contestantStore = {
       question: '',
       score: 0,
       userId,
-      wager: 0,
+      wager: -1,
     }
     this.set(contestant)
     return contestant
