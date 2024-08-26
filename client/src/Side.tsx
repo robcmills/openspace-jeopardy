@@ -21,6 +21,10 @@ const sideStyle: CSSProperties = {
   overflow: 'hidden',
 }
 
+const headerStyle: CSSProperties = {
+  overflow: 'hidden',
+}
+
 const scrollStyle: CSSProperties = {
   alignContent: 'start',
   display: 'grid',
@@ -69,7 +73,7 @@ export function Side() {
 
   return (
     <div id="Side" style={sideStyle}>
-      <header>
+      <header style={headerStyle}>
         <h2 style={gameNameStyle} title={game.name}>
           {game.name}
         </h2>

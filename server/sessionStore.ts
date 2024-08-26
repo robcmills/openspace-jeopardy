@@ -22,15 +22,10 @@ export const sessionStore = {
 
   set(session: Session) {
     const existingSession = this.sessionMap.get(session.sessionId)
-    if (existingSession) {
-      existingSession.socketIds.splice(
-        existingSession.socketIds.length,
-        0,
-        ...session.socketIds,
-      )
-    } else {
-      this.sessionMap.set(session.sessionId, session)
-    }
+    this.sessionMap.set(session.sessionId, {
+      ...session,
+      socketIds: [...(existingSession?.socketIds || []), ...session.socketIds],
+    })
     this.indexByUserId.set(session.userId, session.sessionId)
     this.indexByUsername.set(session.username, session.sessionId)
     return existingSession || session

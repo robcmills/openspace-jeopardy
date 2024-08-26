@@ -2,7 +2,7 @@ import type { Socket } from './Socket'
 import { sessionStore } from './sessionStore'
 
 export function onConnection(socket: Socket) {
-  console.log('onConnection', socket.data)
+  console.log('onConnection', { data: socket.data, socketId: socket.id })
   // Persist session
   const session = sessionStore.set({
     isConnected: true,
