@@ -43,18 +43,20 @@ export function ContestantWagerForm({ contestant }: ContestantWagerFormProps) {
 
   const [question, setQuestion] = useState(contestant.question || '')
   const [wager, setWager] = useState(contestant.wager)
-
-  const disabled = contestant.wager >= 0
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   const onChangeQuestion: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setQuestion(event.target.value)
+    setIsSubmitted(false)
   }
 
   const onChangeWager: ChangeEventHandler<HTMLInputElement> = (event) => {
     setWager(event.target.valueAsNumber)
+    setIsSubmitted(false)
   }
 
   const submit = () => {
+    setIsSubmitted(true)
     const submitWager = wager < 0 ? 0 : wager
 
     setContestant({ id: contestant.id, wager: submitWager })
@@ -112,7 +114,6 @@ export function ContestantWagerForm({ contestant }: ContestantWagerFormProps) {
   const questionInput =
     gameState === GameState.FinalJeopardy ? (
       <textarea
-        disabled={disabled}
         onChange={onChangeQuestion}
         placeholder="Question"
         required
@@ -129,7 +130,6 @@ export function ContestantWagerForm({ contestant }: ContestantWagerFormProps) {
         {questionInput}
         <div style={wagerContainerStyle}>
           <input
-            disabled={disabled}
             max={contestant.score}
             min={0}
             onChange={onChangeWager}
@@ -139,8 +139,8 @@ export function ContestantWagerForm({ contestant }: ContestantWagerFormProps) {
             type="number"
             value={wager >= 0 ? wager : ''}
           />
-          <button disabled={disabled} type="submit">
-            Submit
+          <button disabled={isSubmitted} type="submit">
+            {isSubmitted ? 'Submitted' : 'Submit'}
           </button>
         </div>
       </div>

@@ -1,5 +1,7 @@
 ### Todo
 
+- [x] Fix disabled final jeopardy response inputs
+- [ ] Implement automatic activation of previous active contestant in case player answers incorrectly
 - [x] Pull final jeopardy clues from database
 - [x] Disconnected contestants should not disappear (add an online status indicator)
 - [x] Add eslint and prettier
@@ -39,7 +41,6 @@
 - [ ] Clean up clues type
 - [ ] Implement admin api endpoints
 - [ ] Implement mute for all contestants (to avoid echo)
-- [ ] Implement automatic activation of previous active contestant in case player answers incorrectly
 - [ ] Refactor contestantsAtom to use an atom per contestant instead of one atom for all contestants
 - [ ] Implement ability to change username
 - [ ] Fix pan categories in Safari
