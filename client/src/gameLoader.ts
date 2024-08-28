@@ -14,6 +14,7 @@ import { tilesAtoms } from './tilesAtoms'
 import { categoriesAtoms } from './categoriesAtoms'
 import { finalJeopardyAtom } from './finalJeopardyAtom'
 import { activeContestantAtom } from './activeContestantAtom'
+import { previousActiveContestantAtom } from './previousActiveContestantAtom'
 
 export const gameLoader: LoaderFunction = async ({ params }) => {
   console.log('gameLoader', params)
@@ -39,6 +40,10 @@ export const gameLoader: LoaderFunction = async ({ params }) => {
   jotaiStore.set(gameAtom, clientGame)
 
   jotaiStore.set(activeContestantAtom, json.game.activeContestantId)
+  jotaiStore.set(
+    previousActiveContestantAtom,
+    json.game.previousActiveContestantId,
+  )
 
   for (let column = 0; column < 6; column++) {
     jotaiStore.set(categoriesAtoms[column], json.game.categories[column])

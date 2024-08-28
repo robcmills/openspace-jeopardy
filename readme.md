@@ -1,7 +1,8 @@
 ### Todo
 
+- [ ] Style buzzer button
 - [x] Fix disabled final jeopardy response inputs
-- [ ] Implement automatic activation of previous active contestant in case player answers incorrectly
+- [x] Implement automatic activation of previous active contestant in case of incorrect response
 - [x] Pull final jeopardy clues from database
 - [x] Disconnected contestants should not disappear (add an online status indicator)
 - [x] Add eslint and prettier

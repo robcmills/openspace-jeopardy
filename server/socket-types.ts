@@ -104,6 +104,10 @@ export interface ClientToServerEvents {
     },
     callback: () => void,
   ) => void
+  setPreviousActiveContestant: (data: {
+    contestantId: string
+    gameId: string
+  }) => void
   setTileState: (data: {
     column: number
     gameId: string

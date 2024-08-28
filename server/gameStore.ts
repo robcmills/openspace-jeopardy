@@ -16,6 +16,7 @@ export const gameStore = {
       id: randomId(),
       hostUserId,
       name,
+      previousActiveContestantId: null,
       state: GameState.Lobby,
       tiles: initialTilesState,
     }

@@ -2,6 +2,7 @@ import { jotaiStore } from './jotaiStore'
 import fill from './assets/board-fill.mp3'
 import { contestantsAtom } from './contestantsAtom'
 import { activeContestantAtom } from './activeContestantAtom'
+import { previousActiveContestantAtom } from './previousActiveContestantAtom'
 
 const audio = new Audio(fill)
 
@@ -36,6 +37,7 @@ export function activateRandomContestant(finalContestantId: string) {
       clearInterval(interval)
       setTimeout(() => {
         jotaiStore.set(activeContestantAtom, finalContestantId)
+        jotaiStore.set(previousActiveContestantAtom, finalContestantId)
       }, ACTIVATE_INTERVAL)
     }
   }, ACTIVATE_INTERVAL)

@@ -12,6 +12,7 @@ import { setActiveContestant } from './setActiveContestant'
 import { getActiveClue } from './getActiveClue'
 import { clearTimer, restartTimer } from './timerActions'
 import { resetActiveContestantWager } from './resetActiveContestantWager'
+import { setPreviousActiveContestant } from './setPreviousActiveContestant'
 
 const buttonsStyle: CSSProperties = {
   display: 'grid',
@@ -51,23 +52,26 @@ export function HostControls() {
     resetActiveContestantWager()
     clearTimer()
     socket.emit('clearTimer', { gameId: game.id })
+    setPreviousActiveContestant(activeContestant.contestant.id)
+    socket.emit('setPreviousActiveContestant', {
+      contestantId: activeContestant.contestant.id,
+      gameId: game.id,
+    })
     if (gameState === GameState.FinalJeopardy) setActiveContestant(null)
   }
 
   const onClickIncorrect = () => {
     addToContestantScore(-1)
     resetActiveContestantWager()
+    setActiveContestant(null)
+    if (gameState === GameState.FinalJeopardy) return
     if (getActiveClue()?.isDailyDouble) {
-      closeActiveClue()
       clearTimer()
       socket.emit('clearTimer', { gameId: game.id })
     } else {
-      setActiveContestant(null)
-      if (gameState === GameState.FinalJeopardy) return
       restartTimer()
       socket.emit('restartTimer', { gameId: game.id })
     }
-    if (gameState === GameState.FinalJeopardy) setActiveContestant(null)
   }
 
   const question = activeContestant.contestant.question ? (

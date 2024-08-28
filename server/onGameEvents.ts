@@ -18,6 +18,7 @@ export function onGameEvents(socket: Socket, io: Server) {
     const game = gameStore.getById(gameId)
     if (game) {
       game.activeContestantId = contestantId
+      game.previousActiveContestantId = contestantId
     } else {
       console.error(`Game not found for gameId: ${gameId}`)
     }
@@ -316,6 +317,16 @@ export function onGameEvents(socket: Socket, io: Server) {
     io.to(gameId).emit('setGameState', { gameId, gameState })
   })
 
+  socket.on('setPreviousActiveContestant', ({ contestantId, gameId }) => {
+    console.log('setPreviousActiveContestant', { contestantId, gameId })
+    const game = gameStore.getById(gameId)
+    if (!game) {
+      console.error(`Game not found for gameId: ${gameId}`)
+      return
+    }
+    game.previousActiveContestantId = contestantId
+  })
+
   socket.on('cycleTileState', ({ gameId, column, row }) => {
     console.log('cycleTileState', { gameId, column, row })
     const game = gameStore.getById(gameId)
@@ -370,6 +381,17 @@ export function onGameEvents(socket: Socket, io: Server) {
     if (nextStep === 'answer' && oldState.step !== 'dailyDouble') {
       game.activeContestantId = null
       io.to(gameId).emit('setActiveContestant', { contestantId: null })
+    }
+
+    if (
+      nextStep === 'blank' &&
+      !game.activeContestantId &&
+      game.previousActiveContestantId !== null
+    ) {
+      game.activeContestantId = game.previousActiveContestantId
+      io.to(gameId).emit('setActiveContestant', {
+        contestantId: game.previousActiveContestantId,
+      })
     }
 
     io.to(gameId).emit('setTileState', { column, row, state: newState })

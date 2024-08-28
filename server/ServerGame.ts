@@ -11,6 +11,7 @@ export type ServerGame = {
   id: string
   hostUserId: string
   name: string
+  previousActiveContestantId: string | null
   state: GameState
   tiles: TilesState
 }
