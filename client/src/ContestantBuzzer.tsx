@@ -17,21 +17,6 @@ const buzzerContainerStyle: CSSProperties = {
   position: 'relative',
 }
 
-const lightContainerStyle: CSSProperties = {
-  display: 'grid',
-  placeItems: 'center',
-  position: 'absolute',
-  left: '50%',
-  top: '50%',
-}
-
-const buttonStyle: CSSProperties = {
-  borderRadius: 25,
-  cursor: 'pointer',
-  height: 50,
-  width: 100,
-}
-
 export function ContestantBuzzer() {
   const contestant = useContestant()
   const { color } = useContestantControlsSignal()
@@ -69,20 +54,16 @@ export function ContestantBuzzer() {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])
 
-  const lightStyle: CSSProperties = {
+  const buttonStyle: CSSProperties = {
     backgroundColor: disabled ? 'red' : color,
-    borderRadius: 16,
-    height: 32,
-    marginLeft: -150,
-    transform: 'translate(-50%, -50%)',
-    width: 32,
+    borderRadius: 25,
+    cursor: 'pointer',
+    height: 50,
+    width: 50,
   }
 
   return (
     <div style={buzzerContainerStyle}>
-      <div style={lightContainerStyle}>
-        <span style={lightStyle}></span>
-      </div>
       <button
         className="buzzer"
         disabled={disabled}

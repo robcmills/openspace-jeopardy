@@ -1,6 +1,7 @@
 ### Todo
 
-- [ ] Style buzzer button
+- [x] Style buzzer button
+- [ ] Ability for host to edit scores
 - [x] Fix disabled final jeopardy response inputs
 - [x] Implement automatic activation of previous active contestant in case of incorrect response
 - [x] Pull final jeopardy clues from database

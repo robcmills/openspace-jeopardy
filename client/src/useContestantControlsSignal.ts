@@ -12,7 +12,7 @@ export function useContestantControlsSignal() {
   const contestantId = contestant?.contestant.id
   const isActive = activeContestantId === contestantId
 
-  let color = 'yellow'
+  let color = 'orange'
   if (isActive) {
     color = 'white'
   } else if (activeContestantId === null && isAnyClueVisible) {
