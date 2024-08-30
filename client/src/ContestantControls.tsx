@@ -20,18 +20,14 @@ export function ContestantControls() {
 
   if (!contestant) return null
 
-  if (
-    (isDailyDouble && isActiveContestant) ||
-    (contestant?.contestant.wager >= 0 && !contestant?.contestant.question)
-  ) {
-    return <ContestantWagerForm contestant={contestant.contestant} />
+  if (gameState === GameState.FinalJeopardy) {
+    return finalJeopardyState.step === 'answer' ? (
+      <ContestantWagerForm contestant={contestant.contestant} />
+    ) : null
   }
 
-  if (gameState === GameState.FinalJeopardy) {
-    if (finalJeopardyState.step === 'answer') {
-      return <ContestantWagerForm contestant={contestant.contestant} />
-    }
-    return null
+  if (isDailyDouble && isActiveContestant) {
+    return <ContestantWagerForm contestant={contestant.contestant} />
   }
 
   return <ContestantBuzzer />

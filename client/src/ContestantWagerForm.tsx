@@ -57,7 +57,7 @@ export function ContestantWagerForm({ contestant }: ContestantWagerFormProps) {
 
   const submit = () => {
     setIsSubmitted(true)
-    const submitWager = wager < 0 ? 0 : wager
+    const submitWager = wager < 0 || !wager ? 0 : wager
 
     setContestant({ id: contestant.id, wager: submitWager })
     socket.emit('setContestantWager', {

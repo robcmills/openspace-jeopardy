@@ -1,5 +1,7 @@
 ### Todo
 
+- [ ] Add custom favicon
+- [ ] Host timer expiration should disable all contestant buzzers
 - [x] Style buzzer button
 - [ ] Ability for host to edit scores
 - [x] Fix disabled final jeopardy response inputs
@@ -92,17 +94,20 @@
 
 ### Bugs
 
-- user logged in on mobile
-- user wagered on daily double
-- host assigned points for correct answer
-- somehow user was disconnected and taken to "join as" page
-- joining as contestant (again) resulted in duplicate contestants with the same name but different scores
+- final jeopardy empty wager that is auto-submitted causes an error
 
-- login via an incognito window
-- open another incognito window
-- close that second window
-- rejoin as contestant in first window
-- duplicate contestants created
+- double login
+  + user logged in on mobile
+  + user wagered on daily double
+  + host assigned points for correct answer
+  + somehow user was disconnected and taken to "join as" page
+  + joining as contestant (again) resulted in duplicate contestants with the same name but different scores
+
+  + login via an incognito window
+  + open another incognito window
+  + close that second window
+  + rejoin as contestant in first window
+  + duplicate contestants created
 
 
 
