@@ -1,6 +1,6 @@
 ### Todo
 
-- [ ] Add custom favicon
+- [x] Add custom favicon
 - [ ] Host timer expiration should disable all contestant buzzers
 - [x] Style buzzer button
 - [ ] Ability for host to edit scores
@@ -94,9 +94,8 @@
 
 ### Bugs
 
-- final jeopardy empty wager that is auto-submitted causes an error
-
-- double login
+- [x] final jeopardy empty wager that is auto-submitted causes an error
+- [ ] double login
   + user logged in on mobile
   + user wagered on daily double
   + host assigned points for correct answer
