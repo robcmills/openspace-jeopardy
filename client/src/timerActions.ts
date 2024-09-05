@@ -4,7 +4,7 @@ import timerMp3 from './assets/timer-end.mp3'
 
 const timerAudio = new Audio(timerMp3)
 
-let interval: NodeJS.Timeout | null = null
+let interval: Timer | null = null
 
 export function clearTimer() {
   if (interval) {
@@ -32,7 +32,7 @@ export function toggleTimer() {
     const nextValue = timerValue - 1
     if (nextValue === 0) {
       timerAudio.play()
-      clearInterval(interval as NodeJS.Timeout)
+      if (interval) clearInterval(interval)
       interval = null
     }
     jotaiStore.set(timerAtom, nextValue)

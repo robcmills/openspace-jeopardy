@@ -1,112 +1,86 @@
-### Todo
+## How to Play
 
-- [x] Add custom favicon
-- [ ] Host timer expiration should disable all contestant buzzers
-- [x] Style buzzer button
-- [ ] Ability for host to edit scores
-- [x] Fix disabled final jeopardy response inputs
-- [x] Implement automatic activation of previous active contestant in case of incorrect response
-- [x] Pull final jeopardy clues from database
-- [x] Disconnected contestants should not disappear (add an online status indicator)
-- [x] Add eslint and prettier
-- [x] Pull tsconfig into root
-- [x] Scrape final jeopardy clues
-- [ ] Configure aliases to get rid of all relative imports
-- [ ] Implement database backed storage
-  - [ ] for games
-  - [ ] for sessions
-- [x] Implement host route for displaying correct responses in a separate window
-- [ ] Prevent negative scores (easy mode)
-- [ ] Add host controls ui for mobile hosts (not just keyboard shortcuts)
-  + prev/next game state
-  + toggle timer
-  + reveal money tiles
-  + activate random contestant
-  + zoom in/out categories
-  + pan categories
-- [x] setContestantQuestion should not broadcast to all contestants
-- [x] Implement final jeopardy scoring state
-- [x] Fix sidebar css scroll
-- [x] Implement scroll-to-active contestant if not visible
-- [x] Widen gap between "join as contestant" and "join as spectator" buttons
-- [x] Widen gap between contestants and spectators in sidebar
-- [ ] Make audio controls smaller (for mobile)
-- [ ] Improve deployment process
-  + [ ] Automate all parts with a script
-  + [ ] Record deployed git hash
-- [x] Increase default font size
-- [x] Encapsulate lobby events in a room
-- [x] Make GameLayout responsive
-- [ ] Implement winners stage
-- [ ] Clean up logging
-- [x] Check for username uniqueness
-- [x] Add eslint
-- [x] Purge remaining semi-colons
-- [ ] Clean up clues type
-- [ ] Implement admin api endpoints
-- [ ] Implement mute for all contestants (to avoid echo)
-- [ ] Refactor contestantsAtom to use an atom per contestant instead of one atom for all contestants
-- [ ] Implement ability to change username
-- [ ] Fix pan categories in Safari
-- [x] Fix final jeopardy logo img in landscape container
-- [x] Implement keyboard shortcuts for contestants (space for buzzer)
-- [x] Improve login page
-- [x] Spectators
-- [x] Don't use useGameRouteData-refactor to use atoms
-- [x] First game state should be splash screen with music and side bar
-- [x] Implement socket events to handle game state transitions and playing video
-- [x] Implement socket events for all host actions
-  + [x] categories zoom in/out/pan/reveal
-  + [x] clues zoom in/out/reveal
-  + [x] final jeopardy
-  + [x] make random contestant active (with reveal sound)
-  + [x] awarding points (jeopardy, double jeopardy)
-  + [x] awarding points (daily double)
-  + [x] awarding points (final jeopardy)
-  + [x] incorrect answer behavior
-- [x] Implement score board
-  + [x] Sort by score then name
-- [x] Implement contestant controls
-  + [x] buzzer
-  + [x] wager (daily double)
-  + [x] wager and answer (final jeopardy)
-  + [x] answer timer (with sound effect)
-  + [x] reset timer when contestant buzzes in
-- [x] When joining a game, sync gameState from host (in case not lobby)
-- [x] Store all game state on server and sync with clients on connection
-- [x] Implement socket events for all contestant actions
-- [x] Disable all actions for non-hosts
-- [x] Remove transition when closing clues
-- [x] Ellipsify long names
-- [x] Make jeopardy round visually distinct from double jeopardy
-- [x] Implement GameLayout
-- [x] Join as contestant 
-- [x] Join as spectator
-- [x] Move css into inline styles to be consistent
-- [x] Combine gameState and setGameState hooks
-- [x] Remove clues from src and load from env variable
-- [x] Disable or hide disconnected contestants
-- [x] Implement ability for host to set active player
-- [x] Add strictmode
-- [x] Incorrect responses should deactivate contestant
-- [x] Add padding to game board
+### Setup
 
+- Host creates a new game in https://jeopardyweb.app/lobby
+- Host selects an episode from j-archive.com
+  + Episode ids are shown as a game_id query param in j-archive
+  + Example: https://j-archive.com/showgame.php?game_id=1234
+  + Host screens episode questions for appropriate content
+  + Some episodes may be missing questions or require missing visual/audio/video clues
+- Host joins the same game from another device or in another window
+  + Host must login with the same username
+  + If joining from another device or browser, they will be prompted to enter their session id, which can be found in localStorage
+  + Host visits /games/{game_id}/host route to see correct responses to all clues
+- Host creates a video call and invites contestants
+- Host sends the game url to contestants
+  + /games/{game_id}/lobby
+- Host waits for all contestants to join video call and game lobby
 
-### Bugs
+### Game Play
 
-- [x] final jeopardy empty wager that is auto-submitted causes an error
-- [ ] double login
-  + user logged in on mobile
-  + user wagered on daily double
-  + host assigned points for correct answer
-  + somehow user was disconnected and taken to "join as" page
-  + joining as contestant (again) resulted in duplicate contestants with the same name but different scores
+- Host starts the game by advancing to the next game state (video intro)
+  + Host can do this by pressing "n" key
+  + /games/{game_id}/video
+  + Once video finishes, game state automatically advances to the next state (jeopardy round)
+- Host welcomes contestants and explains the rules
+- Host reveals the money values on the board by pressing the "v" key (reVeal)
+- Host reveals the categories one-by-one
+  + press the "c" key will zoom in on the first category
+  + click on each category to reveal it and read aloud
+  + press the right arrow key to advance to the next category
+  + after revealing last category, press the "shift + c" key to zoom out
+- Host randomly selects a contestant to go first by pressing the "a" key (Activate)
+- Note the white square in the contestants list to indicate the active contestant
 
-  + login via an incognito window
-  + open another incognito window
-  + close that second window
-  + rejoin as contestant in first window
-  + duplicate contestants created
+### Clues
 
+- The active contestant chooses a category and value for the next question and tells the host
+- Host reveals the clue by clicking on the tile and all contestant buzzers are enabled (green)
+- The first contestant to buzz in by clicking their buzzer button in the bottom right or pressing the space bar becomes the active contestant
+- Host reads the clue aloud
+- Once clue has been read
+  + if there is an active contestant
+    * host prompts for an answer by speaking that contestants name 
+    * then starts the contestant timer by pressing spacebar
+    * contestant has 5 seconds to respond
+    * if the contestant responds correctly, host awards points by clicking the correct button (✓), and play continues with that contestant choosing the next category and value
+    * if the contestant responds incorrectly or their timer runs out, host detracts points by clicking the incorrect button (x), the host timer is automatically started, and any contestant can buzz in to become the active contestant and respond.
+    * if no contestant buzzes in after an incorrect response, and the host timer runs out, host speaks correct response orally to all and play continues with the previous active contestant choosing the next category and value (activated automatically by closing the clue)
+  + if there is no active contestant
+    * host starts the host timer by pressing spacebar
+    * if any contestant buzzes in and becomes active, host prompts for an answer by speaking that contestants name and starts the contestant timer
+    * if no contestant buzzes in and host timer expires, host speaks correct response orally to all and play continues with the previous active contestant choosing the next category and value (activated automatically by closing the clue)
 
+### Daily Double
+
+- When a contestant chooses a clue that is a daily double
+  + contestant must wager none, some or all of their current score
+  + as soon as contestant submits their wager, clue is automatically revealed
+  + host reads the clue aloud and starts the contestant timer
+  + active contestant must respond within 5 seconds
+  + if the contestant responds correctly, host awards the wagered points by clicking the correct button (✓)
+  + if the contestant responds incorrectly or their timer runs out, host detracts the wagered points by clicking the incorrect button (x)
+  + play continues with the active contestant choosing the next category and value
+
+### Double Jeopardy
+
+- Once all clues have been revealed in the jeopardy round, host advances to the double jeopardy round
+- Game play is the same as first round, but all clues are worth double the money and there are two daily doubles
+
+### Final Jeopardy
+
+- When all clues have been revealed, host advances to the final jeopardy round
+- Host reveals the final jeopardy category by clicking on the tile
+- Host reveals the final jeopardy clue by clicking on the tile
+- Host reads the clue aloud, and then starts the 30 second music clip
+- Contestants must enter their response and wager in the input fields
+- Contestants must wager none, some or all of their current score
+- Once the 30 second music clip finishes, host cycles final jeopardy state back to logo
+- Contestants that submitted a response and wager are shown with a green block next to their name
+- Host starts with the lowest scoring contestant and reveals their response and wager by clicking on the green block
+- If their response is correct, host awards the wagered points
+- If their response is incorrect, host detracts the wagered points
+- Host continues revealing responses and wagers for each contestant and awarding or detracting points
+- Once all responses have been revealed and points awarded or detracted, game is finished
 
