@@ -1,5 +1,7 @@
 ### Todo
 
+- [ ] Add sound effects to correct/incorrect buttons
+- [x] Fix final jeopardy font size
 - [x] Add custom favicon
 - [x] Style buzzer button
 - [ ] Ability for host to edit scores

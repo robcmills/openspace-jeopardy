@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useRef } from 'react'
+import { CSSProperties, useEffect, useRef, useState } from 'react'
 import finalJeopardySrc from './assets/final-jeopardy.jpg'
 import { BLUE_BACKGROUND } from './colors'
 import finalJeopardyTheme from './assets/final-jeopardy-theme.mp3'
@@ -17,6 +17,8 @@ export function FinalJeopardy() {
   const [state, setState] = useAtom(finalJeopardyAtom)
 
   const audioRef = useRef<HTMLAudioElement>(null)
+  const [containerElement, setContainerElement] =
+    useState<HTMLDivElement | null>(null)
 
   const cycle = () => {
     if (!isHost) return
@@ -64,11 +66,14 @@ export function FinalJeopardy() {
 
   const logo = <img src={finalJeopardySrc} style={imgStyle} />
 
+  const containerRect = containerElement?.getBoundingClientRect()
+  const fontSize = `${containerRect ? containerRect.width / 20 : 24}px`
+
   const style: CSSProperties = {
     ...typography,
     background: BLUE_BACKGROUND,
     display: 'grid',
-    fontSize: '18px',
+    fontSize,
     padding: '1rem',
     placeItems: 'center',
   }
@@ -97,7 +102,7 @@ export function FinalJeopardy() {
   }[state.step]
 
   const left = (
-    <div onClick={cycle} style={containerStyle}>
+    <div onClick={cycle} ref={setContainerElement} style={containerStyle}>
       {node}
     </div>
   )
