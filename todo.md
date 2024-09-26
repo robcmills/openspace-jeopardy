@@ -1,6 +1,11 @@
 ### Todo
 
-- [ ] Add sound effects to correct/incorrect buttons
+- [x] Delay enabling buzzer until after clue has been read
+- [ ] Add category and clue text to host view
+- [ ] Media clues
+- [ ] Scrub questions for (parens content)
+- [ ] Handle triple jeopardy rounds
+- [ ] Add sound effects to correct/incorrect buttons?
 - [x] Fix final jeopardy font size
 - [x] Add custom favicon
 - [x] Style buzzer button
