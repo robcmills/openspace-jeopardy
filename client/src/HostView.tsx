@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { CSSProperties, useEffect, useState } from 'react'
 import { absoluteFill, gridCenter } from './styles'
 import { socket } from './socket'
 import { useParams } from 'react-router-dom'
 import { ServerToClientEvents } from '../../server/socket-types'
 import { useActiveClue } from './useActiveClue'
+import { getActiveCategory } from './getActiveCategory'
 
-const mainStyle = {
+const mainStyle: CSSProperties = {
   ...absoluteFill,
   ...gridCenter,
   gap: '1rem',
@@ -34,10 +35,13 @@ export function HostView() {
     }
   }, [])
 
+  const category = getActiveCategory()
   const clue = activeClue?.answer
 
   const content = correctResponse ? (
     <>
+      <h3>Category:</h3>
+      <p>{category}</p>
       <h3>Clue:</h3>
       <p>{clue}</p>
       <h3>Correct response:</h3>
