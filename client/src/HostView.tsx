@@ -3,15 +3,19 @@ import { absoluteFill, gridCenter } from './styles'
 import { socket } from './socket'
 import { useParams } from 'react-router-dom'
 import { ServerToClientEvents } from '../../server/socket-types'
+import { useActiveClue } from './useActiveClue'
 
 const mainStyle = {
   ...absoluteFill,
   ...gridCenter,
   gap: '1rem',
+  padding: '1rem',
+  textAlign: 'center',
 }
 
 export function HostView() {
   const { gameId } = useParams()
+  const activeClue = useActiveClue()
   const [correctResponse, setCorrectResponse] = useState<string | null>(null)
 
   const setCorrectResponseHandler: ServerToClientEvents['setCorrectResponse'] =
@@ -30,8 +34,12 @@ export function HostView() {
     }
   }, [])
 
+  const clue = activeClue?.answer
+
   const content = correctResponse ? (
     <>
+      <h3>Clue:</h3>
+      <p>{clue}</p>
       <h3>Correct response:</h3>
       <p>{correctResponse}</p>
     </>
