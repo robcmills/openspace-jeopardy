@@ -1,3 +1,5 @@
+<img src="client/src/assets/jeopardy-logo.png" width="50%" />
+
 ## How to Play
 
 ### Setup
