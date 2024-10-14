@@ -1,5 +1,11 @@
 <img src="client/src/assets/jeopardy-logo.png" width="50%" />
 
+Jeopardy web app is a web-based implementation of the [Jeopardy!](https://en.wikipedia.org/wiki/Jeopardy!) game.
+Free to play, open-source, no adds and multiplayer.
+It is designed to be played with friends, family, or colleagues on a video call, in addition to the web app.
+
+Thanks to [j-archive.com](https://j-archive.com/) for the episode questions and clues.
+
 ## How to Play
 
 ### Setup
@@ -13,17 +19,17 @@
 - Host joins the same game from another device or in another window
   + Host must login with the same username
   + If joining from another device or browser, they will be prompted to enter their session id, which can be found in localStorage
-  + Host visits /games/{game_id}/host route to see correct responses to all clues
+  + Host visits `/games/{game_id}/host` route to see correct responses to all clues
 - Host creates a video call and invites contestants
 - Host sends the game url to contestants
-  + /games/{game_id}/lobby
+  + `/games/{game_id}/lobby`
 - Host waits for all contestants to join video call and game lobby
 
 ### Game Play
 
 - Host starts the game by advancing to the next game state (video intro)
   + Host can do this by pressing "n" key
-  + /games/{game_id}/video
+  + `/games/{game_id}/video`
   + Once video finishes, game state automatically advances to the next state (jeopardy round)
 - Host welcomes contestants and explains the rules
 - Host reveals the money values on the board by pressing the "v" key (reVeal)
@@ -37,21 +43,23 @@
 
 ### Clues
 
-- The active contestant chooses a category and value for the next question and tells the host
-- Host reveals the clue by clicking on the tile and all contestant buzzers are enabled (green)
-- The first contestant to buzz in by clicking their buzzer button in the bottom right or pressing the space bar becomes the active contestant
-- Host reads the clue aloud
+- The active contestant chooses a category and value for the next question and tells the host.
+- Host reveals the clue by clicking on the tile.
+- Host reads the clue aloud.
+- While the clue is being read, all contestant buzzers are not yet enabled (orange).
+- Once host finishes reading the clue, they will start the host timer by pressing spacebar.
+- Once the host timer starts, all contestant buzzers are enabled (green).
+- If contestants buzz in before buzzers are enabled, they will be penalized with a 500ms timeout. Their buzzer will turn red and be disabled for 500ms, after which it will become enabled again and turn green. This discourages button mashing.
+- The first contestant to buzz in by clicking their buzzer button in the bottom right or pressing the space bar becomes the active contestant.
 - Once clue has been read
   + if there is an active contestant
     * host prompts for an answer by speaking that contestants name 
-    * then starts the contestant timer by pressing spacebar
+    * host then starts the contestant timer by pressing spacebar
     * contestant has 5 seconds to respond
     * if the contestant responds correctly, host awards points by clicking the correct button (✓), and play continues with that contestant choosing the next category and value
     * if the contestant responds incorrectly or their timer runs out, host detracts points by clicking the incorrect button (x), the host timer is automatically started, and any contestant can buzz in to become the active contestant and respond.
     * if no contestant buzzes in after an incorrect response, and the host timer runs out, host speaks correct response orally to all and play continues with the previous active contestant choosing the next category and value (activated automatically by closing the clue)
   + if there is no active contestant
-    * host starts the host timer by pressing spacebar
-    * if any contestant buzzes in and becomes active, host prompts for an answer by speaking that contestants name and starts the contestant timer
     * if no contestant buzzes in and host timer expires, host speaks correct response orally to all and play continues with the previous active contestant choosing the next category and value (activated automatically by closing the clue)
 
 ### Daily Double
