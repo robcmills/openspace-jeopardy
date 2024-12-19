@@ -1,5 +1,6 @@
 ### Todo
 
+- [ ] Fix daily double bug when contestant has negative score
 - [x] Delay enabling buzzer until after clue has been read
 - [ ] Add category and clue text to host view
 - [ ] Media clues

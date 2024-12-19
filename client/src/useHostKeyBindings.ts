@@ -1,25 +1,27 @@
-import { useCallback, useEffect } from 'react'
 import { GameState } from './GameState'
-import { revealTiles } from './revealTiles'
-import { resetTiles } from './resetTiles'
-import { zoomInCategories, zoomOutCategories } from './zoomCategories'
-import { panCategories } from './panCategories'
-import { getNextGameState } from './getNextGameState'
-import { useGameState } from './useGameState'
-import { getPreviousGameState } from './getPreviousGameState'
-import { useIsHost } from './useIsHost'
-import { socket } from './socket'
-import { useAtomValue } from 'jotai'
-import { gameAtom } from './gameAtom'
 import { activateRandomContestant } from './activateRandomContestant'
+import { gameAtom } from './gameAtom'
+import { getNextGameState } from './getNextGameState'
+import { getPreviousGameState } from './getPreviousGameState'
 import { getRandomContestantId } from './getRandomContestantId'
+import { panCategories } from './panCategories'
+import { resetTiles } from './resetTiles'
+import { revealTiles } from './revealTiles'
 import { setActiveContestant } from './setActiveContestant'
+import { socket } from './socket'
 import { toggleTimer } from './timerActions'
+import { useAtomValue } from 'jotai'
+import { useCallback, useEffect } from 'react'
+import { useCycleGameState } from './useCycleGameState'
+import { useGameState } from './useGameState'
+import { useIsHost } from './useIsHost'
+import { zoomInCategories, zoomOutCategories } from './zoomCategories'
 
 const SPACE_KEY_CODE = 32
 
 export function useHostKeyBindings() {
-  const { gameState, setGameState } = useGameState()
+  const { gameState } = useGameState()
+  const cycleGameState = useCycleGameState()
   const game = useAtomValue(gameAtom)
   const isHost = useIsHost()
 
@@ -30,19 +32,9 @@ export function useHostKeyBindings() {
       if (event.key === 'r') {
         window.location.reload()
       } else if (event.key === 'n') {
-        // Next game state
-        socket.emit('resetTiles', { gameId: game.id })
-        const nextGameState = getNextGameState(gameState)
-        setGameState(nextGameState)
-        if (nextGameState === GameState.FinalJeopardy) {
-          setActiveContestant(null)
-        }
+        cycleGameState('next')
       } else if (event.key === 'p') {
-        // Previous game state
-        resetTiles()
-        socket.emit('resetTiles', { gameId: game.id })
-        const previousGameState = getPreviousGameState(gameState)
-        setGameState(previousGameState)
+        cycleGameState('previous')
       } else if (
         event.keyCode === SPACE_KEY_CODE &&
         [GameState.Jeopardy, GameState.DoubleJeopardy].includes(gameState)

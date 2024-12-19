@@ -59,17 +59,13 @@ export function Side() {
   const { gameState } = useGameState()
   const activeContestantId = useAtomValue(activeContestantAtom)
 
-  const controlsVisible = [
-    GameState.Jeopardy,
-    GameState.DoubleJeopardy,
-    GameState.FinalJeopardy,
-  ].includes(gameState)
-
-  const controls = isHost ? (
-    <HostControls />
-  ) : isContestant ? (
-    <ContestantControls />
-  ) : null
+  const isContestantControlsVisible =
+    isContestant &&
+    [
+      GameState.Jeopardy,
+      GameState.DoubleJeopardy,
+      GameState.FinalJeopardy,
+    ].includes(gameState)
 
   return (
     <div id="Side" style={sideStyle}>
@@ -86,7 +82,8 @@ export function Side() {
         <Contestants />
         <Spectators />
       </section>
-      {controlsVisible && controls}
+      {isHost && <HostControls />}
+      {isContestantControlsVisible && <ContestantControls />}
     </div>
   )
 }
