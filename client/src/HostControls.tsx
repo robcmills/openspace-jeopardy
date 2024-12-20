@@ -2,6 +2,7 @@ import { CSSProperties } from 'react'
 import { GameState } from './GameState'
 import { HostCorrectButtons } from './HostCorrectButtons'
 import { HostCycleGameStateButton } from './HostCycleGameStateButton'
+import { HostRevealMoneyTilesButton } from './HostRevealMoneyTilesButton'
 import { useActiveContestant } from './useActiveContestant'
 import { useGameState } from './useGameState'
 import { useIsAnyClueVisible } from './useIsAnyClueVisible'
@@ -53,6 +54,7 @@ export function HostControls() {
     <footer style={controlsStyle}>
       <HostCycleGameStateButton direction="previous" />
       <div style={centerStyle}>
+        <HostRevealMoneyTilesButton />
         {question}
         {wager}
         {isCorrectIncorrectButtonsVisible && <HostCorrectButtons />}
