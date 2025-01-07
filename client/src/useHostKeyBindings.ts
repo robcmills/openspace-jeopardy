@@ -1,16 +1,14 @@
 import { GameState } from './GameState'
 import { activateRandomContestant } from './activateRandomContestant'
+import { categoryZoomAtom } from './categoryZoomAtom'
+import { clamp } from './clamp'
 import { gameAtom } from './gameAtom'
-import { getNextGameState } from './getNextGameState'
-import { getPreviousGameState } from './getPreviousGameState'
 import { getRandomContestantId } from './getRandomContestantId'
 import { panCategories } from './panCategories'
-import { resetTiles } from './resetTiles'
 import { revealTiles } from './revealTiles'
-import { setActiveContestant } from './setActiveContestant'
 import { socket } from './socket'
 import { toggleTimer } from './timerActions'
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { useCallback, useEffect } from 'react'
 import { useCycleGameState } from './useCycleGameState'
 import { useGameState } from './useGameState'
@@ -24,6 +22,7 @@ export function useHostKeyBindings() {
   const cycleGameState = useCycleGameState()
   const game = useAtomValue(gameAtom)
   const isHost = useIsHost()
+  const [zoomColumn, setZoomColumn] = useAtom(categoryZoomAtom)
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
@@ -57,15 +56,18 @@ export function useHostKeyBindings() {
       } else if (event.key === 'c') {
         zoomInCategories()
         socket.emit('zoomCategories', { direction: 'in', gameId: game.id })
+        setZoomColumn(0)
       } else if (event.key === 'C') {
         zoomOutCategories()
         socket.emit('zoomCategories', { direction: 'out', gameId: game.id })
+        setZoomColumn(-1)
       } else if (event.key === 'ArrowRight') {
         panCategories()
         socket.emit('panCategories', { gameId: game.id })
+        setZoomColumn(clamp(zoomColumn + 1, 0, 5))
       }
     },
-    [game, gameState],
+    [game, gameState, zoomColumn],
   )
 
   useEffect(() => {

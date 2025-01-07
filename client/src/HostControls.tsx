@@ -1,5 +1,6 @@
 import { CSSProperties } from 'react'
 import { GameState } from './GameState'
+import { HostCategoriesButton } from './HostCategoriesButton'
 import { HostCorrectButtons } from './HostCorrectButtons'
 import { HostCycleGameStateButton } from './HostCycleGameStateButton'
 import { HostRevealMoneyTilesButton } from './HostRevealMoneyTilesButton'
@@ -58,6 +59,7 @@ export function HostControls() {
         {question}
         {wager}
         {isCorrectIncorrectButtonsVisible && <HostCorrectButtons />}
+        <HostCategoriesButton />
       </div>
       <HostCycleGameStateButton direction="next" />
     </footer>

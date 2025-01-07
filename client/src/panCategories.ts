@@ -1,3 +1,7 @@
+/*
+ * Can be called by host or contestant
+ * so we can not include the socket emission
+ */
 export function panCategories() {
   const [child1, child2] = document.querySelectorAll('.category.tile')
   if (!(child1 instanceof HTMLElement) || !(child2 instanceof HTMLElement))
