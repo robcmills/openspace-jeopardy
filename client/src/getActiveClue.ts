@@ -1,14 +1,11 @@
 import { getGameState } from './getGameState'
 import { jotaiStore } from './jotaiStore'
 import { tilesAtoms } from './tilesAtoms'
-import { GameState } from './GameState'
+import { isBoardGameState } from './getRoundForGameState'
 
 export function getActiveClue() {
   const gameState = getGameState()
-  if (
-    !gameState ||
-    ![GameState.Jeopardy, GameState.DoubleJeopardy].includes(gameState)
-  ) {
+  if (!gameState || !isBoardGameState(gameState)) {
     return null
   }
 

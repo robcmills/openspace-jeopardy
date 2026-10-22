@@ -1,4 +1,6 @@
 import { GameState } from './GameState'
+import { getRoundForGameState } from './getRoundForGameState'
+import { getTileValue } from './getTileValue'
 import { contestantsAtom } from './contestantsAtom'
 import { gameAtom } from './gameAtom'
 import { getActiveContestant } from './getActiveContestant'
@@ -29,13 +31,14 @@ export function addToContestantScore(sign: number) {
     return
   }
 
-  // Jeopardy and Double Jeopardy
+  // Board rounds
+  const round = getRoundForGameState(gameState)
+  if (!round) return
   for (const column of tilesAtoms) {
     for (const [rowIndex, tileAtom] of column.entries()) {
       const tileState = jotaiStore.get(tileAtom)
       if (tileState.step === 'answer') {
-        const round = gameState === GameState.DoubleJeopardy ? 2 : 1
-        const activeClueValue = (rowIndex + 1) * 200 * round * sign
+        const activeClueValue = getTileValue(game, round, rowIndex) * sign
         const newScore =
           activeContestant.score +
           (activeContestant.wager >= 0

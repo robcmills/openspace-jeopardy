@@ -26,6 +26,7 @@ export function Game() {
     video: <Video />,
     jeopardy: <Jeopardy round={1} />,
     doubleJeopardy: <Jeopardy round={2} />,
+    tripleJeopardy: <Jeopardy round={3} />,
     finalJeopardy: <FinalJeopardy />,
   }[gameState]
 }

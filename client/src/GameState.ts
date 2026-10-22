@@ -3,6 +3,7 @@ export enum GameState {
   Video = 'video',
   Jeopardy = 'jeopardy',
   DoubleJeopardy = 'doubleJeopardy',
+  TripleJeopardy = 'tripleJeopardy',
   FinalJeopardy = 'finalJeopardy',
 }
 
@@ -11,5 +12,6 @@ export const GAME_STATE_PATHS = {
   [GameState.Video]: 'video',
   [GameState.Jeopardy]: 'jeopardy',
   [GameState.DoubleJeopardy]: 'doubleJeopardy',
+  [GameState.TripleJeopardy]: 'tripleJeopardy',
   [GameState.FinalJeopardy]: 'finalJeopardy',
 }

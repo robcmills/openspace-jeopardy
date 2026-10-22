@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react'
 import intro from './assets/intro.mp4'
+import { useAtomValue } from 'jotai'
 import { GameState } from './GameState'
+import { gameAtom } from './gameAtom'
+import { getNextGameState } from './getNextGameState'
 import { useGameState } from './useGameState'
 import { HostControls } from './HostControls'
 
@@ -20,13 +23,14 @@ const videoStyle: React.CSSProperties = {
 
 export function Video() {
   const { setGameState } = useGameState()
+  const game = useAtomValue(gameAtom)
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const video = videoRef.current
     if (video) {
       video.addEventListener('ended', () => {
-        setGameState(GameState.Jeopardy)
+        setGameState(getNextGameState(GameState.Video, game))
       })
     }
   }, [])

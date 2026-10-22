@@ -1,4 +1,5 @@
 import { GameState } from './GameState'
+import { isBoardGameState } from './getRoundForGameState'
 import { activateRandomContestant } from './activateRandomContestant'
 import { categoryZoomAtom } from './categoryZoomAtom'
 import { clamp } from './clamp'
@@ -36,14 +37,11 @@ export function useHostKeyBindings() {
         cycleGameState('previous')
       } else if (
         event.keyCode === SPACE_KEY_CODE &&
-        [GameState.Jeopardy, GameState.DoubleJeopardy].includes(gameState)
+        isBoardGameState(gameState)
       ) {
         toggleTimer()
         socket.emit('toggleTimer', { gameId: game.id })
-      } else if (
-        event.key === 'v' &&
-        [GameState.Jeopardy, GameState.DoubleJeopardy].includes(gameState)
-      ) {
+      } else if (event.key === 'v' && isBoardGameState(gameState)) {
         revealTiles()
         socket.emit('revealTiles', { gameId: game.id })
       } else if (event.key === 'a' && gameState === GameState.Jeopardy) {

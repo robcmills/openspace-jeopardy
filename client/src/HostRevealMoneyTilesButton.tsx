@@ -1,4 +1,4 @@
-import { GameState } from './GameState'
+import { isBoardGameState } from './getRoundForGameState'
 import { gameAtom } from './gameAtom'
 import { revealTiles } from './revealTiles'
 import { socket } from './socket'
@@ -11,10 +11,7 @@ export function HostRevealMoneyTilesButton() {
   const { gameState } = useGameState()
   const isTilesLogoVisible = useIsTilesLogoVisible()
 
-  if (
-    !isTilesLogoVisible ||
-    ![GameState.Jeopardy, GameState.DoubleJeopardy].includes(gameState)
-  ) {
+  if (!isTilesLogoVisible || !isBoardGameState(gameState)) {
     return null
   }
 

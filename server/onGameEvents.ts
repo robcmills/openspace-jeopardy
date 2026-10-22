@@ -1,8 +1,9 @@
-import { GameState } from '../client/src/GameState'
 import type { TileState } from '../client/src/TileState'
 import type { UserState } from '../client/src/UserState'
 import { initialTileState } from '../client/src/tilesAtoms'
 import { initialCategoryState } from '../client/src/categoriesAtoms'
+import { getRoundForGameState } from '../client/src/getRoundForGameState'
+import { FINAL_JEOPARDY_ROUND } from '../client/src/Round'
 import type { Server } from './Server'
 import type { Socket } from './Socket'
 import { contestantStore } from './contestantStore'
@@ -141,16 +142,10 @@ export function onGameEvents(socket: Socket, io: Server) {
     const state = game.categories[column]
     state.step = step
     if (step === 'category') {
-      const round =
-        game.state === GameState.Jeopardy
-          ? 1
-          : game.state === GameState.DoubleJeopardy
-            ? 2
-            : 0
       state.category = getCategory({
         column,
         episodeId: game.episodeId,
-        round,
+        round: getRoundForGameState(game.state) ?? 0,
       })
     }
     io.to(gameId).emit('setCategoryState', { column, state })
@@ -272,7 +267,7 @@ export function onGameEvents(socket: Socket, io: Server) {
       const category = getCategory({
         column: 0,
         episodeId: game.episodeId,
-        round: 3,
+        round: FINAL_JEOPARDY_ROUND,
       })
       if (!category) {
         console.error('Final Jeopardy category not found')
@@ -285,7 +280,7 @@ export function onGameEvents(socket: Socket, io: Server) {
         column: 1,
         episodeId: game.episodeId,
         row: 1,
-        round: 3,
+        round: FINAL_JEOPARDY_ROUND,
       })
       if (!answer) {
         console.error('Final Jeopardy answer not found')
@@ -335,17 +330,11 @@ export function onGameEvents(socket: Socket, io: Server) {
       return
     }
 
-    const round =
-      game.state === GameState.Jeopardy
-        ? 1
-        : game.state === GameState.DoubleJeopardy
-          ? 2
-          : 0
     const answer = getAnswer({
       column: column + 1,
       episodeId: game.episodeId,
       row: row + 1,
-      round,
+      round: getRoundForGameState(game.state) ?? 0,
     })
 
     const oldState = game.tiles[column][row]

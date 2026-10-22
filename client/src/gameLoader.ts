@@ -33,9 +33,11 @@ export const gameLoader: LoaderFunction = async ({ params }) => {
   }
 
   const clientGame: ClientGame = {
+    hasFinalJeopardy: json.game.hasFinalJeopardy,
     id: json.game.id,
     name: json.game.name,
     hostUserId: json.game.hostUserId,
+    rounds: json.game.rounds,
   }
   jotaiStore.set(gameAtom, clientGame)
 

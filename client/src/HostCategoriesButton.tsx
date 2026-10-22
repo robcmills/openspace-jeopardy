@@ -1,4 +1,4 @@
-import { GameState } from './GameState'
+import { isBoardGameState } from './getRoundForGameState'
 import { categoryZoomAtom } from './categoryZoomAtom'
 import { clamp } from './clamp'
 import { gameAtom } from './gameAtom'
@@ -26,7 +26,7 @@ export function HostCategoriesButton() {
 
   if (
     isTilesLogoVisible ||
-    ![GameState.Jeopardy, GameState.DoubleJeopardy].includes(gameState) ||
+    !isBoardGameState(gameState) ||
     (isAllCategoriesRevealed && zoomColumn < 0)
   ) {
     return null

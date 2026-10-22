@@ -11,6 +11,7 @@ import { typography } from './styles'
 import { boardSizeAtom } from './boardSizeAtom'
 import { socket } from './socket'
 import { gameAtom } from './gameAtom'
+import { getTileValue } from './getTileValue'
 import { useIsHost } from './useIsHost'
 
 export const tileStyle: CSSProperties = {
@@ -60,7 +61,7 @@ export function Tile({ column, round, row }: TileProps) {
         fontSize: `${boardSize.height / 16}px`,
       }}
     >
-      {`$${(row + 1) * 200 * round}`}
+      {`$${getTileValue(game, round, row)}`}
     </span>
   )
 

@@ -2,6 +2,7 @@ import { useAtomValue } from 'jotai'
 import { boardSizeAtom } from './boardSizeAtom'
 import jeopardy from './assets/openspace-jeopardy.jpg'
 import double from './assets/double-jeopardy.jpg'
+import triple from './assets/triple-jeopardy.jpg'
 import { useGameState } from './useGameState'
 import { GameState } from './GameState'
 
@@ -14,7 +15,12 @@ export function LogoBackground({ column, row }: LogoBackgroundProps) {
   const { height, width } = useAtomValue(boardSizeAtom)
   const { gameState } = useGameState()
 
-  const url = gameState === GameState.DoubleJeopardy ? double : jeopardy
+  const url =
+    gameState === GameState.TripleJeopardy
+      ? triple
+      : gameState === GameState.DoubleJeopardy
+        ? double
+        : jeopardy
 
   const style = {
     backgroundImage: `url(${url})`,

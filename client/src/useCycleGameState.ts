@@ -15,7 +15,7 @@ export function useCycleGameState() {
   return (direction: 'next' | 'previous') => {
     if (direction === 'next') {
       socket.emit('resetTiles', { gameId: game.id })
-      const nextGameState = getNextGameState(gameState)
+      const nextGameState = getNextGameState(gameState, game)
       setGameState(nextGameState)
       if (nextGameState === GameState.FinalJeopardy) {
         setActiveContestant(null)
@@ -23,7 +23,7 @@ export function useCycleGameState() {
     } else {
       resetTiles()
       socket.emit('resetTiles', { gameId: game.id })
-      const previousGameState = getPreviousGameState(gameState)
+      const previousGameState = getPreviousGameState(gameState, game)
       setGameState(previousGameState)
     }
   }

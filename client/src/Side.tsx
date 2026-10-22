@@ -10,6 +10,7 @@ import { useIsHost } from './useIsHost'
 import { HostControls } from './HostControls'
 import { useGameState } from './useGameState'
 import { GameState } from './GameState'
+import { isBoardGameState } from './getRoundForGameState'
 import { Timer } from './Timer'
 import { activeContestantAtom } from './activeContestantAtom'
 import { ellipsify } from './styles'
@@ -61,11 +62,7 @@ export function Side() {
 
   const isContestantControlsVisible =
     isContestant &&
-    [
-      GameState.Jeopardy,
-      GameState.DoubleJeopardy,
-      GameState.FinalJeopardy,
-    ].includes(gameState)
+    (isBoardGameState(gameState) || gameState === GameState.FinalJeopardy)
 
   return (
     <div id="Side" style={sideStyle}>

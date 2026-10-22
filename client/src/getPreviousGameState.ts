@@ -1,7 +1,14 @@
-import { GameState } from './GameState'
+import type { ClientGame } from './ClientGame'
+import type { GameState } from './GameState'
+import { getGameStates } from './getGameStates'
 
-export function getPreviousGameState(gameState: GameState): GameState {
-  const index = Object.values(GameState).indexOf(gameState)
-  const nextIndex = Math.max(index - 1, 0)
-  return Object.values(GameState)[nextIndex]
+export function getPreviousGameState(
+  gameState: GameState,
+  game: ClientGame,
+): GameState {
+  const gameStates = getGameStates(game)
+  const index = gameStates.indexOf(gameState)
+  if (index < 0) return gameState
+  const previousIndex = Math.max(index - 1, 0)
+  return gameStates[previousIndex]
 }
