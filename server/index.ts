@@ -24,7 +24,7 @@ const app = express()
 
 const options = {
   key: readFileSync('../ssl/www_jeopardyweb_app.key'),
-  cert: readFileSync('../ssl/www_jeopardyweb_app.crt'),
+  cert: readFileSync('../ssl/www_jeopardyweb_app.pem'),
 }
 const httpServer = IS_PROD
   ? createHttpsServer(options, app)
