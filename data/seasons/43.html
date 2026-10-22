@@ -1,0 +1,482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "https://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>J! Archive - Season 43</title>
+<link type="text/css" rel="styleSheet" href="styles.css" />
+<link rel="shortcut icon" href="https://j-archive.com/favicon.ico" />
+</head>
+<body>
+
+<div id="navbar">
+  <span id="navbarlogo"><a href="index.php"><img src="j-a.gif" width="100" height="22" alt="J! Archive" /></a></span>
+  <span id="navbartext"><a href="showseason.php?season=43">[current season]</a> <a href="showseason.php?season=42">[last season]</a> <a href="listseasons.php">[all seasons]</a> <a href="listprizes.php">[prizes]</a> <a href="wageringcalculator.php">[wagering calculator]</a> <a href="help.php">[help]</a></span>
+    <form id="navbarsearch" action="https://j-archive.com/search.php" method="get" enctype="x-www-form-encoded" accept-charset="utf-8">
+      <fieldset class="noborder">
+        <input type="text" class="search" name="search" id="search" maxlength="256" placeholder="Search..." value="" autocomplete="off" />
+        <input type="submit" class="search_button" name="submit" value="Search" />
+      </fieldset>
+      <div id="search-suggestions" class="search-suggestions-dropdown"></div>
+    </form>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const input = document.getElementById("search");
+        const suggestionsBox = document.getElementById("search-suggestions");
+        let debounceTimer;
+        let selectedIndex = -1;
+
+        function updatePosition() {
+            const rect = input.getBoundingClientRect();
+            suggestionsBox.style.top = (rect.bottom + window.scrollY) + "px";
+            suggestionsBox.style.left = (rect.left + window.scrollX) + "px";
+        }
+
+        function getItems() {
+            return suggestionsBox.querySelectorAll(".suggestion-item");
+        }
+
+        function updateHighlight(items) {
+            items.forEach((item, index) => {
+                if (index === selectedIndex) {
+                    item.classList.add("selected");
+                    item.scrollIntoView({ block: "nearest" });
+                } else {
+                    item.classList.remove("selected");
+                }
+            });
+        }
+
+        input.addEventListener("input", function() {
+            clearTimeout(debounceTimer);
+            const query = input.value.trim();
+            selectedIndex = -1;
+
+            if (query.length < 2) {
+                suggestionsBox.innerHTML = "";
+                suggestionsBox.classList.remove("active");
+                return;
+            }
+
+            debounceTimer = setTimeout(() => {
+                fetch("https://j-archive.com/suggest.php?q=" + encodeURIComponent(query))
+                    .then(response => response.json())
+                    .then(data => {
+                        let html = "";
+                        let hasResults = false;
+
+                        const buildGroup = (title, items) => {
+                            if (!items || items.length === 0) return "";
+                            hasResults = true;
+                            let groupHtml = "<div class=\"suggestion-group-title\">" + title + "</div>";
+
+                            items.forEach(item => {
+                                groupHtml += "<a href=\"" + item.url + "\" class=\"suggestion-item\">" + escapeHtml(item.label) + "</a>";
+                            });
+                            return groupHtml;
+                        };
+
+                        if (data) {
+                            html += buildGroup("Players", data.players);
+                            html += buildGroup("Games", data.games);
+                            html += buildGroup("Clues", data.clues);
+                        }
+
+                        if (hasResults) {
+                            updatePosition();
+                            suggestionsBox.innerHTML = html;
+                            suggestionsBox.classList.add("active");
+                            selectedIndex = -1;
+                        } else {
+                            suggestionsBox.innerHTML = "";
+                            suggestionsBox.classList.remove("active");
+                        }
+                    })
+                    .catch(() => {
+                        suggestionsBox.classList.remove("active");
+                    });
+            }, 250);
+        });
+
+        // Keyboard Navigation (ArrowDown, ArrowUp, Enter, Escape)
+        input.addEventListener("keydown", function(e) {
+            if (!suggestionsBox.classList.contains("active")) return;
+
+            const items = getItems();
+            if (items.length === 0) return;
+
+            if (e.key === "ArrowDown") {
+                e.preventDefault();
+                selectedIndex++;
+                if (selectedIndex >= items.length) {
+                    selectedIndex = 0; // Wrap back to top item
+                }
+                updateHighlight(items);
+            } else if (e.key === "ArrowUp") {
+                e.preventDefault();
+                selectedIndex--;
+                if (selectedIndex < 0) {
+                    selectedIndex = items.length - 1; // Wrap to bottom item
+                }
+                updateHighlight(items);
+            } else if (e.key === "Enter") {
+                if (selectedIndex >= 0 && items[selectedIndex]) {
+                    e.preventDefault(); // Stop form submission
+                    window.location.href = items[selectedIndex].href; // Navigate directly to link target
+                }
+            } else if (e.key === "Escape") {
+                suggestionsBox.classList.remove("active");
+                selectedIndex = -1;
+            }
+        });
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        window.addEventListener("resize", updatePosition);
+
+        document.addEventListener("click", function(e) {
+            if (!input.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                suggestionsBox.classList.remove("active");
+                selectedIndex = -1;
+            }
+        });
+    });
+    </script>
+</div>
+<div id="content">
+<h2 class="season">Season 43</h2>
+<table>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9560" title="Taped 2026-09-15">&#35;9643, aired&#160;2026-10-21</a>
+    </td>
+    <td valign="top">
+      Anthony Cantor vs. Sam Robison vs. Kayla Patel
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9559" title="Taped 2026-09-15">&#35;9642, aired&#160;2026-10-20</a>
+    </td>
+    <td valign="top">
+      Anthony Cantor vs. Amy Treber vs. Jim Snaza
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9558" title="Taped 2026-09-15">&#35;9641, aired&#160;2026-10-19</a>
+    </td>
+    <td valign="top">
+      Frank Merchlewitz vs. Aster Wise vs. Anthony Cantor
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9557" title="Taped 2026-09-01">&#35;9640, aired&#160;2026-10-16</a>
+    </td>
+    <td valign="top">
+      Eileen Goodwin vs. Frank Merchlewitz vs. Mariah Stovall
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9556" title="Taped 2026-09-01">&#35;9639, aired&#160;2026-10-15</a>
+    </td>
+    <td valign="top">
+      Kim Kalnoki vs. Eileen Goodwin vs. Richard Koo
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9555" title="Taped 2026-09-01">&#35;9638, aired&#160;2026-10-14</a>
+    </td>
+    <td valign="top">
+      Ron Clarke vs. Kim Kalnoki vs. Wesley Yiin
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9554" title="Taped 2026-09-01">&#35;9637, aired&#160;2026-10-13</a>
+    </td>
+    <td valign="top">
+      Greg Monson vs. Evelyn Lamb vs. Ron Clarke
+    </td>
+    <td valign="top" class="left_padded">
+      Seventh regular-play game to end in a Tiebreaker Round.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9553" title="Taped 2026-09-01">&#35;9636, aired&#160;2026-10-12</a>
+    </td>
+    <td valign="top">
+      Greg Monson vs. Daniel Ransom vs. Megan Whelan
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9552" title="Taped 2026-08-31">&#35;9635, aired&#160;2026-10-09</a>
+    </td>
+    <td valign="top">
+      Greg Monson vs. Kendra Kendell vs. Dan Perkey
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9551" title="Taped 2026-08-31">&#35;9634, aired&#160;2026-10-08</a>
+    </td>
+    <td valign="top">
+      John Edwards vs. Lou Williamson vs. Greg Monson
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9550" title="Taped 2026-08-31">&#35;9633, aired&#160;2026-10-07</a>
+    </td>
+    <td valign="top">
+      Rian Robertson vs. John Edwards vs. Anne Damtoft
+    </td>
+    <td valign="top" class="left_padded">
+      Rian Robertson game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9549" title="Taped 2026-08-31">&#35;9632, aired&#160;2026-10-06</a>
+    </td>
+    <td valign="top">
+      Rian Robertson vs. Elise Rose vs. Alex Kim
+    </td>
+    <td valign="top" class="left_padded">
+      Rian Robertson game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9548" title="Taped 2026-08-31">&#35;9631, aired&#160;2026-10-05</a>
+    </td>
+    <td valign="top">
+      Rian Robertson vs. Erika Niemi vs. Jason Vincze
+    </td>
+    <td valign="top" class="left_padded">
+      Rian Robertson game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9547" title="Taped 2026-08-26">&#35;9630, aired&#160;2026-10-02</a>
+    </td>
+    <td valign="top">
+      Rian Robertson vs. Arjun Nageswaran vs. Adam Bundy
+    </td>
+    <td valign="top" class="left_padded">
+      Rian Robertson game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9546" title="Taped 2026-08-26">&#35;9629, aired&#160;2026-10-01</a>
+    </td>
+    <td valign="top">
+      Kristin Franke vs. Rian Robertson vs. Elizabeth Severs
+    </td>
+    <td valign="top" class="left_padded">
+      Rian Robertson game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9545" title="Taped 2026-08-26">&#35;9628, aired&#160;2026-09-30</a>
+    </td>
+    <td valign="top">
+      Justin Robbins vs. Ben Meyerson vs. Kristin Franke
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9544" title="Taped 2026-08-26">&#35;9627, aired&#160;2026-09-29</a>
+    </td>
+    <td valign="top">
+      Justin Robbins vs. Jareesa Tucker McClure vs. Dominic Lloyd
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9543" title="Taped 2026-08-26">&#35;9626, aired&#160;2026-09-28</a>
+    </td>
+    <td valign="top">
+      Nikolas Polsinelli vs. Katie Bruns vs. Justin Robbins
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9542" title="Taped 2026-08-25">&#35;9625, aired&#160;2026-09-25</a>
+    </td>
+    <td valign="top">
+      Nikolas Polsinelli vs. Lydia Herndon vs. Sean Carpenter
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9541" title="Taped 2026-08-25">&#35;9624, aired&#160;2026-09-24</a>
+    </td>
+    <td valign="top">
+      Emily Burnham vs. Nikolas Polsinelli vs. Carolyn Langton
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9540" title="Taped 2026-08-25">&#35;9623, aired&#160;2026-09-23</a>
+    </td>
+    <td valign="top">
+      Jennifer Leavey vs. Emily Burnham vs. Edward Tournier
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9539" title="Taped 2026-08-25">&#35;9622, aired&#160;2026-09-22</a>
+    </td>
+    <td valign="top">
+      Jennifer Leavey vs. Lauren Schiebel vs. Greg Fosheim
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9538" title="Taped 2026-08-25">&#35;9621, aired&#160;2026-09-21</a>
+    </td>
+    <td valign="top">
+      Mark Ramirez vs. Jennifer Leavey vs. Donovan Bisbee
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9537" title="Taped 2026-08-24">&#35;9620, aired&#160;2026-09-18</a>
+    </td>
+    <td valign="top">
+      Mark Ramirez vs. Holly Firlein vs. Michael Mott
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9536" title="Taped 2026-08-24">&#35;9619, aired&#160;2026-09-17</a>
+    </td>
+    <td valign="top">
+      Jen Spinoglio vs. Christie Ritten vs. Mark Ramirez
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9535" title="Taped 2026-08-24">&#35;9618, aired&#160;2026-09-16</a>
+    </td>
+    <td valign="top">
+      Matthew Riggle vs. Jen Spinoglio vs. Daniel Nicastro
+    </td>
+    <td valign="top" class="left_padded">
+      Matthew Riggle game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9534" title="Taped 2026-08-24">&#35;9617, aired&#160;2026-09-15</a>
+    </td>
+    <td valign="top">
+      Matthew Riggle vs. Abby Mullen vs. Wesley Jalipa
+    </td>
+    <td valign="top" class="left_padded">
+      Matthew Riggle game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9533" title="Taped 2026-08-24">&#35;9616, aired&#160;2026-09-14</a>
+    </td>
+    <td valign="top">
+      Matthew Riggle vs. Emily Mayo vs. Bryan Lee
+    </td>
+    <td valign="top" class="left_padded">
+      Matthew Riggle game 3.
+First game of Season 43.
+    </td>
+  </tr>
+</table>
+<p><a href="ddstats.php?season=43">[Daily Double statistics]</a> <a href="finalstats.php?season=43">[Final Jeopardy! Round statistics]</a> <a href="miscstats.php?season=43">[Miscellaneous statistics]</a> <a href="shoresconjecture_uncached.php?season=43">[Shore's Conjecture games]</a> <a href="listfjs.php?season=43">[FJ!s]</a></p>
+</div>
+
+<div id="disclaimer">The J! Archive is created by fans, for fans.  Scraping, republication, monetization, and malicious use prohibited; this site may use cookies and collect identifying information.  See <a href="help.php#terms">terms</a>.  The <i><a href="https://www.jeopardy.com">Jeopardy!</a></i> game show and all elements thereof, including but not limited to copyright and trademark thereto, are the property of Jeopardy Productions, Inc. and are protected under law.  This website is not affiliated with, sponsored by, or operated by Jeopardy Productions, Inc.  Join the discussion at <a href="https://jboard.tv">JBoard.tv</a>.</div>
+<script>
+  const searchInput = document.getElementById("search");
+  searchInput.addEventListener("focus", function(){
+    searchInput.style.width = "400px";
+  });
+  searchInput.addEventListener("blur", function(){
+    if (searchInput.value.length === 0) {
+      searchInput.style.width = "100px";
+    }
+  });
+</script>
+<script src="https://www.j-archive.com/scripts.js" type="text/javascript"></script>
+</body>
+</html>

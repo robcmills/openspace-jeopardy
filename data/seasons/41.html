@@ -1,0 +1,2711 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "https://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>J! Archive - Season 41</title>
+<link type="text/css" rel="styleSheet" href="styles.css" />
+<link rel="shortcut icon" href="https://j-archive.com/favicon.ico" />
+</head>
+<body>
+
+<div id="navbar">
+  <span id="navbarlogo"><a href="index.php"><img src="j-a.gif" width="100" height="22" alt="J! Archive" /></a></span>
+  <span id="navbartext"><a href="showseason.php?season=43">[current season]</a> <a href="showseason.php?season=42">[last season]</a> <a href="listseasons.php">[all seasons]</a> <a href="listprizes.php">[prizes]</a> <a href="wageringcalculator.php">[wagering calculator]</a> <a href="help.php">[help]</a></span>
+    <form id="navbarsearch" action="https://j-archive.com/search.php" method="get" enctype="x-www-form-encoded" accept-charset="utf-8">
+      <fieldset class="noborder">
+        <input type="text" class="search" name="search" id="search" maxlength="256" placeholder="Search..." value="" autocomplete="off" />
+        <input type="submit" class="search_button" name="submit" value="Search" />
+      </fieldset>
+      <div id="search-suggestions" class="search-suggestions-dropdown"></div>
+    </form>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const input = document.getElementById("search");
+        const suggestionsBox = document.getElementById("search-suggestions");
+        let debounceTimer;
+        let selectedIndex = -1;
+
+        function updatePosition() {
+            const rect = input.getBoundingClientRect();
+            suggestionsBox.style.top = (rect.bottom + window.scrollY) + "px";
+            suggestionsBox.style.left = (rect.left + window.scrollX) + "px";
+        }
+
+        function getItems() {
+            return suggestionsBox.querySelectorAll(".suggestion-item");
+        }
+
+        function updateHighlight(items) {
+            items.forEach((item, index) => {
+                if (index === selectedIndex) {
+                    item.classList.add("selected");
+                    item.scrollIntoView({ block: "nearest" });
+                } else {
+                    item.classList.remove("selected");
+                }
+            });
+        }
+
+        input.addEventListener("input", function() {
+            clearTimeout(debounceTimer);
+            const query = input.value.trim();
+            selectedIndex = -1;
+
+            if (query.length < 2) {
+                suggestionsBox.innerHTML = "";
+                suggestionsBox.classList.remove("active");
+                return;
+            }
+
+            debounceTimer = setTimeout(() => {
+                fetch("https://j-archive.com/suggest.php?q=" + encodeURIComponent(query))
+                    .then(response => response.json())
+                    .then(data => {
+                        let html = "";
+                        let hasResults = false;
+
+                        const buildGroup = (title, items) => {
+                            if (!items || items.length === 0) return "";
+                            hasResults = true;
+                            let groupHtml = "<div class=\"suggestion-group-title\">" + title + "</div>";
+
+                            items.forEach(item => {
+                                groupHtml += "<a href=\"" + item.url + "\" class=\"suggestion-item\">" + escapeHtml(item.label) + "</a>";
+                            });
+                            return groupHtml;
+                        };
+
+                        if (data) {
+                            html += buildGroup("Players", data.players);
+                            html += buildGroup("Games", data.games);
+                            html += buildGroup("Clues", data.clues);
+                        }
+
+                        if (hasResults) {
+                            updatePosition();
+                            suggestionsBox.innerHTML = html;
+                            suggestionsBox.classList.add("active");
+                            selectedIndex = -1;
+                        } else {
+                            suggestionsBox.innerHTML = "";
+                            suggestionsBox.classList.remove("active");
+                        }
+                    })
+                    .catch(() => {
+                        suggestionsBox.classList.remove("active");
+                    });
+            }, 250);
+        });
+
+        // Keyboard Navigation (ArrowDown, ArrowUp, Enter, Escape)
+        input.addEventListener("keydown", function(e) {
+            if (!suggestionsBox.classList.contains("active")) return;
+
+            const items = getItems();
+            if (items.length === 0) return;
+
+            if (e.key === "ArrowDown") {
+                e.preventDefault();
+                selectedIndex++;
+                if (selectedIndex >= items.length) {
+                    selectedIndex = 0; // Wrap back to top item
+                }
+                updateHighlight(items);
+            } else if (e.key === "ArrowUp") {
+                e.preventDefault();
+                selectedIndex--;
+                if (selectedIndex < 0) {
+                    selectedIndex = items.length - 1; // Wrap to bottom item
+                }
+                updateHighlight(items);
+            } else if (e.key === "Enter") {
+                if (selectedIndex >= 0 && items[selectedIndex]) {
+                    e.preventDefault(); // Stop form submission
+                    window.location.href = items[selectedIndex].href; // Navigate directly to link target
+                }
+            } else if (e.key === "Escape") {
+                suggestionsBox.classList.remove("active");
+                selectedIndex = -1;
+            }
+        });
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        window.addEventListener("resize", updatePosition);
+
+        document.addEventListener("click", function(e) {
+            if (!input.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                suggestionsBox.classList.remove("active");
+                selectedIndex = -1;
+            }
+        });
+    });
+    </script>
+</div>
+<div id="content">
+<h2 class="season">Season 41</h2>
+<table>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9262" title="Taped 2025-05-08">&#35;9385, aired&#160;2025-07-25</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Charlotte Cooper vs. Jonathan Hugendubler
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 17.
+Last game of Season 41.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9261" title="Taped 2025-05-08">&#35;9384, aired&#160;2025-07-24</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Sarah Rubenfeld vs. Senay Goitom
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 16.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9260" title="Taped 2025-05-08">&#35;9383, aired&#160;2025-07-23</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Gerri Budd vs. Andrew Crowley
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 15.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9259" title="Taped 2025-05-08">&#35;9382, aired&#160;2025-07-22</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Adriene Holland vs. Paul Ryan
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 14.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9258" title="Taped 2025-05-08">&#35;9381, aired&#160;2025-07-21</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Anna Ciamporcero vs. Jeff Hague
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 13.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9257" title="Taped 2025-05-07">&#35;9380, aired&#160;2025-07-18</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Julia Broussard vs. Ameen Ismail
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 12.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9256" title="Taped 2025-05-07">&#35;9379, aired&#160;2025-07-17</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Chad Biele vs. Marisa Cohen
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 11.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9255" title="Taped 2025-05-07">&#35;9378, aired&#160;2025-07-16</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Ivanna Lopez vs. Dave Richelsoph
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 10.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9254" title="Taped 2025-05-07">&#35;9377, aired&#160;2025-07-15</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Pete Johnston vs. Carl Adams
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 9.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9253" title="Taped 2025-05-07">&#35;9376, aired&#160;2025-07-14</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Amanda Hopkins vs. Paul Swain
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 8.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9252" title="Taped 2025-05-06">&#35;9375, aired&#160;2025-07-11</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Andrew Wang vs. Edaureen Muhamad Nor
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 7. The production staff, crew, and their...
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9251" title="Taped 2025-05-06">&#35;9374, aired&#160;2025-07-10</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Austin Hobbs vs. Jolynda Chenicek
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 6.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9250" title="Taped 2025-05-06">&#35;9373, aired&#160;2025-07-09</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Sarah Mulligan vs. Rahul Kak
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9249" title="Taped 2025-05-06">&#35;9372, aired&#160;2025-07-08</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Dan Puma vs. Elise Canup
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9248" title="Taped 2025-05-06">&#35;9371, aired&#160;2025-07-07</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Ashley Caval Curto vs. Vince Carter
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9247" title="Taped 2025-05-01">&#35;9370, aired&#160;2025-07-04</a>
+    </td>
+    <td valign="top">
+      Scott Riccardi vs. Ricky Chandak vs. Andi Levenson
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9246" title="Taped 2025-05-01">&#35;9369, aired&#160;2025-07-03</a>
+    </td>
+    <td valign="top">
+      Jason Singer vs. Katy Doll vs. Scott Riccardi
+    </td>
+    <td valign="top" class="left_padded">
+      Scott Riccardi game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9245" title="Taped 2025-05-01">&#35;9368, aired&#160;2025-07-02</a>
+    </td>
+    <td valign="top">
+      Jason Singer vs. Stephanie Yang vs. Jeff Foels
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9244" title="Taped 2025-05-01">&#35;9367, aired&#160;2025-07-01</a>
+    </td>
+    <td valign="top">
+      Dave McBride vs. Heather Kompanek vs. Jason Singer
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9243" title="Taped 2025-05-01">&#35;9366, aired&#160;2025-06-30</a>
+    </td>
+    <td valign="top">
+      Klay Frappier vs. Dave McBride vs. Eileen Darragh
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9242" title="Taped 2025-04-30">&#35;9365, aired&#160;2025-06-27</a>
+    </td>
+    <td valign="top">
+      Rocco Graziano vs. Klay Frappier vs. Michelle Arguelles
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9241" title="Taped 2025-04-30">&#35;9364, aired&#160;2025-06-26</a>
+    </td>
+    <td valign="top">
+      Kiley Campbell vs. Rocco Graziano vs. Janis Raye
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9240" title="Taped 2025-04-30">&#35;9363, aired&#160;2025-06-25</a>
+    </td>
+    <td valign="top">
+      Micah Fritz vs. Kiley Campbell vs. Greg Harris
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9239" title="Taped 2025-04-30">&#35;9362, aired&#160;2025-06-24</a>
+    </td>
+    <td valign="top">
+      Emily Croke vs. Nicholas Moline vs. Micah Fritz
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9238" title="Taped 2025-04-30">&#35;9361, aired&#160;2025-06-23</a>
+    </td>
+    <td valign="top">
+      Andrew Brigger vs. Emily Croke vs. David Spelman
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9237" title="Taped 2025-04-29">&#35;9360, aired&#160;2025-06-20</a>
+    </td>
+    <td valign="top">
+      Bevin Blaber vs. Andrew Brigger vs. Liv Markham
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9236" title="Taped 2025-04-29">&#35;9359, aired&#160;2025-06-19</a>
+    </td>
+    <td valign="top">
+      Jacob Hale vs. Bevin Blaber vs. Vivek Upadhyay
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9235" title="Taped 2025-04-29">&#35;9358, aired&#160;2025-06-18</a>
+    </td>
+    <td valign="top">
+      Dan Hopkins vs. Jacob Hale vs. Sunny Hwang
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9234" title="Taped 2025-04-29">&#35;9357, aired&#160;2025-06-17</a>
+    </td>
+    <td valign="top">
+      Sarah Cox vs. Dan Hopkins vs. Stefany Meyer
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9233" title="Taped 2025-04-29">&#35;9356, aired&#160;2025-06-16</a>
+    </td>
+    <td valign="top">
+      Katie Kornacki vs. Tom Thriveni vs. Sarah Cox
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9232" title="Taped 2025-04-09">&#35;9355, aired&#160;2025-06-13</a>
+    </td>
+    <td valign="top">
+      Matt Massie vs. Katie Kornacki vs. Kelly Cui
+    </td>
+    <td valign="top" class="left_padded">
+      Matt Massie game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9231" title="Taped 2025-04-09">&#35;9354, aired&#160;2025-06-12</a>
+    </td>
+    <td valign="top">
+      Matt Massie vs. Josh Prohofsky vs. Sean Addie
+    </td>
+    <td valign="top" class="left_padded">
+      Matt Massie game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9230" title="Taped 2025-04-09">&#35;9353, aired&#160;2025-06-11</a>
+    </td>
+    <td valign="top">
+      Matt Massie vs. Jan Zimmerman vs. Rob Forrester
+    </td>
+    <td valign="top" class="left_padded">
+      Matt Massie game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9229" title="Taped 2025-04-09">&#35;9352, aired&#160;2025-06-10</a>
+    </td>
+    <td valign="top">
+      Jackie Rogoff vs. John Reiss vs. Matt Massie
+    </td>
+    <td valign="top" class="left_padded">
+      Matt Massie game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9228" title="Taped 2025-04-09">&#35;9351, aired&#160;2025-06-09</a>
+    </td>
+    <td valign="top">
+      Nikhil Joshi vs. Ted Nyman vs. Jackie Rogoff
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9227" title="Taped 2025-04-08">&#35;9350, aired&#160;2025-06-06</a>
+    </td>
+    <td valign="top">
+      Nikhil Joshi vs. Elizabeth Hawkins vs. Brian O'Heron
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9222" title="Taped 2025-04-08">&#35;9349, aired&#160;2025-06-05</a>
+    </td>
+    <td valign="top">
+      Joey Quismorio vs. Sarah Fuller vs. Nikhil Joshi
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9221" title="Taped 2025-04-08">&#35;9348, aired&#160;2025-06-04</a>
+    </td>
+    <td valign="top">
+      Stella Trout vs. Jay Borsom vs. Joey Quismorio
+    </td>
+    <td valign="top" class="left_padded">
+      Stella Trout game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9220" title="Taped 2025-04-08">&#35;9347, aired&#160;2025-06-03</a>
+    </td>
+    <td valign="top">
+      Geoff Barnes vs. Peter Vorissis vs. Stella Trout
+    </td>
+    <td valign="top" class="left_padded">
+      Stella Trout game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9219" title="Taped 2025-04-08">&#35;9346, aired&#160;2025-06-02</a>
+    </td>
+    <td valign="top">
+      Geoff Barnes vs. Kyle Rahe vs. Abbi Klein
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9218" title="Taped 2025-03-18">&#35;9345, aired&#160;2025-05-30</a>
+    </td>
+    <td valign="top">
+      Geoff Barnes vs. Heather Ide vs. Chad Heltzel
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9215" title="Taped 2025-03-18">&#35;9344, aired&#160;2025-05-29</a>
+    </td>
+    <td valign="top">
+      Thomas Sweeney vs. Anne LaGatta vs. Geoff Barnes
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9214" title="Taped 2025-03-18">&#35;9343, aired&#160;2025-05-28</a>
+    </td>
+    <td valign="top">
+      Tyler Griffith vs. Alice Welch vs. Thomas Sweeney
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9211" title="Taped 2025-03-18">&#35;9342, aired&#160;2025-05-27</a>
+    </td>
+    <td valign="top">
+      Judith Friedman vs. Tyler Griffith vs. Jackie Yang
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9210" title="Taped 2025-03-18">&#35;9341, aired&#160;2025-05-26</a>
+    </td>
+    <td valign="top">
+      Jim Carpenter vs. Judith Friedman vs. Miles Tepper
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9209" title="Taped 2025-03-17">&#35;9340, aired&#160;2025-05-23</a>
+    </td>
+    <td valign="top">
+      Brendan Liaw vs. Jim Carpenter vs. David Crockett
+    </td>
+    <td valign="top" class="left_padded">
+      Brendan Liaw game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9208" title="Taped 2025-03-17">&#35;9339, aired&#160;2025-05-22</a>
+    </td>
+    <td valign="top">
+      Brendan Liaw vs. Angela Mustapha vs. Matt Askins
+    </td>
+    <td valign="top" class="left_padded">
+      Brendan Liaw game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9205" title="Taped 2025-03-17">&#35;9338, aired&#160;2025-05-21</a>
+    </td>
+    <td valign="top">
+      Brendan Liaw vs. Romy Negrin vs. Sam Macken
+    </td>
+    <td valign="top" class="left_padded">
+      Brendan Liaw game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9202" title="Taped 2025-03-17">&#35;9337, aired&#160;2025-05-20</a>
+    </td>
+    <td valign="top">
+      Mitch Loflin vs. Brendan Liaw vs. Wendy Poush
+    </td>
+    <td valign="top" class="left_padded">
+      Brendan Liaw game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9201" title="Taped 2025-03-17">&#35;9336, aired&#160;2025-05-19</a>
+    </td>
+    <td valign="top">
+      Mitch Loflin vs. Micah Green vs. Catherine Carnovale
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9200" title="Taped 2025-03-11">&#35;9335, aired&#160;2025-05-16</a>
+    </td>
+    <td valign="top">
+      Brandon Monsman vs. Mitch Loflin vs. Erin Hoard
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9199" title="Taped 2025-03-11">&#35;9334, aired&#160;2025-05-15</a>
+    </td>
+    <td valign="top">
+      Brandon Monsman vs. Neeraj Borle vs. Nick Marino
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9196" title="Taped 2025-03-11">&#35;9333, aired&#160;2025-05-14</a>
+    </td>
+    <td valign="top">
+      Andrew Jones vs. Jen Johnson vs. Brandon Monsman
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9195" title="Taped 2025-03-11">&#35;9332, aired&#160;2025-05-13</a>
+    </td>
+    <td valign="top">
+      Andrew Jones vs. Aaron Dmiszewicki vs. Katie Tarara
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9192" title="Taped 2025-03-11">&#35;9331, aired&#160;2025-05-12</a>
+    </td>
+    <td valign="top">
+      Kara Peruccio vs. Andrew Jones vs. Rachel Hall
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9191" title="Taped 2025-03-10">&#35;9330, aired&#160;2025-05-09</a>
+    </td>
+    <td valign="top">
+      Dan Moren vs. Kara Peruccio vs. Zach Dickstein
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9190" title="Taped 2025-03-10">&#35;9329, aired&#160;2025-05-08</a>
+    </td>
+    <td valign="top">
+      Dan Moren vs. Christen Aragoni vs. Michael Mungin
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9189" title="Taped 2025-03-10">&#35;9328, aired&#160;2025-05-07</a>
+    </td>
+    <td valign="top">
+      Sarah Gillis vs. Michelle Tsai vs. Dan Moren
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9188" title="Taped 2025-03-10">&#35;9327, aired&#160;2025-05-06</a>
+    </td>
+    <td valign="top">
+      Ben Ganger vs. Sarah Gillis vs. Keegan Olson
+    </td>
+    <td valign="top" class="left_padded">
+      Ben Ganger game 6.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9187" title="Taped 2025-03-10">&#35;9326, aired&#160;2025-05-05</a>
+    </td>
+    <td valign="top">
+      Ben Ganger vs. Ellen Goldlust vs. Rhyne Modlin
+    </td>
+    <td valign="top" class="left_padded">
+      Ben Ganger game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9186" title="Taped 2025-03-05">&#35;9325, aired&#160;2025-05-02</a>
+    </td>
+    <td valign="top">
+      Ben Ganger vs. Shweta Balasubramanian vs. Sam Sabulis
+    </td>
+    <td valign="top" class="left_padded">
+      Ben Ganger game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9183" title="Taped 2025-03-05">&#35;9324, aired&#160;2025-05-01</a>
+    </td>
+    <td valign="top">
+      Ben Ganger vs. Julie Holt vs. Scott Summers
+    </td>
+    <td valign="top" class="left_padded">
+      Ben Ganger game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9182" title="Taped 2025-03-05">&#35;9323, aired&#160;2025-04-30</a>
+    </td>
+    <td valign="top">
+      Ben Ganger vs. Jordan Stefanski vs. Roni Ackner
+    </td>
+    <td valign="top" class="left_padded">
+      Ben Ganger game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9180" title="Taped 2025-03-05">&#35;9322, aired&#160;2025-04-29</a>
+    </td>
+    <td valign="top">
+      Erin Morin vs. Ben Ganger vs. Rahel Zubairi
+    </td>
+    <td valign="top" class="left_padded">
+      Ben Ganger game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9179" title="Taped 2025-03-05">&#35;9321, aired&#160;2025-04-28</a>
+    </td>
+    <td valign="top">
+      Liam Starnes vs. Erin Morin vs. Steve Icsman
+    </td>
+    <td valign="top" class="left_padded">
+      Liam Starnes game 7.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9178" title="Taped 2025-03-04">&#35;9320, aired&#160;2025-04-25</a>
+    </td>
+    <td valign="top">
+      Liam Starnes vs. Simon Liebling vs. Jenn Gardner
+    </td>
+    <td valign="top" class="left_padded">
+      Liam Starnes game 6.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9177" title="Taped 2025-03-04">&#35;9319, aired&#160;2025-04-24</a>
+    </td>
+    <td valign="top">
+      Liam Starnes vs. Raguell Couch vs. Harold Goldston III
+    </td>
+    <td valign="top" class="left_padded">
+      Liam Starnes game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9176" title="Taped 2025-03-04">&#35;9318, aired&#160;2025-04-23</a>
+    </td>
+    <td valign="top">
+      Liam Starnes vs. Abigail Arnold vs. Eric Cordova
+    </td>
+    <td valign="top" class="left_padded">
+      Liam Starnes game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9175" title="Taped 2025-03-04">&#35;9317, aired&#160;2025-04-22</a>
+    </td>
+    <td valign="top">
+      Liam Starnes vs. Sara Grady vs. Kyle Dunn
+    </td>
+    <td valign="top" class="left_padded">
+      Liam Starnes game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9174" title="Taped 2025-03-04">&#35;9316, aired&#160;2025-04-21</a>
+    </td>
+    <td valign="top">
+      Liam Starnes vs. Bob Callen vs. Maja Vlajnic
+    </td>
+    <td valign="top" class="left_padded">
+      Liam Starnes game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9173" title="Taped 2025-02-25">&#35;9315, aired&#160;2025-04-18</a>
+    </td>
+    <td valign="top">
+      Steven Hoying vs. Rachael Gray vs. Liam Starnes
+    </td>
+    <td valign="top" class="left_padded">
+      Liam Starnes game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9171" title="Taped 2025-02-25">&#35;9314, aired&#160;2025-04-17</a>
+    </td>
+    <td valign="top">
+      Andrew Hayes vs. Steven Hoying vs. Michelle Dolinski
+    </td>
+    <td valign="top" class="left_padded">
+      Andrew Hayes game 7.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9170" title="Taped 2025-02-25">&#35;9313, aired&#160;2025-04-16</a>
+    </td>
+    <td valign="top">
+      Andrew Hayes vs. Denise LeBlanc-Bock vs. Brenden Monroe
+    </td>
+    <td valign="top" class="left_padded">
+      Andrew Hayes game 6.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9169" title="Taped 2025-02-25">&#35;9312, aired&#160;2025-04-15</a>
+    </td>
+    <td valign="top">
+      Andrew Hayes vs. Dondi DeMarco vs. Thomas Wilson
+    </td>
+    <td valign="top" class="left_padded">
+      Andrew Hayes game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9168" title="Taped 2025-02-25">&#35;9311, aired&#160;2025-04-14</a>
+    </td>
+    <td valign="top">
+      Andrew Hayes vs. Kyle Harvey vs. Jade Snelling
+    </td>
+    <td valign="top" class="left_padded">
+      Andrew Hayes game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9167" title="Taped 2025-02-24">&#35;9310, aired&#160;2025-04-11</a>
+    </td>
+    <td valign="top">
+      Andrew Hayes vs. Michael DiSciullo vs. Stephanie Rozman
+    </td>
+    <td valign="top" class="left_padded">
+      Andrew Hayes game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9166" title="Taped 2025-02-24">&#35;9309, aired&#160;2025-04-10</a>
+    </td>
+    <td valign="top">
+      Andrew Hayes vs. Dave Widmayer vs. Kat Donahoe
+    </td>
+    <td valign="top" class="left_padded">
+      Andrew Hayes game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9164" title="Taped 2025-02-24">&#35;9308, aired&#160;2025-04-09</a>
+    </td>
+    <td valign="top">
+      Mike Dawson vs. Courtney Martin vs. Andrew Hayes
+    </td>
+    <td valign="top" class="left_padded">
+      Mike Dawson game 4.
+Andrew Hayes game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9163" title="Taped 2025-02-24">&#35;9307, aired&#160;2025-04-08</a>
+    </td>
+    <td valign="top">
+      Mike Dawson vs. Joe Lancour vs. Anise K. Strong-Morse
+    </td>
+    <td valign="top" class="left_padded">
+      Mike Dawson game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9162" title="Taped 2025-02-24">&#35;9306, aired&#160;2025-04-07</a>
+    </td>
+    <td valign="top">
+      Mike Dawson vs. Erin Li vs. Taylor Mattox
+    </td>
+    <td valign="top" class="left_padded">
+      Mike Dawson game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9158" title="Taped 2025-02-24">&#35;9305, aired&#160;2025-04-04</a>
+    </td>
+    <td valign="top">
+      Bryce Wargin vs. Guy Branum vs. Mike Dawson
+    </td>
+    <td valign="top" class="left_padded">
+      Bryce Wargin game 5.
+Mike Dawson game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9157" title="Taped 2025-02-11">&#35;9304, aired&#160;2025-04-03</a>
+    </td>
+    <td valign="top">
+      Bryce Wargin vs. Mary Walheim vs. Alfred Wallace
+    </td>
+    <td valign="top" class="left_padded">
+      Bryce Wargin game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9156" title="Taped 2025-02-11">&#35;9303, aired&#160;2025-04-02</a>
+    </td>
+    <td valign="top">
+      Bryce Wargin vs. Lee Henry vs. Brina Ratangee
+    </td>
+    <td valign="top" class="left_padded">
+      Bryce Wargin game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9155" title="Taped 2025-02-11">&#35;9302, aired&#160;2025-04-01</a>
+    </td>
+    <td valign="top">
+      Bryce Wargin vs. Conner Huey vs. Kristen Ramsey
+    </td>
+    <td valign="top" class="left_padded">
+      Bryce Wargin game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9154" title="Taped 2025-02-11">&#35;9301, aired&#160;2025-03-31</a>
+    </td>
+    <td valign="top">
+      Josh Weikert vs. Bryce Wargin vs. Allison Willard
+    </td>
+    <td valign="top" class="left_padded">
+      Josh Weikert game 7.
+Bryce Wargin game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9153" title="Taped 2025-02-11">&#35;9300, aired&#160;2025-03-28</a>
+    </td>
+    <td valign="top">
+      Josh Weikert vs. Mike Budzinski vs. Revell Carr
+    </td>
+    <td valign="top" class="left_padded">
+      Josh Weikert game 6.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9152" title="Taped 2025-02-10">&#35;9299, aired&#160;2025-03-27</a>
+    </td>
+    <td valign="top">
+      Josh Weikert vs. Neha Narayan vs. David Weir
+    </td>
+    <td valign="top" class="left_padded">
+      Josh Weikert game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9151" title="Taped 2025-02-10">&#35;9298, aired&#160;2025-03-26</a>
+    </td>
+    <td valign="top">
+      Josh Weikert vs. John Rindone vs. Melanie Hirsch
+    </td>
+    <td valign="top" class="left_padded">
+      Josh Weikert game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9150" title="Taped 2025-02-10">&#35;9297, aired&#160;2025-03-25</a>
+    </td>
+    <td valign="top">
+      Josh Weikert vs. Sara Balmuth vs. Eugene Huang
+    </td>
+    <td valign="top" class="left_padded">
+      Josh Weikert game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9149" title="Taped 2025-02-10">&#35;9296, aired&#160;2025-03-24</a>
+    </td>
+    <td valign="top">
+      Josh Weikert vs. Mustafa Hameed vs. Geraldine Rodriguez
+    </td>
+    <td valign="top" class="left_padded">
+      Josh Weikert game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9148" title="Taped 2025-02-10">&#35;9295, aired&#160;2025-03-21</a>
+    </td>
+    <td valign="top">
+      Cameron Berry vs. Steve Luck vs. Josh Weikert
+    </td>
+    <td valign="top" class="left_padded">
+      Cameron Berry game 2.
+Josh Weikert game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9147" title="Taped 2025-01-28">&#35;9294, aired&#160;2025-03-20</a>
+    </td>
+    <td valign="top">
+      Alex DeFrank vs. Hillary Hess vs. Cameron Berry
+    </td>
+    <td valign="top" class="left_padded">
+      Alex DeFrank game 5.
+Cameron Berry game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9146" title="Taped 2025-01-28">&#35;9293, aired&#160;2025-03-19</a>
+    </td>
+    <td valign="top">
+      Alex DeFrank vs. Ann Velenchik vs. Adam Silverman
+    </td>
+    <td valign="top" class="left_padded">
+      Alex DeFrank game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9145" title="Taped 2025-01-28">&#35;9292, aired&#160;2025-03-18</a>
+    </td>
+    <td valign="top">
+      Alex DeFrank vs. David DeBacker vs. Lily St. Laurent
+    </td>
+    <td valign="top" class="left_padded">
+      Alex DeFrank game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9144" title="Taped 2025-01-28">&#35;9291, aired&#160;2025-03-17</a>
+    </td>
+    <td valign="top">
+      Alex DeFrank vs. Clare Murray vs. Brett Aresco
+    </td>
+    <td valign="top" class="left_padded">
+      Alex DeFrank game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9143" title="Taped 2025-01-28">&#35;9290, aired&#160;2025-03-14</a>
+    </td>
+    <td valign="top">
+      Jack Goldfisher vs. Alex DeFrank vs. Jamie Hare
+    </td>
+    <td valign="top" class="left_padded">
+      Alex DeFrank game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9142" title="Taped 2025-01-27">&#35;9289, aired&#160;2025-03-13</a>
+    </td>
+    <td valign="top">
+      James Corson vs. Jack Goldfisher vs. Liz Engelhardt
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9141" title="Taped 2025-01-27">&#35;9288, aired&#160;2025-03-12</a>
+    </td>
+    <td valign="top">
+      James Corson vs. Kristen VanBlargan vs. Brian Nieves
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9140" title="Taped 2025-01-27">&#35;9287, aired&#160;2025-03-11</a>
+    </td>
+    <td valign="top">
+      Harvey Silikovitz vs. Emily Johnson vs. James Corson
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9139" title="Taped 2025-01-27">&#35;9286, aired&#160;2025-03-10</a>
+    </td>
+    <td valign="top">
+      Laura Faddah vs. Harvey Silikovitz vs. Sabrina Blanks
+    </td>
+    <td valign="top" class="left_padded">
+      Laura Faddah game 9.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9138" title="Taped 2025-01-27">&#35;9285, aired&#160;2025-03-07</a>
+    </td>
+    <td valign="top">
+      Laura Faddah vs. Omar Abu Realh vs. Roger Ghaman
+    </td>
+    <td valign="top" class="left_padded">
+      Laura Faddah game 8.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9137" title="Taped 2025-02-06">&#35;9284, aired&#160;2025-03-06</a>
+    </td>
+    <td valign="top">
+      Matt Amodio vs. Roger Craig vs. Juveria Zaheer
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament final game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9136" title="Taped 2025-02-06">&#35;9283, aired&#160;2025-03-05</a>
+    </td>
+    <td valign="top">
+      Matt Amodio vs. Roger Craig vs. Juveria Zaheer
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament final game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9135" title="Taped 2025-02-05">&#35;9282, aired&#160;2025-03-04</a>
+    </td>
+    <td valign="top">
+      Raymond Goslow vs. Juveria Zaheer vs. Ray Lalonde
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament semifinal game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9134" title="Taped 2025-02-05">&#35;9281, aired&#160;2025-03-03</a>
+    </td>
+    <td valign="top">
+      Matt Amodio vs. Luigi de Guzman vs. Emily Sands
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament semifinal game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9133" title="Taped 2025-02-05">&#35;9280, aired&#160;2025-02-28</a>
+    </td>
+    <td valign="top">
+      Roger Craig vs. Jaskaran Singh vs. Shane Whitlock
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament semifinal game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9132" title="Taped 2025-02-05">&#35;9279, aired&#160;2025-02-27</a>
+    </td>
+    <td valign="top">
+      Seth Wilson vs. Jackson Jones vs. Juveria Zaheer
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament quarterfinal game 9.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9130" title="Taped 2025-02-05">&#35;9278, aired&#160;2025-02-26</a>
+    </td>
+    <td valign="top">
+      Ben Chan vs. Claire Sattler vs. Shane Whitlock
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament quarterfinal game 8.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9129" title="Taped 2025-02-05">&#35;9277, aired&#160;2025-02-25</a>
+    </td>
+    <td valign="top">
+      Ray Lalonde vs. Robin Carroll vs. Ryan Long
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament quarterfinal game 7.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9128" title="Taped 2025-02-04">&#35;9276, aired&#160;2025-02-24</a>
+    </td>
+    <td valign="top">
+      Avi Gupta vs. Amy Schneider vs. Luigi de Guzman
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament quarterfinal game 6.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9127" title="Taped 2025-02-04">&#35;9275, aired&#160;2025-02-21</a>
+    </td>
+    <td valign="top">
+      Maya Wright vs. Roger Craig vs. John Focht
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament quarterfinal game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9126" title="Taped 2025-02-04">&#35;9274, aired&#160;2025-02-20</a>
+    </td>
+    <td valign="top">
+      Raymond Goslow vs. Troy Meyer vs. Jackie Kelly
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament quarterfinal game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9125" title="Taped 2025-02-04">&#35;9273, aired&#160;2025-02-19</a>
+    </td>
+    <td valign="top">
+      Emily Sands vs. Rachael Schwartz vs. Jonathan Fisher
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament quarterfinal game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9124" title="Taped 2025-02-04">&#35;9272, aired&#160;2025-02-18</a>
+    </td>
+    <td valign="top">
+      Skyler Hornback vs. Margaret Shelton vs. Jaskaran Singh
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament quarterfinal game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9123" title="Taped 2025-02-04">&#35;9271, aired&#160;2025-02-17</a>
+    </td>
+    <td valign="top">
+      Matt Amodio vs. Hannah Wilson vs. Doug Molitor
+    </td>
+    <td valign="top" class="left_padded">
+      2025 <i>Jeopardy!</i> Invitational Tournament quarterfinal game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9108" title="Taped 2024-12-04">&#35;9270, aired&#160;2025-02-14</a>
+    </td>
+    <td valign="top">
+      Adriana Harmeyer vs. Isaac Hirsch vs. Drew Basile
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions exhibition game for players with byes...
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9121" title="Taped 2024-12-06">&#35;9269, aired&#160;2025-02-13</a>
+    </td>
+    <td valign="top">
+      Adriana Harmeyer vs. Isaac Hirsch vs. Neilesh Vinjamuri
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions final game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9120" title="Taped 2024-12-06">&#35;9268, aired&#160;2025-02-12</a>
+    </td>
+    <td valign="top">
+      Adriana Harmeyer vs. Isaac Hirsch vs. Neilesh Vinjamuri
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions final game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9119" title="Taped 2024-12-06">&#35;9267, aired&#160;2025-02-11</a>
+    </td>
+    <td valign="top">
+      Adriana Harmeyer vs. Isaac Hirsch vs. Neilesh Vinjamuri
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions final game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9118" title="Taped 2024-12-05">&#35;9266, aired&#160;2025-02-10</a>
+    </td>
+    <td valign="top">
+      Adriana Harmeyer vs. Isaac Hirsch vs. Neilesh Vinjamuri
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions final game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9117" title="Taped 2024-12-05">&#35;9265, aired&#160;2025-02-07</a>
+    </td>
+    <td valign="top">
+      Adriana Harmeyer vs. Isaac Hirsch vs. Neilesh Vinjamuri
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions final game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9115" title="Taped 2024-12-05">&#35;9264, aired&#160;2025-02-06</a>
+    </td>
+    <td valign="top">
+      Drew Basile vs. Drew Goins vs. Neilesh Vinjamuri
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions semifinal game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9114" title="Taped 2024-12-05">&#35;9263, aired&#160;2025-02-05</a>
+    </td>
+    <td valign="top">
+      Isaac Hirsch vs. Mark Fitzpatrick vs. Amy Hummel
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions semifinal game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9113" title="Taped 2024-12-05">&#35;9262, aired&#160;2025-02-04</a>
+    </td>
+    <td valign="top">
+      Adriana Harmeyer vs. Ryan Manton vs. Will Wallace
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions semifinal game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9112" title="Taped 2024-12-04">&#35;9261, aired&#160;2025-02-03</a>
+    </td>
+    <td valign="top">
+      Drew Goins vs. Amar Kakirde vs. Lucas Partridge
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions quarterfinal game 6.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9111" title="Taped 2024-12-04">&#35;9260, aired&#160;2025-01-31</a>
+    </td>
+    <td valign="top">
+      Mark Fitzpatrick vs. Allison Gross vs. Kevin Laskowski
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions quarterfinal game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9110" title="Taped 2024-12-04">&#35;9259, aired&#160;2025-01-30</a>
+    </td>
+    <td valign="top">
+      Mehal Shah vs. Ryan Manton vs. Will Stewart
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions quarterfinal game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9107" title="Taped 2024-12-04">&#35;9258, aired&#160;2025-01-29</a>
+    </td>
+    <td valign="top">
+      Greg Jolin vs. Weckiai Rannila vs. Neilesh Vinjamuri
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions quarterfinal game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9106" title="Taped 2024-12-04">&#35;9257, aired&#160;2025-01-28</a>
+    </td>
+    <td valign="top">
+      Amy Hummel vs. Grant DeYoung vs. David Erb
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions quarterfinal game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9105" title="Taped 2024-12-04">&#35;9256, aired&#160;2025-01-27</a>
+    </td>
+    <td valign="top">
+      Alison Betts vs. Will Wallace vs. Rishabh Wuppalapati
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Tournament of Champions quarterfinal game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9104" title="Taped 2024-11-13">&#35;9255, aired&#160;2025-01-24</a>
+    </td>
+    <td valign="top">
+      Will Yancey vs. Drew Goins vs. Mehal Shah
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Champions Wildcard final game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9102" title="Taped 2024-11-13">&#35;9254, aired&#160;2025-01-23</a>
+    </td>
+    <td valign="top">
+      Will Yancey vs. Drew Goins vs. Mehal Shah
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Champions Wildcard final game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9101" title="Taped 2024-11-13">&#35;9253, aired&#160;2025-01-22</a>
+    </td>
+    <td valign="top">
+      Marko Saric vs. Mehal Shah vs. Paul Clauson
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Champions Wildcard semifinal game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9100" title="Taped 2024-11-13">&#35;9252, aired&#160;2025-01-21</a>
+    </td>
+    <td valign="top">
+      Evan Dorey vs. Jay Fisher vs. Will Yancey
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Champions Wildcard semifinal game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9099" title="Taped 2024-11-13">&#35;9251, aired&#160;2025-01-20</a>
+    </td>
+    <td valign="top">
+      Joey DeSena vs. Drew Goins vs. Jen Feldman
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Champions Wildcard semifinal game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9097" title="Taped 2024-11-12">&#35;9250, aired&#160;2025-01-17</a>
+    </td>
+    <td valign="top">
+      Adam Hersh vs. Marko Saric vs. Will Weiss
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Champions Wildcard quarterfinal game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9096" title="Taped 2024-11-12">&#35;9249, aired&#160;2025-01-16</a>
+    </td>
+    <td valign="top">
+      Joey DeSena vs. Mehal Shah vs. Eamonn Campbell
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Champions Wildcard quarterfinal game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9095" title="Taped 2024-11-12">&#35;9248, aired&#160;2025-01-15</a>
+    </td>
+    <td valign="top">
+      Drew Goins vs. Jay Fisher vs. Aiden Orzech
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Champions Wildcard quarterfinal game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9094" title="Taped 2024-11-12">&#35;9247, aired&#160;2025-01-14</a>
+    </td>
+    <td valign="top">
+      Davey Morrison vs. Stevie Ruiz vs. Evan Dorey
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Champions Wildcard quarterfinal game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9093" title="Taped 2024-11-12">&#35;9246, aired&#160;2025-01-13</a>
+    </td>
+    <td valign="top">
+      Will Yancey vs. Paul Clauson vs. Jen Feldman
+    </td>
+    <td valign="top" class="left_padded">
+      2025 Champions Wildcard quarterfinal game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9092" title="Taped 2024-11-05">&#35;9245, aired&#160;2025-01-10</a>
+    </td>
+    <td valign="top">
+      Drew Goins vs. Sam Cameron vs. Enzo Cunanan
+    </td>
+    <td valign="top" class="left_padded">
+      2024-2025 Second Chance competition week 2, final game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9090" title="Taped 2024-11-05">&#35;9244, aired&#160;2025-01-09</a>
+    </td>
+    <td valign="top">
+      Drew Goins vs. Sam Cameron vs. Enzo Cunanan
+    </td>
+    <td valign="top" class="left_padded">
+      2024-2025 Second Chance competition week 2, final game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9089" title="Taped 2024-11-05">&#35;9243, aired&#160;2025-01-08</a>
+    </td>
+    <td valign="top">
+      Sam Cameron vs. Ferdinand Percentie vs. Lindsay Denninger
+    </td>
+    <td valign="top" class="left_padded">
+      2024-2025 Second Chance competition week 2, semifinal game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9088" title="Taped 2024-11-05">&#35;9242, aired&#160;2025-01-07</a>
+    </td>
+    <td valign="top">
+      Enzo Cunanan vs. Zoe Grobman vs. Josh Heit
+    </td>
+    <td valign="top" class="left_padded">
+      2024-2025 Second Chance competition week 2, semifinal game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9086" title="Taped 2024-11-05">&#35;9241, aired&#160;2025-01-06</a>
+    </td>
+    <td valign="top">
+      Jonquil Garrick-Reynolds vs. Steve Miller vs. Drew Goins
+    </td>
+    <td valign="top" class="left_padded">
+      2024-2025 Second Chance competition week 2, semifinal game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9085" title="Taped 2024-11-04">&#35;9240, aired&#160;2025-01-03</a>
+    </td>
+    <td valign="top">
+      Will Yancey vs. Colleen Matthews vs. Kaitlin Tarr
+    </td>
+    <td valign="top" class="left_padded">
+      2024-2025 Second Chance competition week 1, final game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9084" title="Taped 2024-11-04">&#35;9239, aired&#160;2025-01-02</a>
+    </td>
+    <td valign="top">
+      Will Yancey vs. Colleen Matthews vs. Kaitlin Tarr
+    </td>
+    <td valign="top" class="left_padded">
+      2024-2025 Second Chance competition week 1, final game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9083" title="Taped 2024-11-04">&#35;9238, aired&#160;2025-01-01</a>
+    </td>
+    <td valign="top">
+      Colleen Matthews vs. Gino Montoya vs. Josh Moss
+    </td>
+    <td valign="top" class="left_padded">
+      2024-2025 Second Chance competition week 1, semifinal game 3. With...
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9082" title="Taped 2024-11-04">&#35;9237, aired&#160;2024-12-31</a>
+    </td>
+    <td valign="top">
+      Scott Tcheng vs. Kaitlin Tarr vs. Mike Ferguson
+    </td>
+    <td valign="top" class="left_padded">
+      2024-2025 Second Chance competition week 1, semifinal game 2. With...
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9080" title="Taped 2024-11-04">&#35;9236, aired&#160;2024-12-30</a>
+    </td>
+    <td valign="top">
+      Alex Michev vs. Will Yancey vs. Tekla Sauter
+    </td>
+    <td valign="top" class="left_padded">
+      2024-2025 Second Chance competition week 1, semifinal game 1. A...
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9079" title="Taped 2024-10-30">&#35;9235, aired&#160;2024-12-27</a>
+    </td>
+    <td valign="top">
+      Laura Faddah vs. Megan Riddell vs. Herb Jeong
+    </td>
+    <td valign="top" class="left_padded">
+      Laura Faddah game 7.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9078" title="Taped 2024-10-30">&#35;9234, aired&#160;2024-12-26</a>
+    </td>
+    <td valign="top">
+      Laura Faddah vs. Carole Portas Keane vs. Brad Grusnick
+    </td>
+    <td valign="top" class="left_padded">
+      Laura Faddah game 6.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9077" title="Taped 2024-10-30">&#35;9233, aired&#160;2024-12-25</a>
+    </td>
+    <td valign="top">
+      Laura Faddah vs. Mathieu Farhoud-Dionne vs. Amber Gamrat
+    </td>
+    <td valign="top" class="left_padded">
+      Laura Faddah game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9076" title="Taped 2024-10-30">&#35;9232, aired&#160;2024-12-24</a>
+    </td>
+    <td valign="top">
+      Laura Faddah vs. Harry Jarin vs. Jenna Hayes
+    </td>
+    <td valign="top" class="left_padded">
+      Laura Faddah game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9075" title="Taped 2024-10-30">&#35;9231, aired&#160;2024-12-23</a>
+    </td>
+    <td valign="top">
+      Laura Faddah vs. Sean Maguire vs. Jenifer Miller
+    </td>
+    <td valign="top" class="left_padded">
+      Laura Faddah game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9074" title="Taped 2024-10-29">&#35;9230, aired&#160;2024-12-20</a>
+    </td>
+    <td valign="top">
+      Laura Faddah vs. Joe Asaminew vs. Maria Lauro
+    </td>
+    <td valign="top" class="left_padded">
+      Laura Faddah game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9073" title="Taped 2024-10-29">&#35;9229, aired&#160;2024-12-19</a>
+    </td>
+    <td valign="top">
+      Eric Weldon-Schilling vs. Neal Bowling vs. Laura Faddah
+    </td>
+    <td valign="top" class="left_padded">
+      Laura Faddah game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9072" title="Taped 2024-10-29">&#35;9228, aired&#160;2024-12-18</a>
+    </td>
+    <td valign="top">
+      Ashley Chan vs. Sarah Rosenthal vs. Eric Weldon-Schilling
+    </td>
+    <td valign="top" class="left_padded">
+      Ashley Chan game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9071" title="Taped 2024-10-29">&#35;9227, aired&#160;2024-12-17</a>
+    </td>
+    <td valign="top">
+      Ashley Chan vs. Jordan Carr Peterson vs. Jasmine Zhou
+    </td>
+    <td valign="top" class="left_padded">
+      Ashley Chan game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9070" title="Taped 2024-10-29">&#35;9226, aired&#160;2024-12-16</a>
+    </td>
+    <td valign="top">
+      Ashley Chan vs. Henry Barbaro vs. Matt Grossman
+    </td>
+    <td valign="top" class="left_padded">
+      Ashley Chan game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9069" title="Taped 2024-10-28">&#35;9225, aired&#160;2024-12-13</a>
+    </td>
+    <td valign="top">
+      Ashley Chan vs. Ram Murali vs. Carla Winston
+    </td>
+    <td valign="top" class="left_padded">
+      Ashley Chan game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9068" title="Taped 2024-10-28">&#35;9224, aired&#160;2024-12-12</a>
+    </td>
+    <td valign="top">
+      Bill McKinney vs. Ashley Chan vs. Alex Cousins
+    </td>
+    <td valign="top" class="left_padded">
+      Ashley Chan game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9067" title="Taped 2024-10-28">&#35;9223, aired&#160;2024-12-11</a>
+    </td>
+    <td valign="top">
+      Bill McKinney vs. Molly LeBlanc vs. Sam Nguyen
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9066" title="Taped 2024-10-28">&#35;9222, aired&#160;2024-12-10</a>
+    </td>
+    <td valign="top">
+      Bill McKinney vs. Sara Walker vs. Dan Sand
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9065" title="Taped 2024-10-28">&#35;9221, aired&#160;2024-12-09</a>
+    </td>
+    <td valign="top">
+      Dave Bond vs. Bill McKinney vs. Lisa O'Donnell
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9064" title="Taped 2024-10-02">&#35;9220, aired&#160;2024-12-06</a>
+    </td>
+    <td valign="top">
+      Dave Bond vs. Zach DeBoer vs. Erin Adams
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9063" title="Taped 2024-10-02">&#35;9219, aired&#160;2024-12-05</a>
+    </td>
+    <td valign="top">
+      Stevie Ruiz vs. Dave Bond vs. Lisa DiLeo
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9062" title="Taped 2024-10-02">&#35;9218, aired&#160;2024-12-04</a>
+    </td>
+    <td valign="top">
+      Stevie Ruiz vs. Kimberley Debus vs. Gloria Nastas
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9061" title="Taped 2024-10-02">&#35;9217, aired&#160;2024-12-03</a>
+    </td>
+    <td valign="top">
+      Evan Jones vs. Luca Gerace vs. Stevie Ruiz
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9060" title="Taped 2024-10-02">&#35;9216, aired&#160;2024-12-02</a>
+    </td>
+    <td valign="top">
+      Susan Beachy vs. Evan Jones vs. Mike Ross
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9059" title="Taped 2024-10-01">&#35;9215, aired&#160;2024-11-29</a>
+    </td>
+    <td valign="top">
+      Laurel Day vs. Susan Beachy vs. Nick Pietrowicz
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9058" title="Taped 2024-10-01">&#35;9214, aired&#160;2024-11-28</a>
+    </td>
+    <td valign="top">
+      Kevin Laskowski vs. Debbie Mercer vs. Laurel Day
+    </td>
+    <td valign="top" class="left_padded">
+      Kevin Laskowski game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9057" title="Taped 2024-10-01">&#35;9213, aired&#160;2024-11-27</a>
+    </td>
+    <td valign="top">
+      Kevin Laskowski vs. Drew Wheeler vs. Julia Schan
+    </td>
+    <td valign="top" class="left_padded">
+      Kevin Laskowski game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9056" title="Taped 2024-10-01">&#35;9212, aired&#160;2024-11-26</a>
+    </td>
+    <td valign="top">
+      Kevin Laskowski vs. Ryan Smith vs. Samantha Altschuler
+    </td>
+    <td valign="top" class="left_padded">
+      Kevin Laskowski game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9055" title="Taped 2024-10-01">&#35;9211, aired&#160;2024-11-25</a>
+    </td>
+    <td valign="top">
+      Adam Hersh vs. Kevin Laskowski vs. Carolyn Gramling
+    </td>
+    <td valign="top" class="left_padded">
+      Kevin Laskowski game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9054" title="Taped 2024-09-30">&#35;9210, aired&#160;2024-11-22</a>
+    </td>
+    <td valign="top">
+      Mehal Shah vs. Courtney Schooley vs. Adam Hersh
+    </td>
+    <td valign="top" class="left_padded">
+      Mehal Shah game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9053" title="Taped 2024-09-30">&#35;9209, aired&#160;2024-11-21</a>
+    </td>
+    <td valign="top">
+      Mehal Shah vs. Jack Altman vs. Holly Luo
+    </td>
+    <td valign="top" class="left_padded">
+      Mehal Shah game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9052" title="Taped 2024-09-30">&#35;9208, aired&#160;2024-11-20</a>
+    </td>
+    <td valign="top">
+      Mikey McCullough vs. Elizabeth Little vs. Mehal Shah
+    </td>
+    <td valign="top" class="left_padded">
+      Mehal Shah game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9051" title="Taped 2024-09-30">&#35;9207, aired&#160;2024-11-19</a>
+    </td>
+    <td valign="top">
+      Paul Clauson vs. Mikey McCullough vs. Christopher Burge
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9050" title="Taped 2024-09-30">&#35;9206, aired&#160;2024-11-18</a>
+    </td>
+    <td valign="top">
+      Paul Clauson vs. Amy Fleenor vs. Jonelle Lonergan
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9049" title="Taped 2024-09-24">&#35;9205, aired&#160;2024-11-15</a>
+    </td>
+    <td valign="top">
+      Stephanie Asalone vs. Paul Clauson vs. Kristen Moreland
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9048" title="Taped 2024-09-24">&#35;9204, aired&#160;2024-11-14</a>
+    </td>
+    <td valign="top">
+      Evan Dorey vs. Steven Czekala vs. Stephanie Asalone
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9047" title="Taped 2024-09-24">&#35;9203, aired&#160;2024-11-13</a>
+    </td>
+    <td valign="top">
+      Joey DeSena vs. Evan Dorey vs. Lois Dioro
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9046" title="Taped 2024-09-24">&#35;9202, aired&#160;2024-11-12</a>
+    </td>
+    <td valign="top">
+      Joey DeSena vs. Kathleen Clark vs. Jonathan Fox
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9045" title="Taped 2024-09-24">&#35;9201, aired&#160;2024-11-11</a>
+    </td>
+    <td valign="top">
+      Rachel Marcus vs. Joey DeSena vs. Chris Spencer
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9044" title="Taped 2024-09-23">&#35;9200, aired&#160;2024-11-08</a>
+    </td>
+    <td valign="top">
+      Susan Stumme vs. Ross Dickson vs. Rachel Marcus
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9043" title="Taped 2024-09-23">&#35;9199, aired&#160;2024-11-07</a>
+    </td>
+    <td valign="top">
+      Greg Jolin vs. Susan Stumme vs. Sammy Sanchez
+    </td>
+    <td valign="top" class="left_padded">
+      Greg Jolin game 6.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9042" title="Taped 2024-09-23">&#35;9198, aired&#160;2024-11-06</a>
+    </td>
+    <td valign="top">
+      Greg Jolin vs. Derek Hieronymus vs. Adrienne Clermont
+    </td>
+    <td valign="top" class="left_padded">
+      Greg Jolin game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9041" title="Taped 2024-09-23">&#35;9197, aired&#160;2024-11-05</a>
+    </td>
+    <td valign="top">
+      Greg Jolin vs. Priscilla Gruenewald vs. Chuck Rea
+    </td>
+    <td valign="top" class="left_padded">
+      Greg Jolin game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9040" title="Taped 2024-09-23">&#35;9196, aired&#160;2024-11-04</a>
+    </td>
+    <td valign="top">
+      Greg Jolin vs. Lindsey Simmons vs. Brian Frey
+    </td>
+    <td valign="top" class="left_padded">
+      Greg Jolin game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9039" title="Taped 2024-09-18">&#35;9195, aired&#160;2024-11-01</a>
+    </td>
+    <td valign="top">
+      Greg Jolin vs. Julie Phillips vs. Sam Cameron
+    </td>
+    <td valign="top" class="left_padded">
+      Greg Jolin game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9038" title="Taped 2024-09-18">&#35;9194, aired&#160;2024-10-31</a>
+    </td>
+    <td valign="top">
+      Joseph Carlstein vs. Alicia Buffa vs. Greg Jolin
+    </td>
+    <td valign="top" class="left_padded">
+      Greg Jolin game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9037" title="Taped 2024-09-18">&#35;9193, aired&#160;2024-10-30</a>
+    </td>
+    <td valign="top">
+      John Liu vs. Joseph Carlstein vs. Jacqui Kaplan
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9036" title="Taped 2024-09-18">&#35;9192, aired&#160;2024-10-29</a>
+    </td>
+    <td valign="top">
+      Ian Taylor vs. Aimée Record vs. John Liu
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9035" title="Taped 2024-09-18">&#35;9191, aired&#160;2024-10-28</a>
+    </td>
+    <td valign="top">
+      Will Wallace vs. Ian Taylor vs. Heather Ryan
+    </td>
+    <td valign="top" class="left_padded">
+      Will Wallace game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9034" title="Taped 2024-09-17">&#35;9190, aired&#160;2024-10-25</a>
+    </td>
+    <td valign="top">
+      Will Wallace vs. Carol Lowe vs. Olaf Talbert
+    </td>
+    <td valign="top" class="left_padded">
+      Will Wallace game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9033" title="Taped 2024-09-17">&#35;9189, aired&#160;2024-10-24</a>
+    </td>
+    <td valign="top">
+      Will Wallace vs. Kiki Jamieson vs. Dan Meyer
+    </td>
+    <td valign="top" class="left_padded">
+      Will Wallace game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9032" title="Taped 2024-09-17">&#35;9188, aired&#160;2024-10-23</a>
+    </td>
+    <td valign="top">
+      Will Wallace vs. Sophia Maymudes vs. Brett Kelly
+    </td>
+    <td valign="top" class="left_padded">
+      Will Wallace game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9031" title="Taped 2024-09-17">&#35;9187, aired&#160;2024-10-22</a>
+    </td>
+    <td valign="top">
+      Tristan Brown vs. Stephanie Cooper vs. Will Wallace
+    </td>
+    <td valign="top" class="left_padded">
+      Will Wallace game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9030" title="Taped 2024-09-17">&#35;9186, aired&#160;2024-10-21</a>
+    </td>
+    <td valign="top">
+      Kelly Gates vs. Marcus Ghiringhelli vs. Tristan Brown
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9029" title="Taped 2024-09-16">&#35;9185, aired&#160;2024-10-18</a>
+    </td>
+    <td valign="top">
+      Rishabh Wuppalapati vs. Kyle Compton-Troesch vs. Kelly Gates
+    </td>
+    <td valign="top" class="left_padded">
+      Rishabh Wuppalapati game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9028" title="Taped 2024-09-16">&#35;9184, aired&#160;2024-10-17</a>
+    </td>
+    <td valign="top">
+      Rishabh Wuppalapati vs. Angel Poe vs. Aaron Brown
+    </td>
+    <td valign="top" class="left_padded">
+      Rishabh Wuppalapati game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9027" title="Taped 2024-09-16">&#35;9183, aired&#160;2024-10-16</a>
+    </td>
+    <td valign="top">
+      Rishabh Wuppalapati vs. Jay Eversman vs. Rachel Cassidy
+    </td>
+    <td valign="top" class="left_padded">
+      Rishabh Wuppalapati game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9026" title="Taped 2024-09-16">&#35;9182, aired&#160;2024-10-15</a>
+    </td>
+    <td valign="top">
+      Eamonn Campbell vs. Rishabh Wuppalapati vs. Zoe Grobman
+    </td>
+    <td valign="top" class="left_padded">
+      Rishabh Wuppalapati game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9025" title="Taped 2024-09-16">&#35;9181, aired&#160;2024-10-14</a>
+    </td>
+    <td valign="top">
+      Eamonn Campbell vs. Jack Swansey vs. Caryn Radick
+    </td>
+    <td valign="top" class="left_padded">
+      Modified set with single-screen game board and new Final Jeopardy!...
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9024" title="Taped 2024-06-05">&#35;9180, aired&#160;2024-10-11</a>
+    </td>
+    <td valign="top">
+      Mark Fitzpatrick vs. Eamonn Campbell vs. Dot White
+    </td>
+    <td valign="top" class="left_padded">
+      Mark Fitzpatrick game 6.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9023" title="Taped 2024-06-05">&#35;9179, aired&#160;2024-10-10</a>
+    </td>
+    <td valign="top">
+      Mark Fitzpatrick vs. Mike Obstgarten vs. Cynthia Bullock
+    </td>
+    <td valign="top" class="left_padded">
+      Mark Fitzpatrick game 5.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9022" title="Taped 2024-06-05">&#35;9178, aired&#160;2024-10-09</a>
+    </td>
+    <td valign="top">
+      Mark Fitzpatrick vs. Rob Franke vs. Colleen Kelly
+    </td>
+    <td valign="top" class="left_padded">
+      Mark Fitzpatrick game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9021" title="Taped 2024-06-05">&#35;9177, aired&#160;2024-10-08</a>
+    </td>
+    <td valign="top">
+      Mark Fitzpatrick vs. Andrew Miller vs. Gino Montoya
+    </td>
+    <td valign="top" class="left_padded">
+      Mark Fitzpatrick game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9020" title="Taped 2024-06-05">&#35;9176, aired&#160;2024-10-07</a>
+    </td>
+    <td valign="top">
+      Mark Fitzpatrick vs. Daniel Gately vs. Amanda Prusila
+    </td>
+    <td valign="top" class="left_padded">
+      Mark Fitzpatrick game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9019" title="Taped 2024-06-04">&#35;9175, aired&#160;2024-10-04</a>
+    </td>
+    <td valign="top">
+      Ryan Manton vs. Anne Singleton vs. Mark Fitzpatrick
+    </td>
+    <td valign="top" class="left_padded">
+      Ryan Manton game 5.
+Mark Fitzpatrick game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9018" title="Taped 2024-06-04">&#35;9174, aired&#160;2024-10-03</a>
+    </td>
+    <td valign="top">
+      Ryan Manton vs. Adam Stewart vs. Emily Stowell-Bui
+    </td>
+    <td valign="top" class="left_padded">
+      Ryan Manton game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9017" title="Taped 2024-06-04">&#35;9173, aired&#160;2024-10-02</a>
+    </td>
+    <td valign="top">
+      Ryan Manton vs. Scott Tcheng vs. Erin Ward
+    </td>
+    <td valign="top" class="left_padded">
+      Ryan Manton game 3.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9016" title="Taped 2024-06-04">&#35;9172, aired&#160;2024-10-01</a>
+    </td>
+    <td valign="top">
+      Ryan Manton vs. Brooke Levine vs. Mike McComb
+    </td>
+    <td valign="top" class="left_padded">
+      Ryan Manton game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9015" title="Taped 2024-06-04">&#35;9171, aired&#160;2024-09-30</a>
+    </td>
+    <td valign="top">
+      Kate Roesch vs. Alison Prelusky vs. Ryan Manton
+    </td>
+    <td valign="top" class="left_padded">
+      Ryan Manton game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9014" title="Taped 2024-06-03">&#35;9170, aired&#160;2024-09-27</a>
+    </td>
+    <td valign="top">
+      Maddie Carwile vs. Marianne McGowan vs. Kate Roesch
+    </td>
+    <td valign="top" class="left_padded">
+      Clips from this show appeared on the 2025-06-19 episode of...
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9013" title="Taped 2024-06-03">&#35;9169, aired&#160;2024-09-26</a>
+    </td>
+    <td valign="top">
+      David Erb vs. Alex Michev vs. Maddie Carwile
+    </td>
+    <td valign="top" class="left_padded">
+      David Erb game 4.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9012" title="Taped 2024-06-03">&#35;9168, aired&#160;2024-09-25</a>
+    </td>
+    <td valign="top">
+      David Erb vs. Drew Goins vs. Diane Lochner
+    </td>
+    <td valign="top" class="left_padded">
+      David Erb game 3.
+Drew Goins game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9011" title="Taped 2024-06-03">&#35;9167, aired&#160;2024-09-24</a>
+    </td>
+    <td valign="top">
+      David Erb vs. Rachael Crawley vs. Carter Scott
+    </td>
+    <td valign="top" class="left_padded">
+      David Erb game 2.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9010" title="Taped 2024-06-03">&#35;9166, aired&#160;2024-09-23</a>
+    </td>
+    <td valign="top">
+      Jen Feldman vs. David Erb vs. Dana Schwartz
+    </td>
+    <td valign="top" class="left_padded">
+      David Erb game 1.
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9009" title="Taped 2024-05-31">&#35;9165, aired&#160;2024-09-20</a>
+    </td>
+    <td valign="top">
+      Jen Feldman vs. Santhosh Sastry vs. Sarah Preisinger
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9008" title="Taped 2024-05-31">&#35;9164, aired&#160;2024-09-19</a>
+    </td>
+    <td valign="top">
+      Chris Lindsay vs. Jen Feldman vs. Fr. Steve Jakubowski
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9007" title="Taped 2024-05-31">&#35;9163, aired&#160;2024-09-18</a>
+    </td>
+    <td valign="top">
+      Aiden Orzech vs. Chris Lindsay vs. Sam Neuman
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9006" title="Taped 2024-05-31">&#35;9162, aired&#160;2024-09-17</a>
+    </td>
+    <td valign="top">
+      Aiden Orzech vs. Alisa Kindsfater vs. Will Yancey
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9004" title="Taped 2024-05-31">&#35;9161, aired&#160;2024-09-16</a>
+    </td>
+    <td valign="top">
+      Evan Suttell vs. Sam Watson vs. Aiden Orzech
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9003" title="Taped 2024-05-30">&#35;9160, aired&#160;2024-09-13</a>
+    </td>
+    <td valign="top">
+      Mark Palmere vs. Evan Suttell vs. Hilary Glazer
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9002" title="Taped 2024-05-30">&#35;9159, aired&#160;2024-09-12</a>
+    </td>
+    <td valign="top">
+      Will Weiss vs. Mark Palmere vs. Bethany Korp
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9001" title="Taped 2024-05-30">&#35;9158, aired&#160;2024-09-11</a>
+    </td>
+    <td valign="top">
+      Will Weiss vs. Ben Gagne-Maynard vs. Kristen Robinson
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9000" title="Taped 2024-05-30">&#35;9157, aired&#160;2024-09-10</a>
+    </td>
+    <td valign="top">
+      Adam Reiffen vs. Mary Catherine French vs. Will Weiss
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=8999" title="Taped 2024-05-30">&#35;9156, aired&#160;2024-09-09</a>
+    </td>
+    <td valign="top">
+      Rachel Bradley vs. Adam Reiffen vs. Amanda White
+    </td>
+    <td valign="top" class="left_padded">
+      First game of Season 41.
+    </td>
+  </tr>
+</table>
+<p><a href="ddstats.php?season=41">[Daily Double statistics]</a> <a href="finalstats.php?season=41">[Final Jeopardy! Round statistics]</a> <a href="miscstats.php?season=41">[Miscellaneous statistics]</a> <a href="shoresconjecture_uncached.php?season=41">[Shore's Conjecture games]</a> <a href="listfjs.php?season=41">[FJ!s]</a></p>
+</div>
+
+<div id="disclaimer">The J! Archive is created by fans, for fans.  Scraping, republication, monetization, and malicious use prohibited; this site may use cookies and collect identifying information.  See <a href="help.php#terms">terms</a>.  The <i><a href="https://www.jeopardy.com">Jeopardy!</a></i> game show and all elements thereof, including but not limited to copyright and trademark thereto, are the property of Jeopardy Productions, Inc. and are protected under law.  This website is not affiliated with, sponsored by, or operated by Jeopardy Productions, Inc.  Join the discussion at <a href="https://jboard.tv">JBoard.tv</a>.</div>
+<script>
+  const searchInput = document.getElementById("search");
+  searchInput.addEventListener("focus", function(){
+    searchInput.style.width = "400px";
+  });
+  searchInput.addEventListener("blur", function(){
+    if (searchInput.value.length === 0) {
+      searchInput.style.width = "100px";
+    }
+  });
+</script>
+<script src="https://www.j-archive.com/scripts.js" type="text/javascript"></script>
+</body>
+</html>

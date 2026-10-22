@@ -1,14 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "https://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="https://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FFN1KR7LK"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-0FFN1KR7LK');
-</script>
 <title>J! Archive - Season 1</title>
 <link type="text/css" rel="styleSheet" href="styles.css" />
 <link rel="shortcut icon" href="https://j-archive.com/favicon.ico" />
@@ -17,14 +9,145 @@
 
 <div id="navbar">
   <span id="navbarlogo"><a href="index.php"><img src="j-a.gif" width="100" height="22" alt="J! Archive" /></a></span>
-  <span id="navbartext"><a href="showseason.php?season=40">[current season]</a> <a href="showseason.php?season=39">[last season]</a> <a href="listseasons.php">[all seasons]</a> <a href="listprizes.php">[prizes]</a> <a href="wageringcalculator.php">[wagering calculator]</a> <a href="help.php">[help]</a></span>
+  <span id="navbartext"><a href="showseason.php?season=43">[current season]</a> <a href="showseason.php?season=42">[last season]</a> <a href="listseasons.php">[all seasons]</a> <a href="listprizes.php">[prizes]</a> <a href="wageringcalculator.php">[wagering calculator]</a> <a href="help.php">[help]</a></span>
+    <form id="navbarsearch" action="https://j-archive.com/search.php" method="get" enctype="x-www-form-encoded" accept-charset="utf-8">
+      <fieldset class="noborder">
+        <input type="text" class="search" name="search" id="search" maxlength="256" placeholder="Search..." value="" autocomplete="off" />
+        <input type="submit" class="search_button" name="submit" value="Search" />
+      </fieldset>
+      <div id="search-suggestions" class="search-suggestions-dropdown"></div>
+    </form>
 
-  <form id="navbarsearch" action="https://j-archive.com/search.php" method="get" enctype="x-www-form-encoded" accept-charset="utf-8">
-    <fieldset class="noborder">
-      <input type="text" class="search" name="search" id="search" maxlength="256" placeholder="Search..." value="" />
-      <input type="submit" class="search_button" name="submit" value="Search" />
-    </fieldset>
-  </form>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const input = document.getElementById("search");
+        const suggestionsBox = document.getElementById("search-suggestions");
+        let debounceTimer;
+        let selectedIndex = -1;
+
+        function updatePosition() {
+            const rect = input.getBoundingClientRect();
+            suggestionsBox.style.top = (rect.bottom + window.scrollY) + "px";
+            suggestionsBox.style.left = (rect.left + window.scrollX) + "px";
+        }
+
+        function getItems() {
+            return suggestionsBox.querySelectorAll(".suggestion-item");
+        }
+
+        function updateHighlight(items) {
+            items.forEach((item, index) => {
+                if (index === selectedIndex) {
+                    item.classList.add("selected");
+                    item.scrollIntoView({ block: "nearest" });
+                } else {
+                    item.classList.remove("selected");
+                }
+            });
+        }
+
+        input.addEventListener("input", function() {
+            clearTimeout(debounceTimer);
+            const query = input.value.trim();
+            selectedIndex = -1;
+
+            if (query.length < 2) {
+                suggestionsBox.innerHTML = "";
+                suggestionsBox.classList.remove("active");
+                return;
+            }
+
+            debounceTimer = setTimeout(() => {
+                fetch("https://j-archive.com/suggest.php?q=" + encodeURIComponent(query))
+                    .then(response => response.json())
+                    .then(data => {
+                        let html = "";
+                        let hasResults = false;
+
+                        const buildGroup = (title, items) => {
+                            if (!items || items.length === 0) return "";
+                            hasResults = true;
+                            let groupHtml = "<div class=\"suggestion-group-title\">" + title + "</div>";
+
+                            items.forEach(item => {
+                                groupHtml += "<a href=\"" + item.url + "\" class=\"suggestion-item\">" + escapeHtml(item.label) + "</a>";
+                            });
+                            return groupHtml;
+                        };
+
+                        if (data) {
+                            html += buildGroup("Players", data.players);
+                            html += buildGroup("Games", data.games);
+                            html += buildGroup("Clues", data.clues);
+                        }
+
+                        if (hasResults) {
+                            updatePosition();
+                            suggestionsBox.innerHTML = html;
+                            suggestionsBox.classList.add("active");
+                            selectedIndex = -1;
+                        } else {
+                            suggestionsBox.innerHTML = "";
+                            suggestionsBox.classList.remove("active");
+                        }
+                    })
+                    .catch(() => {
+                        suggestionsBox.classList.remove("active");
+                    });
+            }, 250);
+        });
+
+        // Keyboard Navigation (ArrowDown, ArrowUp, Enter, Escape)
+        input.addEventListener("keydown", function(e) {
+            if (!suggestionsBox.classList.contains("active")) return;
+
+            const items = getItems();
+            if (items.length === 0) return;
+
+            if (e.key === "ArrowDown") {
+                e.preventDefault();
+                selectedIndex++;
+                if (selectedIndex >= items.length) {
+                    selectedIndex = 0; // Wrap back to top item
+                }
+                updateHighlight(items);
+            } else if (e.key === "ArrowUp") {
+                e.preventDefault();
+                selectedIndex--;
+                if (selectedIndex < 0) {
+                    selectedIndex = items.length - 1; // Wrap to bottom item
+                }
+                updateHighlight(items);
+            } else if (e.key === "Enter") {
+                if (selectedIndex >= 0 && items[selectedIndex]) {
+                    e.preventDefault(); // Stop form submission
+                    window.location.href = items[selectedIndex].href; // Navigate directly to link target
+                }
+            } else if (e.key === "Escape") {
+                suggestionsBox.classList.remove("active");
+                selectedIndex = -1;
+            }
+        });
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        window.addEventListener("resize", updatePosition);
+
+        document.addEventListener("click", function(e) {
+            if (!input.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                suggestionsBox.classList.remove("active");
+                selectedIndex = -1;
+            }
+        });
+    });
+    </script>
 </div>
 <div id="content">
 <h2 class="season">Season 1</h2>
@@ -136,7 +259,7 @@
       Charles Beall vs. Anne Davis vs. Jim Stewart
     </td>
     <td valign="top" class="left_padded">
-      Missing one response in Final Jeopardy! Round.
+      
     </td>
   </tr>
   <tr>
@@ -144,7 +267,7 @@
       <a href="showgame.php?game_id=7858" title="Taped 1985-01-23">&#35;181, aired&#160;1985-05-20</a>
     </td>
     <td valign="top">
-      Sandra Gorsky vs. Charles Beall vs. Norma Nielsen
+      Sandra Gorsky vs. Charles Beall vs. Norma Nielson
     </td>
     <td valign="top" class="left_padded">
       
@@ -443,7 +566,7 @@ Single-player Final Jeopardy!
       <a href="showgame.php?game_id=7949" title="Taped 1984-12-18">&#35;154, aired&#160;1985-04-11</a>
     </td>
     <td valign="top">
-      Mike Day vs. Kevin Eisenberg vs. Melody Cadillac
+      Mike Day vs. Kevin Eisenberg vs. Melody Kadlac
     </td>
     <td valign="top" class="left_padded">
       Mike Day game 3.
@@ -568,7 +691,7 @@ Single-player Final Jeopardy!
     </td>
     <td valign="top" class="left_padded">
       Steven Rogitz game 4.
-Missing one response in Final Jeopardy.
+Missing one response in Final Jeopardy!
     </td>
   </tr>
   <tr>
@@ -1321,7 +1444,7 @@ Game entered from audiorecording.  Missing prizes.
       <a href="showgame.php?game_id=359" title="Taped 1984-09-18">&#35;64, aired&#160;1984-12-06</a>
     </td>
     <td valign="top">
-      Warren Pistell vs. Eva Rosenberg vs. Jay Mann
+      Warren Pistol vs. Eva Rosenberg vs. Jay Mann
     </td>
     <td valign="top" class="left_padded">
       
@@ -1332,7 +1455,7 @@ Game entered from audiorecording.  Missing prizes.
       <a href="showgame.php?game_id=356" title="Taped 1984-09-18">&#35;63, aired&#160;1984-12-05</a>
     </td>
     <td valign="top">
-      Daniel Elias vs. Denice Fractious vs. Warren Pistell
+      Daniel Elias vs. Denice Fractious vs. Warren Pistol
     </td>
     <td valign="top" class="left_padded">
       
@@ -1522,7 +1645,18 @@ Game entered from audiorecording.  Missing prizes.
       <a href="showgame.php?game_id=8334" title="Taped 1984-09-04">&#35;41, aired&#160;1984-11-05</a>
     </td>
     <td valign="top">
-      Kirk Donald vs. Carol Gwynn vs. George Zadorozny
+      Kirk Dottl vs. Carol Gwynn vs. George Zadorozny
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9005">&#35;40, aired&#160;1984-11-02</a>
+    </td>
+    <td valign="top">
+      Kirk Dottl vs. Dianne Burke vs. Jim Conway
     </td>
     <td valign="top" class="left_padded">
       
@@ -1853,7 +1987,6 @@ Missing prizes.
     }
   });
 </script>
-<script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>
 <script src="https://www.j-archive.com/scripts.js" type="text/javascript"></script>
 </body>
 </html>

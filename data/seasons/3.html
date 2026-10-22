@@ -1,14 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "https://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="https://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0FFN1KR7LK"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-0FFN1KR7LK');
-</script>
 <title>J! Archive - Season 3</title>
 <link type="text/css" rel="styleSheet" href="styles.css" />
 <link rel="shortcut icon" href="https://j-archive.com/favicon.ico" />
@@ -17,14 +9,145 @@
 
 <div id="navbar">
   <span id="navbarlogo"><a href="index.php"><img src="j-a.gif" width="100" height="22" alt="J! Archive" /></a></span>
-  <span id="navbartext"><a href="showseason.php?season=40">[current season]</a> <a href="showseason.php?season=39">[last season]</a> <a href="listseasons.php">[all seasons]</a> <a href="listprizes.php">[prizes]</a> <a href="wageringcalculator.php">[wagering calculator]</a> <a href="help.php">[help]</a></span>
+  <span id="navbartext"><a href="showseason.php?season=43">[current season]</a> <a href="showseason.php?season=42">[last season]</a> <a href="listseasons.php">[all seasons]</a> <a href="listprizes.php">[prizes]</a> <a href="wageringcalculator.php">[wagering calculator]</a> <a href="help.php">[help]</a></span>
+    <form id="navbarsearch" action="https://j-archive.com/search.php" method="get" enctype="x-www-form-encoded" accept-charset="utf-8">
+      <fieldset class="noborder">
+        <input type="text" class="search" name="search" id="search" maxlength="256" placeholder="Search..." value="" autocomplete="off" />
+        <input type="submit" class="search_button" name="submit" value="Search" />
+      </fieldset>
+      <div id="search-suggestions" class="search-suggestions-dropdown"></div>
+    </form>
 
-  <form id="navbarsearch" action="https://j-archive.com/search.php" method="get" enctype="x-www-form-encoded" accept-charset="utf-8">
-    <fieldset class="noborder">
-      <input type="text" class="search" name="search" id="search" maxlength="256" placeholder="Search..." value="" />
-      <input type="submit" class="search_button" name="submit" value="Search" />
-    </fieldset>
-  </form>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const input = document.getElementById("search");
+        const suggestionsBox = document.getElementById("search-suggestions");
+        let debounceTimer;
+        let selectedIndex = -1;
+
+        function updatePosition() {
+            const rect = input.getBoundingClientRect();
+            suggestionsBox.style.top = (rect.bottom + window.scrollY) + "px";
+            suggestionsBox.style.left = (rect.left + window.scrollX) + "px";
+        }
+
+        function getItems() {
+            return suggestionsBox.querySelectorAll(".suggestion-item");
+        }
+
+        function updateHighlight(items) {
+            items.forEach((item, index) => {
+                if (index === selectedIndex) {
+                    item.classList.add("selected");
+                    item.scrollIntoView({ block: "nearest" });
+                } else {
+                    item.classList.remove("selected");
+                }
+            });
+        }
+
+        input.addEventListener("input", function() {
+            clearTimeout(debounceTimer);
+            const query = input.value.trim();
+            selectedIndex = -1;
+
+            if (query.length < 2) {
+                suggestionsBox.innerHTML = "";
+                suggestionsBox.classList.remove("active");
+                return;
+            }
+
+            debounceTimer = setTimeout(() => {
+                fetch("https://j-archive.com/suggest.php?q=" + encodeURIComponent(query))
+                    .then(response => response.json())
+                    .then(data => {
+                        let html = "";
+                        let hasResults = false;
+
+                        const buildGroup = (title, items) => {
+                            if (!items || items.length === 0) return "";
+                            hasResults = true;
+                            let groupHtml = "<div class=\"suggestion-group-title\">" + title + "</div>";
+
+                            items.forEach(item => {
+                                groupHtml += "<a href=\"" + item.url + "\" class=\"suggestion-item\">" + escapeHtml(item.label) + "</a>";
+                            });
+                            return groupHtml;
+                        };
+
+                        if (data) {
+                            html += buildGroup("Players", data.players);
+                            html += buildGroup("Games", data.games);
+                            html += buildGroup("Clues", data.clues);
+                        }
+
+                        if (hasResults) {
+                            updatePosition();
+                            suggestionsBox.innerHTML = html;
+                            suggestionsBox.classList.add("active");
+                            selectedIndex = -1;
+                        } else {
+                            suggestionsBox.innerHTML = "";
+                            suggestionsBox.classList.remove("active");
+                        }
+                    })
+                    .catch(() => {
+                        suggestionsBox.classList.remove("active");
+                    });
+            }, 250);
+        });
+
+        // Keyboard Navigation (ArrowDown, ArrowUp, Enter, Escape)
+        input.addEventListener("keydown", function(e) {
+            if (!suggestionsBox.classList.contains("active")) return;
+
+            const items = getItems();
+            if (items.length === 0) return;
+
+            if (e.key === "ArrowDown") {
+                e.preventDefault();
+                selectedIndex++;
+                if (selectedIndex >= items.length) {
+                    selectedIndex = 0; // Wrap back to top item
+                }
+                updateHighlight(items);
+            } else if (e.key === "ArrowUp") {
+                e.preventDefault();
+                selectedIndex--;
+                if (selectedIndex < 0) {
+                    selectedIndex = items.length - 1; // Wrap to bottom item
+                }
+                updateHighlight(items);
+            } else if (e.key === "Enter") {
+                if (selectedIndex >= 0 && items[selectedIndex]) {
+                    e.preventDefault(); // Stop form submission
+                    window.location.href = items[selectedIndex].href; // Navigate directly to link target
+                }
+            } else if (e.key === "Escape") {
+                suggestionsBox.classList.remove("active");
+                selectedIndex = -1;
+            }
+        });
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        window.addEventListener("resize", updatePosition);
+
+        document.addEventListener("click", function(e) {
+            if (!input.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                suggestionsBox.classList.remove("active");
+                selectedIndex = -1;
+            }
+        });
+    });
+    </script>
 </div>
 <div id="content">
 <h2 class="season">Season 3</h2>
@@ -240,7 +363,7 @@
   </tr>
   <tr>
     <td align="left" valign="top" style="width:140px">
-      <a href="showgame.php?game_id=5347">&#35;660, aired&#160;1987-06-19</a>
+      <a href="showgame.php?game_id=5347" title="Taped 1987-02-17">&#35;660, aired&#160;1987-06-19</a>
     </td>
     <td valign="top">
       Bob Verini vs. Alan Rosenberg vs. Linda Dragas
@@ -251,7 +374,7 @@
   </tr>
   <tr>
     <td align="left" valign="top" style="width:140px">
-      <a href="showgame.php?game_id=5338">&#35;659, aired&#160;1987-06-18</a>
+      <a href="showgame.php?game_id=5338" title="Taped 1987-02-17">&#35;659, aired&#160;1987-06-18</a>
     </td>
     <td valign="top">
       Marty Gertsman vs. Bob Verini vs. Kathleen Haider
@@ -262,7 +385,7 @@
   </tr>
   <tr>
     <td align="left" valign="top" style="width:140px">
-      <a href="showgame.php?game_id=5724">&#35;658, aired&#160;1987-06-17</a>
+      <a href="showgame.php?game_id=5724" title="Taped 1987-02-17">&#35;658, aired&#160;1987-06-17</a>
     </td>
     <td valign="top">
       Meg Shreve vs. Marty Gertsman vs. Theon Banos Cross
@@ -273,7 +396,7 @@
   </tr>
   <tr>
     <td align="left" valign="top" style="width:140px">
-      <a href="showgame.php?game_id=6084">&#35;657, aired&#160;1987-06-16</a>
+      <a href="showgame.php?game_id=6084" title="Taped 1987-02-17">&#35;657, aired&#160;1987-06-16</a>
     </td>
     <td valign="top">
       Meg Shreve vs. Dan Stewart vs. Robin Ditzler
@@ -1381,7 +1504,7 @@ Inaugural Teen Tournament game.
       Sharon Miyasato vs. Lance Lawson vs. Frank Ferguson
     </td>
     <td valign="top" class="left_padded">
-      Missing introductions.
+      
     </td>
   </tr>
   <tr>
@@ -2062,7 +2185,7 @@ Missing player introductions.
       <a href="showgame.php?game_id=8457" title="Taped 1986-08-26">&#35;486, aired&#160;1986-10-20</a>
     </td>
     <td valign="top">
-      Janet Stevenson vs. Jeff Smyth vs. Scottie Ross
+      Janet Stevenson vs. Jeff Smith vs. Scottie Ross
     </td>
     <td valign="top" class="left_padded">
       Game entered from audiorecording. Missing prizes.
@@ -2367,6 +2490,17 @@ Missing player introductions.
   </tr>
   <tr>
     <td align="left" valign="top" style="width:140px">
+      <a href="showgame.php?game_id=9309" title="Taped 1986-08-05">&#35;458, aired&#160;1986-09-10</a>
+    </td>
+    <td valign="top">
+      Blair Pethel vs. Elliot Smith vs. Fern Cogar
+    </td>
+    <td valign="top" class="left_padded">
+      
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="width:140px">
       <a href="showgame.php?game_id=7050" title="Taped 1986-08-05">&#35;457, aired&#160;1986-09-09</a>
     </td>
     <td valign="top">
@@ -2403,7 +2537,6 @@ Missing player introductions.
     }
   });
 </script>
-<script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>
 <script src="https://www.j-archive.com/scripts.js" type="text/javascript"></script>
 </body>
 </html>
