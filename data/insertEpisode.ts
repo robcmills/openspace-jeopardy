@@ -5,7 +5,7 @@ export function insertEpisode(episode: Episode) {
   database
     .query(
       `
-    INSERT OR IGNORE INTO episodes (
+    INSERT OR REPLACE INTO episodes (
       airDate,
       anchorText,
       contestants,

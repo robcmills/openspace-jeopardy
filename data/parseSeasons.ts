@@ -4,11 +4,16 @@ import { extractDate } from './extractDate'
 import { extractEpisodeNumber } from './extractEpisodeNumber'
 import { insertEpisode } from './insertEpisode'
 import { load } from 'cheerio'
-import { readFileSync } from 'fs'
+import { existsSync, readFileSync } from 'fs'
 
 function parseSeason(seasonId: string) {
   console.log(`Parsing season ${seasonId}...`)
-  const html = readFileSync(`data/seasons/${seasonId}.html`, 'utf-8')
+  const filePath = `data/seasons/${seasonId}.html`
+  if (!existsSync(filePath)) {
+    console.error(`Season ${seasonId} not fetched, skipping.`)
+    return
+  }
+  const html = readFileSync(filePath, 'utf-8')
   const $ = load(html)
   $('table tr').each((_, tr) => {
     const episode: Episode = {
@@ -22,9 +27,12 @@ function parseSeason(seasonId: string) {
       tapedDate: '',
     }
 
-    const anchor = $(tr).find('a').first()
+    const anchor = $(tr).find('a[href*="game_id="]').first()
     const href = $(anchor).attr('href')
-    if (!href) throw new Error('href not found')
+    if (!href) {
+      console.error(`No game link in season ${seasonId} row, skipping.`)
+      return
+    }
     episode.id = href.split('=')[1]
     const title = $(anchor).attr('title')
     if (title) {

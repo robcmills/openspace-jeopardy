@@ -8,9 +8,11 @@ function createCluesTable() {
         episodeId TEXT,
         id TEXT PRIMARY KEY,
       	isDailyDouble BOOL,
+        mediaUrls TEXT,
         round INTEGER,
       	row INTEGER,
       	text TEXT,
+        value INTEGER,
         FOREIGN KEY (episodeId) REFERENCES episodes(id)
       )`,
   )

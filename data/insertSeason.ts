@@ -3,7 +3,7 @@ import { database } from './database'
 
 export function insertSeason(season: Season): void {
   const statement = database.query(`
-    INSERT OR IGNORE INTO seasons (id, title, airDate, gamesCount)
+    INSERT OR REPLACE INTO seasons (id, title, airDate, gamesCount)
     VALUES ($id, $title, $airDate, $gamesCount)
   `)
 

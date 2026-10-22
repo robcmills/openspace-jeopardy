@@ -13,18 +13,22 @@ export const insertClues = database.transaction((clues: Clue[]) => {
           episodeId,
           id,
           isDailyDouble,
+          mediaUrls,
           round,
           row,
-          text
+          text,
+          value
         ) VALUES (
           $column,
           $correctResponse,
           $episodeId,
           $id,
           $isDailyDouble,
+          $mediaUrls,
           $round,
           $row,
-          $text
+          $text,
+          $value
         )`,
     )
   }
@@ -35,9 +39,11 @@ export const insertClues = database.transaction((clues: Clue[]) => {
       $episodeId: clue.episodeId,
       $id: clue.id,
       $isDailyDouble: clue.isDailyDouble,
+      $mediaUrls: clue.mediaUrls,
       $round: clue.round,
       $row: clue.row,
       $text: clue.text,
+      $value: clue.value,
     })
   }
 })
