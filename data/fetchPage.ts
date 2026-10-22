@@ -2,7 +2,7 @@ import { renameSync, writeFileSync } from 'fs'
 
 // j-archive.com/robots.txt asks for a 20 second crawl delay.
 // CRAWL_DELAY_MS overrides it for one-off catch-up runs.
-const CRAWL_DELAY_MS = Number(process.env.CRAWL_DELAY_MS ?? 20_000)
+export const CRAWL_DELAY_MS = Number(process.env.CRAWL_DELAY_MS ?? 20_000)
 
 let lastFetchAt = 0
 

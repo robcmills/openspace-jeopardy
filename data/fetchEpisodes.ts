@@ -1,6 +1,6 @@
 import { database } from './database'
 import { existsSync } from 'fs'
-import { fetchPage } from './fetchPage'
+import { CRAWL_DELAY_MS, fetchPage } from './fetchPage'
 
 // Episodes already cached in data/episodes are not fetched again, so an
 // interrupted run resumes where it left off.
@@ -14,7 +14,7 @@ export async function fetchEpisodes() {
 
   console.log(
     `${episodeIds.length} episodes, ${missingIds.length} not cached. ` +
-      `Fetching takes about ${Math.ceil((missingIds.length * 20) / 60)} minutes.`,
+      `Fetching takes about ${Math.ceil((missingIds.length * CRAWL_DELAY_MS) / 60_000)} minutes.`,
   )
 
   let fetched = 0
