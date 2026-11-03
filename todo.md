@@ -5,7 +5,7 @@
 - [ ] Add category and clue text to host view
 - [ ] Media clues
 - [ ] Scrub questions for (parens content)
-- [ ] Handle triple jeopardy rounds
+- [x] Handle triple jeopardy rounds
 - [ ] Add sound effects to correct/incorrect buttons?
 - [x] Fix final jeopardy font size
 - [x] Add custom favicon

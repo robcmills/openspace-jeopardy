@@ -76,11 +76,19 @@ Thanks to [j-archive.com](https://j-archive.com/) for the episode questions and 
 ### Double Jeopardy
 
 - Once all clues have been revealed in the jeopardy round, host advances to the double jeopardy round
-- Game play is the same as first round, but all clues are worth double the money and there are two daily doubles
+- Game play is the same as first round, but clues are worth more and there are two daily doubles
+
+### Triple Jeopardy
+
+- Some episodes (mostly Celebrity Jeopardy) have a third board round; the game only includes it when the episode does
+- Once all clues have been revealed in the double jeopardy round, host advances to the triple jeopardy round
+- Game play is the same as double jeopardy, with higher clue values
+
+Board values come from the episode itself (they vary by era and show), so a round's values match what aired.
 
 ### Final Jeopardy
 
-- When all clues have been revealed, host advances to the final jeopardy round
+- When all clues have been revealed in the last board round, host advances to the final jeopardy round (if the episode has one)
 - Host reveals the final jeopardy category by clicking on the tile
 - Host reveals the final jeopardy clue by clicking on the tile
 - Host reads the clue aloud, and then starts the 30 second music clip
